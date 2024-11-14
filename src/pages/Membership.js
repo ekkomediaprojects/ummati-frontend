@@ -63,9 +63,9 @@ const Membership = () => (
                 <img src={deRaCoffeeLogo} alt="deRa Coffee Logo" />
             </div>
 
-        <Footer />
+        
         </div>
-
+        <Footer />
     </div>
 );
 
