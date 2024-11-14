@@ -57,7 +57,7 @@ const Membership = () => (
         </div>
 
         <div style={styles.partnershipSection}>
-            <h2>Our Partnerships</h2>
+            <h2 style={styles.partnershipTitle}>>Our Partnerships</h2>
             <div style={styles.partnershipLogos}>
                 <img src={activateLogo} alt="Activate Logo" />
                 <img src={deRaCoffeeLogo} alt="deRa Coffee Logo" />
@@ -168,6 +168,20 @@ const styles = {
     partnershipSection: {
         background: '#white',
         padding: '60px 160px',
+    },
+    partnershipTitle: {
+        color: '#5A4283', 
+        fontSize: 32, 
+        fontFamily: 'Quicksand', 
+        fontWeight: '500', 
+        lineHeight: 32, 
+    },
+
+    partnershipLogos: {
+        display: 'flex',
+        gap: '40px',
+        justifyContent: 'left',
+        marginTop: '40px',
     },
 };
 
