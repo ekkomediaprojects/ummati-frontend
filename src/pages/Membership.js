@@ -3,6 +3,7 @@ import Header from '../components/Header';
 import Footer from '../components/Footer';
 import bannerImage from '../assets/images/membershipBanner.png';
 import '../assets/fonts/Poppins-Regular.ttf';
+import '../assets/fonts/Quicksand-Regular.ttf';
 
 const Membership = () => (
     <div>
@@ -24,7 +25,7 @@ const Membership = () => (
     const styles = {
         banner: {
           width: '100%',
-          height: '220px', // Adjust height as needed
+          height: '252px', // Adjust height as needed
           backgroundImage: `url(${bannerImage})`,
           backgroundSize: 'cover',       // Ensures image covers the entire banner
           backgroundPosition: 'center',  // Centers the background image
@@ -48,11 +49,10 @@ const Membership = () => (
           },
     
           text: {
-            color: 'black', 
-            fontSize: 22, 
+            color: '#525252', 
+            fontSize: 20, 
             fontFamily: 'Poppins', 
             fontWeight: '400',
-            wordWrap: 'break-word'
           },
         };
     
