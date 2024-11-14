@@ -36,7 +36,7 @@ const HomePage = () => (
         {/* Episode Title and Podcast Name */}
         <div style={styles.textContainer}>
           <div style={styles.episodeTitle}>Episode Title</div>
-          <div style={styles.podcastName}>Podcast Name</div>
+          <div style={styles.podcastName}>Interlaced</div>
         </div>
 
         {/* Play Button and Progress Bar */}
@@ -99,9 +99,9 @@ const HomePage = () => (
 
       {/* Edge-to-Edge Images Section */}
     <div style={styles.edgeToEdgeImages}>
-      <img src={getInvolved1} alt="Edge Image 1" style={styles.fullWidthImage} />
-      <img src={getInvolved2} alt="Edge Image 2" style={styles.fullWidthImage} />
-      <img src={getInvolved3} alt="Edge Image 3" style={styles.fullWidthImage} />
+      <img src={getInvolved1} alt="Group pic 1" style={styles.fullWidthImage} />
+      <img src={getInvolved2} alt="Group pic 2" style={styles.fullWidthImage} />
+      <img src={getInvolved3} alt="Group pic 3" style={styles.fullWidthImage} />
     </div>
   </section>
 
@@ -173,9 +173,9 @@ const styles = {
   },
   podcastName: {
     fontSize: '16px',
-    color: '#222222',
+    color: '#5A4283',
     fontFamily: 'Quicksand',
-    fontWeight: '400',
+    fontWeight: '700',
     marginTop: '-20',
   },
   playAndProgressContainer: {

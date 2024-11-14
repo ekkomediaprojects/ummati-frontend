@@ -10,15 +10,15 @@ import '../assets/fonts/Poppins-Regular.ttf';
 const styles = {
   hero: {
     backgroundColor: '#F7F5EF',
-    width: '100vw', // Makes the entire hero section full-width
+    width: '100vw',
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
     padding: '20px',
-    margin: '0', // Removes any default margin to ensure full-width layout
+    margin: '0',
   },
   headerRow: {
-    width: '100vw', // Full-width for edge-to-edge display
+    width: '100vw',
     textAlign: 'center',
   },
   middleRow: {
@@ -26,7 +26,7 @@ const styles = {
     alignItems: 'center',
     justifyContent: 'center',
     gap: '20px',
-    width: '100vw', // Full-width for edge-to-edge display
+    width: '100vw',
     marginTop: '-15px',
   },
   leftImage: {
@@ -40,7 +40,7 @@ const styles = {
     maxWidth: '800px',
   },
   header: {
-    fontFamily: 'Caprasimo, sans-serif',
+    fontFamily: 'Caprasimo',
     fontSize: '56px',
     margin: 0,
   },
@@ -61,29 +61,29 @@ const styles = {
   button: {
     marginTop: '20px',
     padding: '10px 20px',
-    fontSize: '20px', // Font size for the button text
-    fontFamily: 'Quicksand', // Applying Quicksand font
+    fontSize: '20px',
+    fontFamily: 'Quicksand',
     fontWeight: '700',
-    color: '#F7F5EF', // Text color
-    background: '#78B27B', // Background color for the button
+    color: '#F7F5EF',
+    background: '#78B27B',
     border: 'none',
     borderRadius: '10px',
     cursor: 'pointer',
   },
   infoSection: {
-    display: 'flex',
-    justifyContent: 'space-between',
+    display: 'grid',
+    gridTemplateColumns: 'repeat(3, 1fr)',
     gap: '20px',
-    width: '100vw', // Full-width for edge-to-edge display
-    maxWidth: '1000px',
+    width: '100%',
+    maxWidth: '1200px',
     marginTop: '40px',
     textAlign: 'center',
   },
   infoItem: {
-    flexBasis: '33.33%', // Makes each item take up one-third of the row
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
+    padding: '10px',
   },
   infoHeader: {
     width: '100%',
@@ -94,10 +94,15 @@ const styles = {
     fontWeight: '700',
     whiteSpace: 'nowrap',
   },
+  infoImage: {
+    width: '300px', // Set a fixed width for the images
+    height: '300px', // Set a fixed height for the images
+    objectFit: 'cover', // Ensure the images cover the area without distortion
+  },
 };
 
 const HeroSection = () => (
-<section style={styles.hero}>
+  <section style={styles.hero}>
     {/* First Row: H1 Header */}
     <div style={styles.headerRow}>
       <h1 style={styles.header}>Welcome to Ummati Community</h1>
@@ -123,15 +128,15 @@ const HeroSection = () => (
     <div style={styles.infoSection}>
       <div style={styles.infoItem}>
         <h3 style={styles.infoHeader}>Explore Our Calendar</h3>
-        <img src={podcastImage} alt="Calendar illustration" />
+        <img src={podcastImage} alt="Calendar illustration" style={styles.infoImage} />
       </div>
       <div style={styles.infoItem}>
         <h3 style={styles.infoHeader}>Become A Member</h3>
-        <img src={podcastImage} alt="Member illustration" />
+        <img src={podcastImage} alt="Member illustration" style={styles.infoImage} />
       </div>
       <div style={styles.infoItem}>
         <h3 style={styles.infoHeader}>Listen To Our Podcast</h3>
-        <img src={podcastImage} alt="Podcast illustration" />
+        <img src={podcastImage} alt="Podcast illustration" style={styles.infoImage} />
       </div>
     </div>
   </section>

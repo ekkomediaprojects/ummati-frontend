@@ -1,0 +1,35 @@
+{
+  "files": {
+    "main.css": "/static/css/main.ffd8b8fa.css",
+    "main.js": "/static/js/main.c44e3fa8.js",
+    "static/js/453.ea65b3b4.chunk.js": "/static/js/453.ea65b3b4.chunk.js",
+    "static/media/getInvolved2.png": "/static/media/getInvolved2.cd55cb01084cf1ab514f.png",
+    "static/media/getInvolved3.png": "/static/media/getInvolved3.60a431eff0366d436920.png",
+    "static/media/getInvolved1.png": "/static/media/getInvolved1.40ae72e36a78c857e5ab.png",
+    "static/media/right image heroSection.png": "/static/media/right image heroSection.c0dde27b0cbd74e5dc16.png",
+    "static/media/footer logo.svg": "/static/media/footer logo.2833e801d236940c4c6bb3f891ecf832.svg",
+    "static/media/General Events.png": "/static/media/General Events.45e143bcca3bdee042a5.png",
+    "static/media/left image heroSection.png": "/static/media/left image heroSection.8dd9720f8dd8d67d607c.png",
+    "static/media/Professional networking.png": "/static/media/Professional networking.02549addc37d5c892264.png",
+    "static/media/podcast.png": "/static/media/podcast.af489cec4839c23f9985.png",
+    "static/media/Poppins-Regular.ttf": "/static/media/Poppins-Regular.35d26b781dc5fda684cc.ttf",
+    "static/media/Poppins-Bold.ttf": "/static/media/Poppins-Bold.cdb29a5d7ccf57ff05a3.ttf",
+    "static/media/Mommy n me.png": "/static/media/Mommy n me.d0faae3eb3621b73f67c.png",
+    "static/media/logo.png": "/static/media/logo.7e594ab46c8afec4c6a5.png",
+    "static/media/Quicksand-Regular.ttf": "/static/media/Quicksand-Regular.67e7ce07307c681fb49d.ttf",
+    "static/media/Quicksand-Bold.ttf": "/static/media/Quicksand-Bold.bac7ed87f9bcd95a6c55.ttf",
+    "static/media/Caprasimo-Regular.ttf": "/static/media/Caprasimo-Regular.1fb14e3bf85c52709856.ttf",
+    "index.html": "/index.html",
+    "static/media/fast_forward.svg": "/static/media/fast_forward.766030d1e66fe5531b117fc173269554.svg",
+    "static/media/fast_rewind.svg": "/static/media/fast_rewind.f7ed7d1df84066a969dc75c93b007bf0.svg",
+    "static/media/pauseButton.svg": "/static/media/pauseButton.00734b73243a8727fd7fafb3bd941914.svg",
+    "static/media/playButton.svg": "/static/media/playButton.6422870b461425b315207c23dc32a3db.svg",
+    "main.ffd8b8fa.css.map": "/static/css/main.ffd8b8fa.css.map",
+    "main.c44e3fa8.js.map": "/static/js/main.c44e3fa8.js.map",
+    "453.ea65b3b4.chunk.js.map": "/static/js/453.ea65b3b4.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.ffd8b8fa.css",
+    "static/js/main.c44e3fa8.js"
+  ]
+}

@@ -1,23 +1,26 @@
 // src/components/Header.js
 import React from 'react';
 import logo from '../assets/icons/logo.png';
+import '../assets/fonts/Quicksand-Regular.ttf';
+import '../assets/fonts/Poppins-Regular.ttf';
+import { Link } from 'react-router-dom';
 
 const Header = () => (
   <header style={styles.header}>
-    <div style={styles.titleContainer}>
+    <Link to="/" style={styles.titleContainer}>
       <span style={styles.titleText}>UMMATI C</span>
       <img src={logo} alt="Logo" style={styles.logo} />
       <span style={styles.titleText}>MMUNITY</span>
-    </div>
+    </Link>
 
     <div style={styles.rightSection}>
       <nav style={styles.navLinks}>
-        <span style={styles.navItem}>Events</span>
-        <span style={styles.navItem}>Podcast</span>
-        <span style={styles.navItem}>Membership</span>
-        <span style={styles.navItem}>Chapters</span>
-        <span style={styles.navItem}>About</span>
-        <span style={styles.navItem}>Contact</span>
+        <Link style={styles.navItem}>Events</Link>
+        <Link to= 'Podcast' style={styles.navItem}>Podcast</Link>
+        <Link style={styles.navItem}>Membership</Link>
+        <Link to= 'Chapters' style={styles.navItem}>Chapters</Link>
+        <Link style={styles.navItem}>About</Link>
+        <Link style={styles.navItem}>Contact</Link>
       </nav>
 
       <div style={styles.loginButton}>
