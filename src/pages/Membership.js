@@ -134,7 +134,7 @@ const styles = {
     },
     benefitsText: {
         listStyleType: 'disc', // Adds bullet points
-        paddingLeft: '10px', // Indents the list for better spacing
+        paddingLeft: '15px', // Indents the list for better spacing
         color: '#686868',
         fontSize: '18px',
         fontFamily: 'Poppins',
