@@ -56,14 +56,19 @@ const Membership = () => (
             </div>
         </div>
 
+        {/* Partnership Section */}
         <div style={styles.partnershipSection}>
-            <h2 style={styles.partnershipTitle}>>Our Partnerships</h2>
+            <h2 style={styles.partnershipTitle}>Our Partnerships</h2>
             <div style={styles.partnershipLogos}>
-                <img src={activateLogo} alt="Activate Logo" />
-                <img src={deRaCoffeeLogo} alt="deRa Coffee Logo" />
+                <div style={styles.logoContainer}>
+                    <img src={activateLogo} alt="Activate Logo" style={styles.logoImage} />
+                    <div style={styles.logoCaption}>Dallas location: 10% off</div>
+                </div>
+                <div style={styles.logoContainer}>
+                    <img src={deRaCoffeeLogo} alt="deRa Coffee Logo" style={styles.logoImage} />
+                    <div style={styles.logoCaption}>Plano location: 10% off</div>
+                </div>
             </div>
-
-        
         </div>
         <Footer />
     </div>
@@ -177,11 +182,39 @@ const styles = {
         justifyContent: 'center',
     },
 
+    partnershipSection: {
+        background: '#white',
+        padding: '60px 60px',
+        textAlign: 'center',
+    },
+    partnershipTitle: {
+        color: '#5A4283', 
+        fontSize: '32px', 
+        fontFamily: 'Quicksand', 
+        fontWeight: '500',
+        marginBottom: '40px',
+    },
     partnershipLogos: {
         display: 'flex',
+        justifyContent: 'center',
         gap: '40px',
-        justifyContent: 'left',
-        marginTop: '40px',
+    },
+    logoContainer: {
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+    },
+    logoImage: {
+        width: '100px', // Adjusted as needed
+        height: 'auto',
+    },
+    logoCaption: {
+        color: 'black',
+        fontSize: '12px',
+        fontFamily: 'Quicksand',
+        fontWeight: '500',
+        marginTop: '8px',
+        textAlign: 'center',
     },
 };
 
