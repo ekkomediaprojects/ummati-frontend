@@ -108,7 +108,7 @@ const styles = {
     },
     membershipBoxPremium: {
         width: '360px',
-        height: '597px',
+        height: '607px',
         padding: '24px',
         backgroundColor: 'white',
         borderRadius: '8px',
