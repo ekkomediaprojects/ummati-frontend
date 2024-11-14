@@ -90,7 +90,8 @@ const styles = {
         marginTop: '40px',
     },
     membershipBoxFree: {
-        flex: 1,
+        width: '360px',
+        height: '392px',
         padding: '24px',
         backgroundColor: 'white',
         borderRadius: '8px',
@@ -100,7 +101,8 @@ const styles = {
         gap: '16px',
     },
     membershipBoxPremium: {
-        flex: 1,
+        width: '360px',
+        height: '597px',
         padding: '24px',
         backgroundColor: 'white',
         borderRadius: '8px',
@@ -146,5 +148,6 @@ const styles = {
         outline: 'none',
     },
 };
+
 
 export default Membership;
