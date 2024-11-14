@@ -1,7 +1,7 @@
 import React from 'react';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
-import bannerImage from '../assets/images/purpleBanner.png';
+import bannerImage from '../assets/images/membershipBanner.png';
 import '../assets/fonts/Poppins-Regular.ttf';
 
 const Membership = () => (
