@@ -63,13 +63,14 @@ const styles = {
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
+        position: 'relative',
     },
     bannerText: {
         color: 'black',
         fontFamily: 'Caprasimo',
         fontSize: '56px',
         position: 'absolute',
-        top: '80%',
+        top: '66%', // Adjusted to position text within the banner
         transform: 'translateY(-50%)',
     },
     contentSection: {
