@@ -39,9 +39,9 @@ const Membership = () => (
                         <span style={styles.monthText}>/Month</span>
                     </div>
                     <ul style={styles.benefitsText}>
-                        <li>You have access to all the events with no event fees.</li>
+                        <li>•You have access to all the events with no event fees.</li>
                         <br />
-                        <li>Get exclusive discounts on your favorite restaurants, brands, cafes, and more!</li>
+                        <li>Get exclusive discounts on your favorite restaurants, brands, cafes, and more! •</li>
                         <br />
                         <li>You have early access to events.</li>
                         <br />
