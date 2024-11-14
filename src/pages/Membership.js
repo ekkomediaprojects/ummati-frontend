@@ -139,7 +139,6 @@ const styles = {
         fontSize: '18px',
         fontFamily: 'Poppins',
         fontWeight: '400',
-        lineHeight: '1.6',
     },
     joinButton: {
         alignSelf: 'stretch',
