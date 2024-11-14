@@ -117,7 +117,7 @@ const styles = {
         gap: '16px',
     },
     priceTitle: {
-        textAlign: 'center',
+        textAlign: 'left',
         color: '#040416',
         fontSize: '48px',
         fontFamily: 'Quicksand',
