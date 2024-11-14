@@ -8,6 +8,7 @@ import Privacy from './pages/Privacy';
 import Terms from './pages/Terms';
 import FAQ from './pages/FAQ';
 import About from './pages/About';
+import Membership from './pages/Membership';
 
 function App() {
   return (
@@ -18,8 +19,9 @@ function App() {
         <Route path="/chapters" element={<Chapters />} /> {/* Route for Chapters page */}
         <Route path="/terms" element={<Terms />} /> {/* Route for Podcast page */} 
         <Route path="/FAQ" element={<FAQ />} /> {/* Route for Privacy page */}
-        <Route path="/about" element={<About />} /> {/* Route for Privacy page */}
+        <Route path="/about" element={<About />} /> {/* Route for About page */}
         <Route path="/privacy" element={<Privacy />} /> {/* Route for Privacy page */}
+        <Route path="/membership" element={<Membership />} /> {/* Route for Privacy page */}
       </Routes>
     </Router>
   );

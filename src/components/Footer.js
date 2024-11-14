@@ -47,7 +47,7 @@ const Footer = () => (
           <Link to= 'Podcast' style={styles.link}>Podcast</Link>
           <a href="/link5" style={styles.link}>Volunteer</a>
           <Link to= 'About' style={styles.link}>About</Link>
-          <a href="/link7" style={styles.link}>Membership</a>
+          <Link to= 'Membership' style={styles.navItem}>Membership</Link>
           <a href="/link8" style={styles.link}>Collaborate</a>
           <a href="/link9" style={styles.link}>Contact</a>
         </div>

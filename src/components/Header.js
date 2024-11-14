@@ -17,7 +17,7 @@ const Header = () => (
       <nav style={styles.navLinks}>
         <Link style={styles.navItem}>Events</Link>
         <Link to= 'Podcast' style={styles.navItem}>Podcast</Link>
-        <Link style={styles.navItem}>Membership</Link>
+        <Link to= 'Membership' style={styles.navItem}>Membership</Link>
         <Link to= 'Chapters' style={styles.navItem}>Chapters</Link>
         <Link to= 'About' style={styles.navItem}>About</Link>
         <Link style={styles.navItem}>Contact</Link>

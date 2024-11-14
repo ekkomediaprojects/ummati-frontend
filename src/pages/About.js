@@ -5,6 +5,7 @@ import Footer from '../components/Footer';
 import bannerImage from '../assets/images/purpleBanner.png';
 import aboutImage from '../assets/images/AboutImage.png';
 import '../assets/fonts/Poppins-Regular.ttf';
+import '../assets/fonts/Quicksand-Regular.ttf';
 
 const About = () => (
     <div>
