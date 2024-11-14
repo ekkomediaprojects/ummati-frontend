@@ -23,14 +23,13 @@ const Membership = () => (
             {/* Membership Options */}
             <div style={styles.membershipOptions}>
                 {/* Free Membership Box */}
-                <ul style={styles.membershipBoxFree}>
+                <div style={styles.membershipBoxFree}>
                     <div style={styles.priceTitle}>Free</div>
-                    <div style={styles.benefitsText}>
+                    <ul style={styles.benefitsText}>
                         <li>You pay for the events you want to attend.</li>
-                        <br/>
                         <li>The ticket price includes all supplies and planning for each event.</li>
-                    </div>
-                </ul>
+                    </ul>
+                </div>
 
                 {/* Premium Membership Box */}
                 <div style={styles.membershipBoxPremium}>
@@ -38,17 +37,13 @@ const Membership = () => (
                         <span style={styles.priceText}>$20</span>
                         <span style={styles.monthText}>/Month</span>
                     </div>
-                    <div style={styles.benefitsText}>
-                        <p>You have access to all the events with no event fees.</p>
-                        <br/>
-                        <p>Get exclusive discounts on your favorite restaurants, brands, cafes, and more!</p>
-                        <br/>
-                        <p>You have early access to events.</p>
-                        <br/>
-                        <p>You have early access to the travel groups.</p>
-                        <br/>
-                        <p>You will have access to members-only events.</p>
-                    </div>
+                    <ul style={styles.benefitsText}>
+                        <li>You have access to all the events with no event fees.</li>
+                        <li>Get exclusive discounts on your favorite restaurants, brands, cafes, and more!</li>
+                        <li>You have early access to events.</li>
+                        <li>You have early access to the travel groups.</li>
+                        <li>You will have access to members-only events.</li>
+                    </ul>
                     <button style={styles.joinButton}>Join Now</button>
                 </div>
             </div>
@@ -133,6 +128,8 @@ const styles = {
         color: '#040416',
     },
     benefitsText: {
+        listStyleType: 'disc', // Adds bullet points
+        paddingLeft: '20px', // Indents the list for better spacing
         color: '#686868',
         fontSize: '18px',
         fontFamily: 'Poppins',
