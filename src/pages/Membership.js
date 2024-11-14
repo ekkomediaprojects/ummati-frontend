@@ -70,7 +70,7 @@ const styles = {
         fontFamily: 'Caprasimo',
         fontSize: '56px',
         position: 'absolute',
-        top: '66%', // Adjusted to position text within the banner
+        top: '80%', // Adjusted to position text within the banner
         transform: 'translateY(-50%)',
     },
     contentSection: {
