@@ -41,6 +41,10 @@ const styles = {
       top: '80%',               // Position the text two-thirds down within the banner
       transform: 'translateY(-50%)',
     },
+
+    contentSection: {
+        background: '#F7F5EF',
+    },
 };
   
 export default About;
