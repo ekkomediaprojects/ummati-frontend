@@ -26,9 +26,9 @@ const Membership = () => (
                 <div style={styles.membershipBoxFree}>
                     <div style={styles.priceTitle}>Free</div>
                     <ul style={styles.benefitsText}>
-                        <li>You pay for the events you want to attend.</li>
+                        <li>• You pay for the events you want to attend.</li>
                         <br />
-                        <li>The ticket price includes all supplies and planning for each event.</li>
+                        <li>• The ticket price includes all supplies and planning for each event.</li>
                     </ul>
                 </div>
 
@@ -39,15 +39,15 @@ const Membership = () => (
                         <span style={styles.monthText}>/Month</span>
                     </div>
                     <ul style={styles.benefitsText}>
-                        <li>•You have access to all the events with no event fees.</li>
+                        <li>• You have access to all the events with no event fees.</li>
                         <br />
-                        <li>Get exclusive discounts on your favorite restaurants, brands, cafes, and more! •</li>
+                        <li>• Get exclusive discounts on your favorite restaurants, brands, cafes, and more! </li>
                         <br />
-                        <li>You have early access to events.</li>
+                        <li>• You have early access to events.</li>
                         <br />
-                        <li>You have early access to the travel groups.</li>
+                        <li>• You have early access to the travel groups.</li>
                         <br />
-                        <li>You will have access to members-only events.</li>
+                        <li>• You will have access to members-only events.</li>
                     </ul>
                     <button style={styles.joinButton}>Join Now</button>
                 </div>
@@ -133,7 +133,7 @@ const styles = {
         color: '#040416',
     },
     benefitsText: {
-        listStyleType: 'disc', // Adds bullet points
+        //listStyleType: 'disc', // Adds bullet points
         paddingLeft: '18px', // Indents the list for better spacing
         color: '#686868',
         fontSize: '18px',
