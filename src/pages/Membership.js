@@ -27,6 +27,7 @@ const Membership = () => (
                     <div style={styles.priceTitle}>Free</div>
                     <ul style={styles.benefitsText}>
                         <li>You pay for the events you want to attend.</li>
+                        <br />
                         <li>The ticket price includes all supplies and planning for each event.</li>
                     </ul>
                 </div>
@@ -39,9 +40,13 @@ const Membership = () => (
                     </div>
                     <ul style={styles.benefitsText}>
                         <li>You have access to all the events with no event fees.</li>
+                        <br />
                         <li>Get exclusive discounts on your favorite restaurants, brands, cafes, and more!</li>
+                        <br />
                         <li>You have early access to events.</li>
+                        <br />
                         <li>You have early access to the travel groups.</li>
+                        <br />
                         <li>You will have access to members-only events.</li>
                     </ul>
                     <button style={styles.joinButton}>Join Now</button>
