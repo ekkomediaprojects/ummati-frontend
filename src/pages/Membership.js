@@ -92,6 +92,7 @@ const styles = {
     membershipOptions: {
         display: 'flex',
         gap: '40px',
+        justifyContent: 'center',
         marginTop: '40px',
     },
     membershipBoxFree: {
