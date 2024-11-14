@@ -22,7 +22,7 @@ const Membership = () => (
 
             {/* Membership Options */}
             <div style={styles.membershipOptions}>
-                /* Free Membership Box */
+                {/* Free Membership Box */}
                 <ul style={styles.membershipBoxFree}>
                     <div style={styles.priceTitle}>Free</div>
                     <div style={styles.benefitsText}>
@@ -46,7 +46,7 @@ const Membership = () => (
                         <p>You have early access to events.</p>
                         <br/>
                         <p>You have early access to the travel groups.</p>
-                        
+                        <br/>
                         <p>You will have access to members-only events.</p>
                     </div>
                     <button style={styles.joinButton}>Join Now</button>
