@@ -2,7 +2,9 @@
 import React from 'react';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
-import bannerImage from '../assets/images/membershipBanner.png';
+import bannerImage from '../assets/images/membership/membershipBanner.png';
+import activateLogo from '../assets/images/membership/partnerships/activiateLogo.svg';
+import deRaCoffeeLogo from '../assets/images/membership/partnerships/deRaCoffeeLogo.svg';
 import '../assets/fonts/Poppins-Regular.ttf';
 import '../assets/fonts/Quicksand-Regular.ttf';
 
@@ -54,7 +56,16 @@ const Membership = () => (
             </div>
         </div>
 
+        <div style={styles.partnershipSection}>
+            <h2>Our Partnerships</h2>
+            <div style={styles.partnershipLogos}>
+                <img src={activateLogo} alt="Activate Logo" />
+                <img src={deRaCoffeeLogo} alt="deRa Coffee Logo" />
+            </div>
+
         <Footer />
+        </div>
+
     </div>
 );
 
@@ -153,6 +164,10 @@ const styles = {
         cursor: 'pointer',
         border: 'none',
         outline: 'none',
+    },
+    partnershipSection: {
+        background: '#white',
+        padding: '60px 160px',
     },
 };
 
