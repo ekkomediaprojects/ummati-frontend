@@ -167,14 +167,14 @@ const styles = {
     },
     partnershipSection: {
         background: '#white',
-        padding: '60px 160px',
+        padding: '60px 60px',
     },
     partnershipTitle: {
         color: '#5A4283', 
         fontSize: 32, 
         fontFamily: 'Quicksand', 
-        fontWeight: '500', 
-        lineHeight: 32, 
+        fontWeight: '500',
+        justifyContent: 'center',
     },
 
     partnershipLogos: {
