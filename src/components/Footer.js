@@ -46,7 +46,7 @@ const Footer = () => (
           <Link to= 'FAQ' style={styles.link}>FAQs</Link>
           <Link to= 'Podcast' style={styles.link}>Podcast</Link>
           <a href="/link5" style={styles.link}>Volunteer</a>
-          <a href="/link6" style={styles.link}>About</a>
+          <Link to= 'About' style={styles.link}>About</Link>
           <a href="/link7" style={styles.link}>Membership</a>
           <a href="/link8" style={styles.link}>Collaborate</a>
           <a href="/link9" style={styles.link}>Contact</a>

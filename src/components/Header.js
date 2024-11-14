@@ -19,7 +19,7 @@ const Header = () => (
         <Link to= 'Podcast' style={styles.navItem}>Podcast</Link>
         <Link style={styles.navItem}>Membership</Link>
         <Link to= 'Chapters' style={styles.navItem}>Chapters</Link>
-        <Link style={styles.navItem}>About</Link>
+        <Link to= 'About' style={styles.navItem}>About</Link>
         <Link style={styles.navItem}>Contact</Link>
       </nav>
 
