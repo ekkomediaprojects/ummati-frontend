@@ -20,7 +20,7 @@ const Header = () => (
         <Link to= 'Membership' style={styles.navItem}>Membership</Link>
         <Link to= 'Chapters' style={styles.navItem}>Chapters</Link>
         <Link to= 'About' style={styles.navItem}>About</Link>
-        <Link style={styles.navItem}>Contact</Link>
+        <Link to= 'Contact' style={styles.navItem}>Contact</Link>
       </nav>
 
       <div style={styles.loginButton}>

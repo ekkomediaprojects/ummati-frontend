@@ -9,6 +9,7 @@ import Terms from './pages/Terms';
 import FAQ from './pages/FAQ';
 import About from './pages/About';
 import Membership from './pages/Membership';
+import Contact from './pages/Contact';
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
         <Route path="/about" element={<About />} /> {/* Route for About page */}
         <Route path="/privacy" element={<Privacy />} /> {/* Route for Privacy page */}
         <Route path="/membership" element={<Membership />} /> {/* Route for Privacy page */}
+        <Route path="/contact" element={<Contact />} /> {/* Route for Privacy page */}
       </Routes>
     </Router>
   );

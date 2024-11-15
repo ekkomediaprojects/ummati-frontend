@@ -49,7 +49,7 @@ const Footer = () => (
           <Link to= 'About' style={styles.link}>About</Link>
           <Link to= 'Membership' style={styles.navItem}>Membership</Link>
           <a href="/link8" style={styles.link}>Collaborate</a>
-          <a href="/link9" style={styles.link}>Contact</a>
+          <Link to= 'Contact' style={styles.navItem}>Contact</Link>
         </div>
       </div>
 

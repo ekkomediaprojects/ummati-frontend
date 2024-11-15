@@ -173,18 +173,6 @@ const styles = {
     partnershipSection: {
         background: '#white',
         padding: '60px 60px',
-    },
-    partnershipTitle: {
-        color: '#5A4283', 
-        fontSize: 32, 
-        fontFamily: 'Quicksand', 
-        fontWeight: '500',
-        justifyContent: 'center',
-    },
-
-    partnershipSection: {
-        background: '#white',
-        padding: '60px 60px',
         textAlign: 'center',
     },
     partnershipTitle: {
@@ -193,11 +181,14 @@ const styles = {
         fontFamily: 'Quicksand', 
         fontWeight: '500',
         marginBottom: '40px',
+        textAlign: 'center', // Centers title only
     },
     partnershipLogos: {
         display: 'flex',
-        justifyContent: 'center',
+        justifyContent: 'left',
+        alignItems: 'flex-end', // Aligns items by the captions
         gap: '40px',
+        marginTop: '20px',
     },
     logoContainer: {
         display: 'flex',
@@ -205,7 +196,7 @@ const styles = {
         alignItems: 'center',
     },
     logoImage: {
-        width: '100px', // Adjusted as needed
+        width: '100px', // Adjust as needed for logo sizes
         height: 'auto',
     },
     logoCaption: {
@@ -215,6 +206,7 @@ const styles = {
         fontWeight: '500',
         marginTop: '8px',
         textAlign: 'center',
+        minHeight: '20px', // Ensures captions align the logos at the same base
     },
 };
 
