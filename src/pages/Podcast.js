@@ -2,7 +2,7 @@
 import React from 'react';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
-import bannerImage from '../assets/images/podcasts/bannerImage.png';
+import banner from '../assets/images/podcasts/banner.png';
 import podcastLogo from '../assets/images/podcasts/Ummati Podcast Logo.svg';
 import spotifyIcon from '../assets/images/podcasts/spotifyIcon.svg';
 import applePodcastIcon from '../assets/images/podcasts/applePodcastIcon.svg';
@@ -66,7 +66,7 @@ const Podcast = () => (
     banner: {
       width: '100%',
       height: '300px', // Adjust height as needed
-      backgroundImage: `url(${bannerImage})`,
+      backgroundImage: `url(${banner})`,
       backgroundSize: 'cover',       // Ensures image covers the entire banner
       backgroundPosition: 'center',  // Centers the background image
       position: 'relative', // Allows absolute positioning for inner elements

@@ -19,10 +19,10 @@ const Header = () => {
     ];
 
     const chapters = [
-        { name: 'Dallas', path: '/chapters/dallas' },
-        { name: 'Fort Worth', path: '/chapters/fort-worth' },
-        { name: 'Houston', path: '/chapters/houston' },
-        { name: 'Little Rock', path: '/chapters/little-rock' },
+        { name: 'Dallas, TX', path: '/chapters/dallas' },
+        { name: 'Fort Worth, TX', path: '/chapters/fort-worth' },
+        { name: 'Houston, TX', path: '/chapters/houston' },
+        { name: 'Little Rock, AR', path: '/chapters/little-rock' },
     ];
 
     const toggleDropdown = () => {
