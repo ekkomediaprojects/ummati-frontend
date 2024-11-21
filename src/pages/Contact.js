@@ -226,13 +226,13 @@ const styles = {
         alignItems: 'center',
     },
     bannerText: {
-        color: 'black',
+        color: '#3D3D3C',
         fontFamily: 'Caprasimo',
         fontSize: '56px',
     },
     contentSection: {
         background: '#F7F5EF',
-        padding: '20px', // Reduced padding for smaller screens
+        padding: '20px',
         textAlign: 'center',
     },
     title: {

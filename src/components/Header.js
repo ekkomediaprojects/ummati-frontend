@@ -1,221 +1,138 @@
-import React, { useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
-import logo from '../assets/icons/logo.png';
-import '../assets/fonts/Quicksand-Regular.ttf';
-import '../assets/fonts/Poppins-Regular.ttf';
-
+import React, { useState } from "react";
+import { Link, useLocation } from "react-router-dom";
+import logo from "../assets/icons/logo.png";
+import { useNavigate } from "react-router-dom";
 const Header = () => {
-    const location = useLocation();
-    const [dropdownOpen, setDropdownOpen] = useState(false);
-    const [hoveredItem, setHoveredItem] = useState(null);
+  const location = useLocation();
+  const navigate = useNavigate();
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [dropdownOpen, setDropdownOpen] = useState(false);
 
-    const navItems = [
-        { name: 'Events', path: '/events' },
-        { name: 'Podcast', path: '/podcast' },
-        { name: 'Membership', path: '/membership' },
-        { name: 'Chapters', path: '/chapters' }, // Main Chapters path
-        { name: 'About', path: '/about' },
-        { name: 'Contact', path: '/contact' },
-    ];
+  const navItems = [
+    { name: "Events", path: "/events" },
+    { name: "Podcast", path: "/podcast" },
+    { name: "Membership", path: "/membership" },
+    { name: "Chapters", path: "/chapters" },
+    { name: "About", path: "/about" },
+    { name: "Contact", path: "/contact" },
+  ];
 
-    const chapters = [
-        { name: 'Dallas, TX', path: '/chapters/dallas' },
-        { name: 'Fort Worth, TX', path: '/chapters/fort-worth' },
-        { name: 'Houston, TX', path: '/chapters/houston' },
-        { name: 'Little Rock, AR', path: '/chapters/little-rock' },
-    ];
+  const chapters = [
+    { name: "Dallas, TX Chapter", path: "/chapters/dallas" },
+    { name: "Fort Worth, TX Chapter", path: "/chapters/fort-worth" },
+    { name: "Houston, TX Chapter", path: "/chapters/houston" },
+    { name: "Little Rock, AR Chapter", path: "/chapters/little-rock" },
+  ];
 
-    const toggleDropdown = () => {
-        setDropdownOpen(!dropdownOpen);
-    };
+  // Function to check if the current path matches the exact nav item or is in the chapters path
+  const isActive = (path) => location.pathname === path;
+  
+  // Check if the current path is for any chapter
+  const isChaptersActive = () => location.pathname.startsWith("/chapters");
+  
+  // Check if a specific chapter is selected
+  const isChapterSelected = (chapterPath) => location.pathname === chapterPath;
 
-    const closeDropdown = () => {
-        setDropdownOpen(false);
-        setHoveredItem(null);
-    };
+  const toggleMenu = () => {
+    setMenuOpen((prev) => !prev);
+  };
 
-    const isActive = (path) => location.pathname === path;
+  const toggleDropdown = () => {
+    setDropdownOpen((prev) => !prev);
+  };
 
-    return (
-        <header style={styles.header}>
-            <Link to="/" style={styles.titleContainer}>
-                <span style={styles.titleText}>UMMATI C</span>
-                <img src={logo} alt="Logo" style={styles.logo} />
-                <span style={styles.titleText}>MMUNITY</span>
-            </Link>
+  const handleLogin = () => {
+    navigate('/login');
+  };
+  return (
+    <header className="flex items-center justify-between bg-white py-8 px-6 w-full ">
+      {/* Logo */}
+      <Link to="/" className="flex items-center gap-2">
+        <span className="text-[#5A4283] text-xl font-bold">UMMATI C</span>
+        <img src={logo} alt="Logo" className="w-[40px] h-[40px] -mt-1 -mx-3" />
+        <span className="text-[#5A4283] text-xl font-bold">MMUNITY</span>
+      </Link>
 
-            <div style={styles.rightSection}>
-                <nav style={styles.navLinks}>
-                    {navItems.map((item) => {
-                        if (item.name === 'Chapters') {
-                            return (
-                                <div
-                                    key={item.name}
-                                    style={styles.dropdownContainer}
-                                    onMouseEnter={toggleDropdown}
-                                    onMouseLeave={closeDropdown}
-                                >
-                                    <Link
-                                        to={item.path} // Navigate to the main Chapters page
-                                        style={{
-                                            ...styles.navItem,
-                                            ...(isActive(item.path) ? styles.activeNavItem : {}),
-                                        }}
-                                    >
-                                        {item.name}
-                                    </Link>
-                                    {dropdownOpen && (
-                                        <div style={styles.dropdown}>
-                                            {chapters.map((chapter) => (
-                                                <Link
-                                                    key={chapter.name}
-                                                    to={chapter.path}
-                                                    style={{
-                                                        ...styles.dropdownItem,
-                                                        ...(hoveredItem === chapter.name
-                                                            ? styles.dropdownItemHover
-                                                            : {}),
-                                                    }}
-                                                    onMouseEnter={() => setHoveredItem(chapter.name)}
-                                                    onMouseLeave={() => setHoveredItem(null)}
-                                                >
-                                                    {chapter.name}
-                                                </Link>
-                                            ))}
-                                        </div>
-                                    )}
-                                </div>
-                            );
-                        }
-                        return (
-                            <Link
-                                key={item.name}
-                                to={item.path}
-                                style={{
-                                    ...styles.navItem,
-                                    ...(isActive(item.path) ? styles.activeNavItem : {}),
-                                }}
-                            >
-                                {item.name}
-                            </Link>
-                        );
-                    })}
-                </nav>
+      {/* Hamburger Icon */}
+      <div
+        className="text-2xl text-[#5A4283] cursor-pointer lg:hidden"
+        onClick={toggleMenu}
+      >
+        {menuOpen ? "✕" : "☰"}
+      </div>
 
-                <div style={styles.loginButton}>
-                    <span style={styles.loginButtonText}>Login</span>
+      {/* Navigation */}
+      <div
+        className={`${
+          menuOpen ? "flex" : "hidden"
+        } lg:flex flex-col lg:flex-row lg:items-center gap-4 absolute lg:static top-16 left-0 w-full lg:w-auto bg-white lg:bg-transparent z-10 lg:z-auto py-4 lg:py-0 px-6 lg:px-0 shadow-lg lg:shadow-none`}
+      >
+        <nav className="flex flex-col lg:flex-row items-center lg:justify-center gap-4 px-4">
+          {navItems.map((item) => {
+            if (item.name === "Chapters") {
+              return (
+                <div
+                  key={item.name}
+                  className="relative w-full h-[40px] flex items-center px-4"
+                  onClick={toggleDropdown}
+                >
+                  <button
+                    className={`text-[#5A4283] text-lg w-full text-left ${
+                      isChaptersActive() ? "font-bold" : "font-normal"
+                    }`}
+                  >
+                    {item.name}
+                  </button>
+
+                  {/* Dropdown Menu */}
+                  {dropdownOpen && (
+                    <div className="absolute top-[40px] left-0 bg-white shadow-lg w-[300px] z-20">
+                      {chapters.map((chapter) => (
+                        <div
+                          key={chapter.name}
+                          className={`w-full hover:bg-[#D9F4DA] h-[50px] flex items-center px-2 ${
+                            isChapterSelected(chapter.path) ? "bg-[#D9F4DA]" : ""
+                          }`}
+                        >
+                          <Link
+                            to={chapter.path}
+                            className="text-[#5A4283] text-sm w-full"
+                          >
+                            {chapter.name}
+                          </Link>
+                        </div>
+                      ))}
+                    </div>
+                  )}
                 </div>
-            </div>
-        </header>
-    );
-};
+              );
+            }
 
-const styles = {
-    header: {
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        background: 'white',
-        padding: '35px 40px',
-        width: '100%',
-        flexWrap: 'wrap',
-    },
-    titleContainer: {
-        display: 'flex',
-        alignItems: 'center',
-        gap: '5px',
-        flexShrink: 0,
-    },
-    titleText: {
-        color: '#5A4283',
-        fontSize: '1.75rem',
-        fontFamily: 'Quicksand',
-        fontWeight: 700,
-        whiteSpace: 'nowrap',
-        margin: 0,
-    },
-    logo: {
-        width: 'clamp(30px, 5vw, 50px)',
-        height: 'clamp(30px, 5vw, 50px)',
-        marginTop: '-1px',
-        marginLeft: '-13px',
-        marginRight: '-13px',
-    },
-    rightSection: {
-        display: 'flex',
-        alignItems: 'center',
-        gap: '10px',
-        flexWrap: 'wrap',
-        flexDirection: 'row',
-    },
-    navLinks: {
-        display: 'flex',
-        gap: '20px',
-        flexDirection: 'row',
-        flexWrap: 'wrap',
-    },
-    navItem: {
-        color: '#5A4283',
-        fontSize: '1rem',
-        fontFamily: 'Quicksand',
-        cursor: 'pointer',
-        textAlign: 'center',
-        whiteSpace: 'nowrap',
-    },
-    activeNavItem: {
-        fontWeight: '700',
-    },
-    dropdownContainer: {
-        position: 'relative',
-    },
-    dropdown: {
-        position: 'absolute',
-        top: '100%',
-        left: 0,
-        background: 'white',
-        border: '1px solid #ECE7DA',
-        boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.1)',
-        borderRadius: '8px',
-        zIndex: 10,
-        width: '200px',
-    },
-    dropdownItem: {
-        width: '100%',
-        padding: '12px',
-        color: '#1E1E1E',
-        fontSize: '12px',
-        fontFamily: 'Poppins',
-        fontWeight: '400',
-        display: 'inline-flex',
-        justifyContent: 'flex-start',
-        alignItems: 'center',
-        gap: '11px',
-        background: 'white',
-        borderLeft: '1px solid #ECE7DA',
-        borderTop: '1px solid #ECE7DA',
-        borderRight: '1px solid #ECE7DA',
-        textDecoration: 'none',
-        transition: 'background-color 0.2s ease-in-out',
-    },
-    dropdownItemHover: {
-        background: '#D9F4DA',
-    },
-    loginButton: {
-        padding: '8px 16px',
-        backgroundColor: '#78B27B',
-        borderRadius: 40,
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-    loginButtonText: {
-        color: '#D9F4DA',
-        fontSize: '1rem',
-        fontFamily: 'Quicksand',
-        fontWeight: 700,
-        letterSpacing: 0.32,
-        whiteSpace: 'nowrap',
-    },
+            return (
+              <div
+                key={item.name}
+                className="w-full h-[40px] flex items-center px-4"
+              >
+                <Link
+                  to={item.path}
+                  className={`text-[#5A4283] text-lg w-full ${
+                    isActive(item.path) ? "font-bold" : "font-normal"
+                  }`}
+                >
+                  {item.name}
+                </Link>
+              </div>
+            );
+          })}
+        </nav>
+        <div className="mt-4 lg:mt-0 text-center">
+          <button className="bg-[#78B27B] text-white px-6 py-2 rounded-full font-bold text-sm" onClick={handleLogin}>
+            Login
+          </button>
+        </div>
+      </div>
+    </header>
+  );
 };
 
 export default Header;

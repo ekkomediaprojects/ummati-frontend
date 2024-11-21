@@ -15,12 +15,17 @@ import FortWorth from './pages/Chapters/FortWorth';
 import LittleRock from './pages/Chapters/LittleRock';
 import Houston from './pages/Chapters/Houston';
 import Events from './pages/Events';
+import Login from './pages/Login';
+import SignUp from './pages/SignUp';
+
 
 function App() {
   return (
     <Router>
       <Routes>
         <Route path="/" element={<HomePage />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<SignUp />} />
         <Route path="/podcast" element={<Podcast />} /> {/* Route for Podcast page */}
         <Route path="/chapters" element={<Chapters />} /> {/* Route for Chapters page */}
         <Route path="/terms" element={<Terms />} /> {/* Route for Podcast page */} 

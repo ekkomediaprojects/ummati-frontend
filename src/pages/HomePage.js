@@ -1,316 +1,277 @@
-// src/pages/HomePage.js
-import React from 'react';
-import Header from '../components/Header';
-import HeroSection from '../components/HeroSection';
-import Footer from '../components/Footer';
-import '../assets/fonts/Quicksand-Regular.ttf';
-import '../assets/fonts/Poppins-Regular.ttf';
-import playButton from '../assets/images/homepage/Latest Episode/playButton.svg';
-import pauseButton from '../assets/images/homepage/Latest Episode/pauseButton.svg';
-import forwardButton from '../assets/images/homepage/Latest Episode/fast_forward.svg';
-import rewindButton from '../assets/images/homepage/Latest Episode/fast_rewind.svg';
-import generalEvents from '../assets/images/homepage/Types of Events/General Events.png';
-import professioanalNetworking from '../assets/images/homepage/Types of Events/Professional networking.png';
-import mommyNMe from '../assets/images/homepage/Types of Events/Mommy n me.png';
-import getInvolved1 from '../assets/images/homepage/Get involved/getInvolved1.png';
-import getInvolved2 from '../assets/images/homepage/Get involved/getInvolved2.png';
-import getInvolved3 from '../assets/images/homepage/Get involved/getInvolved3.png';
+import React from "react";
+import Header from "../components/Header";
+import HeroSection from "../components/HeroSection";
+import { Typography, Button, Box } from "@mui/material";
+import Footer from "../components/Footer";
+import playButton from "../assets/images/homepage/Latest Episode/playButton.svg";
+import pauseButton from "../assets/images/homepage/Latest Episode/pauseButton.svg";
+import forwardButton from "../assets/images/homepage/Latest Episode/fast_forward.svg";
+import rewindButton from "../assets/images/homepage/Latest Episode/fast_rewind.svg";
+import generalEvents from "../assets/images/homepage/Types of Events/General Events.png";
+import professioanalNetworking from "../assets/images/homepage/Types of Events/Professional networking.png";
+import mommyNMe from "../assets/images/homepage/Types of Events/Mommy n me.png";
+import getInvolved1 from "../assets/images/homepage/Get involved/getInvolved1.png";
+import getInvolved2 from "../assets/images/homepage/Get involved/getInvolved2.png";
+import getInvolved3 from "../assets/images/homepage/Get involved/getInvolved3.png";
 
-const HomePage = () => (
-  <div>
-    <Header />
-    <HeroSection />
+const HomePage = () => {
+  return (
+    <div className="">
+      <Header />
+      <HeroSection />
 
-    <section style={styles.latestEpisode}>
-      <h2 style={styles.headerText}>Listen To Our Latest Episode</h2>
-      <h4 style={styles.subText}>Stay Up To Date</h4>      
-      {/* Podcast Player Container */}
-    <div style={styles.podcastPlayer}>
-      
-      {/* Left Square Box */}
-      <div style={styles.square}></div>
+      {/* Latest Episode Section */}
+      <section className="w-full px-6 py-10 bg-white text-center">
+        <h2 className="text-4xl font-bold text-[#5A4283]">
+          Listen To Our Latest Episode
+        </h2>
+        <h2 className="text-lg text-gray-600 mt-2">Stay Up To Date</h2>
 
-      {/* Text and Controls Container */}
-      <div style={styles.textAndControls}>
-        
-        {/* Episode Title and Podcast Name */}
-        <div style={styles.textContainer}>
-          <div style={styles.episodeTitle}>Episode Title</div>
-          <div style={styles.podcastName}>Interlaced</div>
-        </div>
+        {/* Podcast Player */}
+        <div className="flex flex-col sm:flex-row items-center bg-gray-200 rounded-lg p-6 mt-6 shadow-md w-full max-w-4xl mx-auto">
+          {/* Thumbnail */}
+          <div className="w-28 h-28 bg-gray-300 rounded-md border border-gray-400"></div>
 
-        {/* Play Button and Progress Bar */}
-        <div style={styles.playAndProgressContainer}>
-          <button style={styles.circleButton}>
-            <img src={playButton} alt="Play Button" style={styles.playButton} />
-          </button>
-          <div style={styles.progressBarContainer}>
-            <div style={styles.progressIndicator}></div>
+          {/* Content */}
+          <div className="flex-1 ml-0 sm:ml-6 mt-6 sm:mt-0">
+            <div className="text-left">
+              <Typography
+                variant="h3"
+                sx={{
+                  fontFamily: "Quicksand",
+                  fontWeight: 400,
+                }}
+                className="text-xl font-medium"
+              >
+                Episode Title
+              </Typography>
+
+              <Typography
+                sx={{
+                  fontFamily: "Quicksand",
+                  fontWeight: 700,
+                  fontSize: { xs: "10px", sm: "14px" }, // Responsive font size
+                  lineHeight: { xs: "12.5px", sm: "17.5px" }, // Responsive line height
+                  color: "#5A4283",
+                }}
+                className="font-bold"
+              >
+                Interlaced
+              </Typography>
+            </div>
+
+            <div className="flex items-center mt-4 gap-4">
+              <button className="w-12 h-12 flex items-center justify-center bg-white border border-gray-300 rounded-full">
+                <img src={playButton} alt="Play Button" className="w-6" />
+              </button>
+              <div className="flex-1 bg-gray-300 h-2 rounded overflow-hidden">
+                <div className="bg-[#5A4283] h-full w-1/3"></div>
+              </div>
+            </div>
+
+            <div className="flex justify-between items-center mt-4">
+              <div className="flex gap-3">
+                <img
+                  src={rewindButton}
+                  alt="Rewind"
+                  className="w-6 cursor-pointer"
+                />
+                <img
+                  src={pauseButton}
+                  alt="Pause"
+                  className="w-6 cursor-pointer"
+                />
+                <img
+                  src={forwardButton}
+                  alt="Forward"
+                  className="w-6 cursor-pointer"
+                />
+              </div>
+              <p className="text-sm text-gray-500">15:32</p>
+            </div>
           </div>
         </div>
 
-        {/* Control Buttons and Duration Text */}
-        <div style={styles.controlsAndDuration}>
-          <div style={styles.controlButtonsContainer}>
-            <img src={rewindButton} alt="Rewind" style={styles.controlButton} />
-            <img src={pauseButton} alt="Pause" style={styles.controlButton} />
-            <img src={forwardButton} alt="Forward" style={styles.controlButton} />
+        {/* More Episodes Button */}
+        <Button
+          variant="contained"
+          sx={{
+            marginTop: "20px",
+            padding: "8px 16px",
+            fontSize: { xs: "10px", sm: "14px", md: "16px", lg: "20px" },
+            fontFamily: "Quicksand",
+            fontWeight: "700",
+            backgroundColor: "#78B27B",
+            borderRadius: "10px",
+            textTransform: "none",
+            width: { xs: "150px", sm: "200px", md: "250px", lg: "300px" },
+          }}
+        >
+          More Episodes
+        </Button>
+      </section>
+
+      {/* Types of Events Section */}
+      <section className="w-full px-6 py-10 bg-gray-50 text-center">
+        <h2 className="text-4xl font-bold text-[#5A4283]">Types Of Events</h2>
+        <h4 className="text-lg text-gray-600 mt-2 max-w-3xl mx-auto">
+          We aim to host events for women in all stages of life. We want to
+          encourage you to meet and enjoy the company of various women in safe
+          spaces allowing you to foster friendships over shared experiences.
+        </h4>
+
+        <div className="flex flex-col sm:flex-row justify-center gap-8 mt-8">
+          {/* General Events */}
+          <div className="text-center">
+            <img
+              src={generalEvents}
+              alt="General Events"
+              className="rounded-lg w-full max-w-xs mx-auto"
+            />
+            <h3 className="text-2xl font-bold mt-4">General Events</h3>
+            <p className="text-gray-600 mt-2">
+              These events are for anyone 18+ years old. Everyone is welcome!
+            </p>
           </div>
-          <div style={styles.durationText}>15:32</div>
-        </div>
 
-      </div>
+          {/* Professional Networking */}
+          <div className="text-center">
+            <img
+              src={professioanalNetworking}
+              alt="Professional Networking"
+              className="rounded-lg w-full max-w-xs mx-auto"
+            />
+            <h3 className="text-2xl font-bold mt-4">Professional Networking</h3>
+            <p className="text-gray-600 mt-2">
+              We host networking events amongst working women and also host
+              workshops.
+            </p>
+          </div>
+
+          {/* Mommy & Me */}
+          <div className="text-center">
+            <img
+              src={mommyNMe}
+              alt="Mommy & Me"
+              className="rounded-lg w-full max-w-xs mx-auto"
+            />
+            <h3 className="text-2xl font-bold mt-4">Mommy & Me</h3>
+            <p className="text-gray-600 mt-2">
+              We host networking events amongst working women and also host
+              workshops.
+            </p>
+          </div>
+        </div>
+      </section>
+      <Box sx={{ mt: 5 }}>
+        {/* Header Text */}
+        <Box sx={{ padding: 4 }}>
+          <Typography
+            variant="h2"
+            sx={{
+              textAlign: "center",
+              color: "#5A4283",
+              fontFamily: "Quicksand",
+              fontWeight: 700,
+              fontSize: { xs: "28px", sm: "32px", md: "36px", lg: "40px" },
+            }}
+          >
+            Get Involved
+          </Typography>
+
+          {/* Sub Text */}
+          <Typography
+            variant="h4"
+            sx={{
+              textAlign: "center",
+              color: "black",
+              fontFamily: "Poppins, sans-serif",
+              fontWeight: 400,
+              fontSize: { xs: "14px", sm: "16px", md: "18px", lg: "20px" },
+              lineHeight: "1.8",
+              mt: 2,
+              mb: 4,
+              padding: "10px",
+            }}
+          >
+            There are many ways to get involved and be a part of our growing
+            network of inspiring women. You can join our team, help us open a
+            new chapter in your city, attend one of our events, sponsor an
+            event, or collaborate with us. As we expand, we are always eager to
+            connect with like-minded individuals and organizations. Together, we
+            can create meaningful change and foster a supportive community.
+          </Typography>
+
+          <Box
+            sx={{ display: "flex", justifyContent: "center", width: "100%" }}
+          >
+            {/* Button Container */}
+            <Button
+              variant="contained"
+              sx={{
+                marginTop: "20px",
+                padding: "8px 16px",
+                fontSize: { xs: "10px", sm: "14px", md: "16px", lg: "20px" },
+                fontFamily: "Quicksand",
+                fontWeight: "700",
+                backgroundColor: "#78B27B",
+                borderRadius: "10px",
+                textTransform: "none",
+                width: { xs: "150px", sm: "200px", md: "250px", lg: "300px" }, // Increased button width
+              }}
+            >
+              Chapters
+            </Button>
+          </Box>
+        </Box>
+
+        {/* Edge-to-Edge Images Section */}
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: { xs: "column", sm: "row" }, // Switches to column on xs, row on sm and up
+            width: "100%",
+            mt: 4,
+          }}
+        >
+          <Box sx={{ flex: 1, height: 300 }}>
+            <img
+              src={getInvolved1}
+              alt="Group pic 1"
+              style={{
+                width: "100%",
+                height: "100%",
+                objectFit: "cover",
+              }}
+            />
+          </Box>
+          <Box sx={{ flex: 1, height: 300 }}>
+            <img
+              src={getInvolved2}
+              alt="Group pic 2"
+              style={{
+                width: "100%",
+                height: "100%",
+                objectFit: "cover",
+              }}
+            />
+          </Box>
+          <Box sx={{ flex: 1, height: 300 }}>
+            <img
+              src={getInvolved3}
+              alt="Group pic 3"
+              style={{
+                width: "100%",
+                height: "100%",
+                objectFit: "cover",
+              }}
+            />
+          </Box>
+        </Box>
+      </Box>
+      {/* Footer */}
+      <Footer />
     </div>
-
-    {/* Call-to-Action Button */}
-    <div style={styles.buttonContainer}>More Episodes</div>
-  </section>
-
-
-  <section style={styles.typesOfEvents}>
-      <h2 style={styles.headerText}>Types Of Events</h2>
-      <h4 style={styles.subText}>We aim to host events for women in all stages of life. We want to encourage you to meet and enjoy the company of various women in safe spaces allowing you to foster friendships over shared experiences. </h4> 
-  
-  {/* Image Container with 3 Images, Titles, and Captions */}
-  <div style={styles.eventsImageContainer}>
-        <div style={styles.eventItem}>
-          <img src={generalEvents} alt="Event 1" style={styles.eventImage} />
-          <div style={styles.eventTitle}>General Events</div>
-          <div style={styles.eventCaption}>These events are for anyone 18+ years old. Everyone is welcome!</div>
-        </div>
-        <div style={styles.eventItem}>
-          <img src={professioanalNetworking} alt="Event 2" style={styles.eventImage} />
-          <div style={styles.eventTitle}>Professional Networking</div>
-          <div style={styles.eventCaption}>We host networking events amongst working women and also host workshops. .</div>
-        </div>
-        <div style={styles.eventItem}>
-          <img src={mommyNMe} alt="Event 3" style={styles.eventImage} />
-          <div style={styles.eventTitle}>Mommy & Me</div>
-          <div style={styles.eventCaption}>We host networking events amongst working women and also host workshops. </div>
-        </div>
-      </div>  
-  </section>
-
-  <section style={styles.getInvolved}>
-      <h2 style={styles.headerText}>Get Involved</h2>
-      <h4 style={styles.subText}>There are many ways to get involved and be a part of our growing network of inspiring women. You can join our team, help us open a new chapter in your city, attend one of our events, sponsor an event, or collaborate with us. As we expand, we are always eager to connect with like-minded individuals and organizations. Together, we can create meaningful change and foster a supportive community.
-      </h4> 
-      <div style={styles.buttonContainer}>Chapters</div>
-
-      {/* Edge-to-Edge Images Section */}
-    <div style={styles.edgeToEdgeImages}>
-      <img src={getInvolved1} alt="Group pic 1" style={styles.fullWidthImage} />
-      <img src={getInvolved2} alt="Group pic 2" style={styles.fullWidthImage} />
-      <img src={getInvolved3} alt="Group pic 3" style={styles.fullWidthImage} />
-    </div>
-  </section>
-
-    <Footer />
-  </div>
-
-
-);
-
-
-const styles = {
-  latestEpisode: {
-    width: '100%',
-    background: 'white',
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    padding: '40px 20px',
-    boxSizing: 'border-box',
-  },
-  headerText: {
-    textAlign: 'center',
-    color: '#5A4283',
-    fontSize: '40px',
-    fontFamily: 'Quicksand',
-    fontWeight: '700',
-  },
-  subText: {
-    textAlign: 'center',
-    color: 'black',
-    fontSize: '22px',
-    fontFamily: 'Poppins, sans-serif',
-    fontWeight: '400',
-    marginTop: '10px',
-  },
-  podcastPlayer: {
-    width: '662px',
-    height: '152px', // Set exact height
-    background: '#ECE7DA',
-    borderRadius: '8px',
-    padding: '20px',
-    display: 'flex',
-    gap: '10px',
-    marginTop: '20px',
-    alignItems: 'flex-start', // Ensures items align to the top
-  },
-  square: {
-    width: '111px',
-    height: '116px',
-    background: '#D9D9D9',
-    border: '1px solid #737373',
-  },
-  textAndControls: {
-    display: 'flex',
-    flexDirection: 'column',
-    flex: 1,
-  },
-  textContainer: {
-    marginBottom: '5px',
-    marginLeft: '40px',
-    marginTop: '-20',
-  },
-  episodeTitle: {
-    fontSize: '32px',
-    color: '#222222',
-    fontFamily: 'Quicksand',
-    fontWeight: '400',
-    marginTop: '-20',
-  },
-  podcastName: {
-    fontSize: '16px',
-    color: '#5A4283',
-    fontFamily: 'Quicksand',
-    fontWeight: '700',
-    marginTop: '-20',
-  },
-  playAndProgressContainer: {
-    display: 'flex',
-    alignItems: 'center',
-    gap: '10px',
-    marginTop: '5px',
-    marginLeft: '20px',
-  },
-  circleButton: {
-    width: '35px',
-    height: '35px',
-    background: 'white',
-    border: '1px solid #D9D9D9',
-    borderRadius: '50%',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    cursor: 'pointer',
-  },
-  playButton: {
-    width: '24px',
-    height: '24px',
-  },
-  progressBarContainer: {
-    flex: 1,
-    height: '7px',
-    backgroundColor: '#D9D9D9',
-    borderRadius: '5px',
-    overflow: 'hidden',
-  },
-  progressIndicator: {
-    width: '30%',
-    height: '100%',
-    backgroundColor: '#5A4283',
-  },
-  controlsAndDuration: {
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginTop: '-5px',
-    marginLeft: '20px',
-  },
-  controlButtonsContainer: {
-    display: 'flex',
-    gap: '10px',
-  },
-  controlButton: {
-    width: '14px',
-    height: '20px',
-    cursor: 'pointer',
-  },
-  durationText: {
-    color: '#8C8989', 
-    fontSize: 12, 
-    fontFamily: 'Inter', 
-    fontWeight: '400',
-  },
-
-  buttonContainer: {
-    background: '#78B27B',
-    borderRadius: '10px',
-    padding: '10px 20px',
-    textAlign: 'center',
-    color: 'white',
-    fontSize: '18px',
-    fontFamily: 'Quicksand',
-    fontWeight: '600',
-    cursor: 'pointer',
-    marginTop: '20px',
-  },
-  
-  typesOfEvents: {
-    backgroundColor: '#F7F5EF',
-  },
-
-  eventsImageContainer: {
-    display: 'flex',
-    justifyContent: 'space-between',
-    width: '100%',
-    maxWidth: '1000px',
-    marginLeft: 'auto',
-    marginRight: 'auto',
-  },
-  eventItem: {
-    width: '30%', // Ensures each item takes up 1/3 of the container
-    textAlign: 'center',
-  },
-  eventImage: {
-    width: '100%',
-    height: 'auto',
-    borderRadius: '8px',
-  },
-  eventTitle: {
-    width: '100%',
-    textAlign: 'center',
-    color: '#222222',
-    fontSize: '24px',
-    fontFamily: 'Quicksand, sans-serif',
-    fontWeight: '700',
-    wordWrap: 'break-word',
-    marginTop: '10px',
-  },
-  eventCaption: {
-    width: '100%',
-    textAlign: 'center',
-    color: 'black',
-    fontSize: '20px',
-    fontFamily: 'Poppins, sans-serif',
-    fontWeight: '400',
-    wordWrap: 'break-word',
-    marginTop: '5px',
-  },
-
-  getInvolved: {
-    marginTop: '25px',
-  },
-
-  edgeToEdgeImages: {
-    display: 'flex',
-    width: '100%',
-    marginTop: '20px',
-  },
-  firstImage: {
-    width: '25%', // First image takes 25% of the width
-    height: 'auto',
-  },
-  middleImage: {
-    width: '50%', // Middle image takes 50% of the width
-    height: 'auto',
-  },
-  lastImage: {
-    width: '25%', // Last image takes 25% of the width
-    height: 'auto',
-  },
+  );
 };
-
 export default HomePage;

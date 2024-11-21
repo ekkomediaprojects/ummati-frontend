@@ -1,151 +1,184 @@
-// src/pages/Privacy.js
-import React from 'react';
-import Header from '../components/Header';
-import Footer from '../components/Footer';
-import bannerImage from '../assets/images/purpleBanner.png';
-import '../assets/fonts/Poppins-Regular.ttf';
+import React from "react";
+import { Box, Container, Typography } from "@mui/material";
+import Header from "../components/Header";
+import Footer from "../components/Footer";
+import bannerImage from "../assets/images/purpleBanner.png";
 
 const Privacy = () => (
-    <div>
-        <Header />
-        {/* Banner Section */}
-        <div style={styles.banner}>
-            <h1 style={styles.bannerText}>Privacy</h1>
-        </div>
+  <Box
+    sx={{
+      backgroundColor: "#F7F5EF",
+      minHeight: "100vh",
+    }}
+  >
+    <Header />
 
-        {/* Main Content Section */}
-        <div style={styles.contentSection}>
-            <p style={styles.text}>
-                Effective Date: November 1, 2024
-            </p>
-            <p style={styles.text}>
-                At Ummati Community, we value and respect the privacy of our users. This Privacy Policy explains how we collect, use, disclose, and protect your personal information when you use our website (ummaticommunity.com), mobile applications, and other online services.
-            </p>
-            
-            <h2 style={styles.sectionTitle}>1. Information We Collect</h2>
-            <p style={styles.text}>
-                We may collect the following types of information:
-            </p>
-            <p style={styles.text}>
-                <strong>Personal Information:</strong> This includes details such as your name, email address, phone number, and other contact information.
-                <br />
-                <strong>Account Information:</strong> Information such as your username, password, profile picture, and preferences.
-                <br />
-                <strong>Usage Data:</strong> We collect information about how you interact with our website and services, including IP addresses, browser type, device information, and pages visited.
-                <br />
-                <strong>Cookies and Tracking Technologies:</strong> We use cookies and similar technologies to enhance user experience, track website performance, and personalize content.
-            </p>
+    {/* Banner Section */}
+    <Box
+      sx={{
+        width: "100%",
+        height: "220px",
+        backgroundImage: `url(${bannerImage})`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        position: "relative",
+      }}
+    >
+      <Typography
+        variant="h1"
+        sx={{
+          color: "#3D3D3C",
+          fontFamily: "Caprasimo",
+          fontSize: { xs: "36px", sm: "48px", md: "56px" },
+          position: "absolute",
+          top: "80%",
+          transform: "translateY(-50%)",
+        }}
+      >
+        Privacy
+      </Typography>
+    </Box>
+    <Container
+      maxWidth={false}
+      sx={{
+        padding: { xs: "40px 16px", sm: "50px 40px", md: "60px 200px" },
+        maxWidth: "1600px",
+        margin: "0 auto",
+      }}
+    >
+      <Typography sx={styles.text}>Effective Date: November 1, 2024</Typography>
+      <Typography sx={styles.text}>
+        At Ummati Community, we value and respect the privacy of our users. This
+        Privacy Policy explains how we collect, use, disclose, and protect your
+        personal information when you use our website (ummaticommunity.com),
+        mobile applications, and other online services.
+      </Typography>
 
-            <h2 style={styles.sectionTitle}>2. How We Use Your Information</h2>
-            <p style={styles.text}>
-                The information we collect is used for:
-            </p>
-            <ul style={styles.list}>
-                <li>Providing and improving our services.</li>
-                <li>Personalizing your experience.</li>
-                <li>Communicating with you about updates, offers, or support.</li>
-                <li>Ensuring compliance with legal obligations.</li>
-                <li>Conducting data analysis to improve user experience.</li>
-            </ul>
+      <Section title="1. Information We Collect">
+        <Typography sx={styles.text}>
+          We may collect the following types of information:
+        </Typography>
+        <Typography sx={styles.text}>
+          <strong>Personal Information:</strong> Your name, email address, phone
+          number, and contact details.
+          <br />
+          <strong>Account Information:</strong> Username, password, profile
+          picture, and preferences.
+          <br />
+          <strong>Usage Data:</strong> Information like IP addresses, browser
+          type, device information, and pages visited.
+          <br />
+          <strong>Cookies:</strong> Cookies and similar technologies for
+          enhancing user experience and website performance.
+        </Typography>
+      </Section>
 
-            <h2 style={styles.sectionTitle}>3. Sharing of Your Information</h2>
-            <p style={styles.text}>
-                We may share your personal data with:
-            </p>
-            <ul style={styles.list}>
-                <li><strong>Service Providers:</strong> Third-party companies that help us operate the platform, such as hosting and analytics services.</li>
-                <li><strong>Legal Compliance:</strong> If required by law or in response to valid legal processes.</li>
-                <li><strong>Business Transfers:</strong> In the event of a merger, acquisition, or asset sale.</li>
-            </ul>
+      <Section title="2. How We Use Your Information">
+        <Typography sx={styles.text}>
+          The information we collect is used for:
+        </Typography>
+        <ul style={styles.list}>
+          <li>Providing and improving our services.</li>
+          <li>Personalizing your experience.</li>
+          <li>Communicating updates and offers.</li>
+          <li>Ensuring legal compliance.</li>
+          <li>Conducting data analysis.</li>
+        </ul>
+      </Section>
 
-            <h2 style={styles.sectionTitle}>4. Data Security</h2>
-            <p style={styles.text}>
-                We implement appropriate technical and organizational security measures to protect your information from unauthorized access, loss, or alteration.
-            </p>
+      <Section title="3. Sharing of Your Information">
+        <Typography sx={styles.text}>
+          We may share your personal data with:
+        </Typography>
+        <ul style={styles.list}>
+          <li>
+            <strong>Service Providers:</strong> Hosting and analytics services.
+          </li>
+          <li>
+            <strong>Legal Compliance:</strong> For valid legal processes.
+          </li>
+          <li>
+            <strong>Business Transfers:</strong> During mergers or acquisitions.
+          </li>
+        </ul>
+      </Section>
 
-            <h2 style={styles.sectionTitle}>5. Your Rights</h2>
-            <p style={styles.text}>
-                You have the right to:
-            </p>
-            <ul style={styles.list}>
-                <li>Access, correct, or delete your personal information.</li>
-                <li>Opt-out of receiving marketing communications.</li>
-                <li>Request restrictions on data processing.</li>
-            </ul>
+      <Section title="4. Data Security">
+        We implement appropriate technical and organizational security measures
+        to protect your information from unauthorized access, loss, or
+        alteration.
+      </Section>
 
-            <h2 style={styles.sectionTitle}>6. Children's Privacy</h2>
-            <p style={styles.text}>
-                Our services are not intended for individuals under the age of 13, and we do not knowingly collect personal data from children.
-            </p>
+      <Section title="5. Your Rights">
+        You have the right to:
+        <ul style={styles.list}>
+          <li>Access, correct, or delete your personal information.</li>
+          <li>Opt-out of marketing communications.</li>
+          <li>Request restrictions on data processing.</li>
+        </ul>
+      </Section>
 
-            <h2 style={styles.sectionTitle}>7. Changes to the Privacy Policy</h2>
-            <p style={styles.text}>
-                We reserve the right to modify this Privacy Policy at any time. We will notify you of changes by updating the “Effective Date” at the top of this policy.
-            </p>
+      <Section title="6. Children's Privacy">
+        Our services are not intended for individuals under 13, and we do not
+        knowingly collect data from children.
+      </Section>
 
-            <h2 style={styles.sectionTitle}>8. Contact Us</h2>
-            <p style={styles.text}>
-                If you have any questions or concerns about this Privacy Policy, please contact us at:
-                <br />
-                Email: team@ummaticommunity.com
-            </p>
-        </div>
+      <Section title="7. Changes to the Privacy Policy">
+        We reserve the right to modify this Privacy Policy. Updates will be
+        reflected in the “Effective Date” at the top of this policy.
+      </Section>
 
-        <Footer />
-    </div>
+      <Section title="8. Contact Us">
+        If you have questions or concerns, please contact us at:
+        <Box
+          sx={{
+            marginTop: "24px",
+          }}
+        >
+          <Typography>Email: team@ummaticommunity.com</Typography>
+        </Box>
+      </Section>
+    </Container>
+
+    <Footer />
+  </Box>
+);
+
+const Section = ({ title, children }) => (
+  <Box sx={{ marginBottom: "24px" }}>
+    <Typography sx={styles.sectionTitle}>{title}</Typography>
+    {children}
+  </Box>
 );
 
 const styles = {
-    banner: {
-        width: '100%',
-        height: '220px',
-        backgroundImage: `url(${bannerImage})`,
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-        position: 'relative',
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-    bannerText: {
-        color: 'black',
-        fontFamily: 'Caprasimo',
-        fontSize: '56px',
-        position: 'absolute',
-        top: '80%',
-        transform: 'translateY(-50%)',
-    },
-    contentSection: {
-        background: '#F7F5EF',
-        padding: '60px 160px',
-    },
-    text: {
-        color: 'black',
-        fontSize: 16,
-        fontFamily: 'Poppins, sans-serif',
-        fontWeight: '400',
-        wordWrap: 'break-word',
-        marginBottom: '16px',
-    },
-    sectionTitle: {
-        color: 'black',
-        fontSize: 16,
-        fontFamily: 'Poppins, sans-serif',
-        fontWeight: '700',
-        wordWrap: 'break-word',
-        marginBottom: '8px',
-        marginTop: '16px',
-    },
-    list: {
-        color: 'black',
-        fontSize: 16,
-        fontFamily: 'Poppins, sans-serif',
-        fontWeight: '400',
-        wordWrap: 'break-word',
-        marginLeft: '20px',
-        marginBottom: '16px',
-        listStyleType: 'disc',
-    },
+  text: {
+    color: "black",
+    fontSize: "16px",
+    fontFamily: "Poppins, sans-serif",
+    fontWeight: "400",
+    wordWrap: "break-word",
+    marginBottom: "16px",
+  },
+  sectionTitle: {
+    color: "black",
+    fontSize: "16px",
+    fontFamily: "Poppins",
+    fontWeight: "700",
+    wordWrap: "break-word",
+    marginBottom: "8px",
+  },
+  list: {
+    color: "black",
+    fontSize: "16px",
+    fontFamily: "Poppins",
+    marginLeft: "20px",
+    marginBottom: "16px",
+    listStyleType: "disc",
+  },
 };
 
 export default Privacy;
