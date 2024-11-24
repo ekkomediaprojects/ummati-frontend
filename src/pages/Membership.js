@@ -180,15 +180,22 @@ const Membership = () => (
     </Box>
 
     {/* Partnerships Section */}
-    <Box sx={{ py: 4, px: { xs: 2, sm: 10 }, textAlign: "center" , height: "400px" }}>
+    <Box
+      sx={{
+        py: 4,
+        px: { xs: 2, sm: 10 },
+        textAlign: "center",
+        height: "400px",
+      }}
+    >
       <Typography
         variant="h4"
         sx={{
           color: "#5A4283",
           fontWeight: 700,
-          fontSize: { xs: "16px", sm: "24", md: "32px" },
+          fontSize: { xs: "24px", sm: "24", md: "32px" },
           fontFamily: "Quicksand",
-          margin : "10px"
+          margin: "20px",
         }}
       >
         Partnerships
@@ -196,8 +203,9 @@ const Membership = () => (
       <Box
         sx={{
           display: "flex",
-          justifyContent: "start",
-          alignItems: "flex-end", // Align logos and text from the bottom
+          flexDirection: { xs: "column", md: "row" },
+          justifyContent: { xs: "center", md: "start" },
+          alignItems: { xs: "center", md: "flex-end" },
           flexWrap: "wrap",
           gap: { xs: 2, sm: 4 },
         }}
@@ -205,6 +213,10 @@ const Membership = () => (
         {/* Logo 1 */}
         <Box
           sx={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "center",
             textAlign: "center",
           }}
         >
@@ -235,6 +247,10 @@ const Membership = () => (
         {/* Logo 2 */}
         <Box
           sx={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "center",
             textAlign: "center",
           }}
         >
@@ -255,7 +271,7 @@ const Membership = () => (
               lineHeight: "12px",
               textUnderlinePosition: "from-font",
               textDecorationSkipInk: "none",
-              mt: 2
+              mt: 2,
             }}
           >
             Plano location: 10% off
