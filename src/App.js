@@ -14,9 +14,10 @@ import Dallas from './pages/Chapters/Dallas';
 import FortWorth from './pages/Chapters/FortWorth';
 import LittleRock from './pages/Chapters/LittleRock';
 import Houston from './pages/Chapters/Houston';
-import Events from './pages/Events';
+import Events from './pages/Events/EventsParent';
 import Login from './pages/Login';
 import SignUp from './pages/SignUp';
+import Profile from './pages/Profile/Profile';
 
 
 function App() {
@@ -26,10 +27,12 @@ function App() {
         <Route path="/" element={<HomePage />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />
+        <Route path="/profile" element={<Profile/>} />
+
         <Route path="/podcast" element={<Podcast />} /> {/* Route for Podcast page */}
         <Route path="/chapters" element={<Chapters />} /> {/* Route for Chapters page */}
         <Route path="/terms" element={<Terms />} /> {/* Route for Podcast page */} 
-        <Route path="/FAQ" element={<FAQ />} /> {/* Route for Privacy page */}
+        <Route path="/faqs" element={<FAQ />} /> {/* Route for Privacy page */}
         <Route path="/about" element={<About />} /> {/* Route for About page */}
         <Route path="/privacy" element={<Privacy />} /> {/* Route for Privacy page */}
         <Route path="/membership" element={<Membership />} /> {/* Route for Privacy page */}

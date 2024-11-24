@@ -2,9 +2,10 @@ import React, { useState } from "react";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import bannerImage from "../assets/images/purpleBanner.png";
-import { Collapse, Typography, Box } from "@mui/material";
-import { KeyboardArrowDown, KeyboardArrowUp } from "@mui/icons-material";
-
+// import { Collapse, Typography, Box } from "@mui/material";
+// import { KeyboardArrowDown, KeyboardArrowUp } from "@mui/icons-material";
+import { Box, Typography, Accordion, AccordionSummary, AccordionDetails } from "@mui/material";
+import { ArrowDropDownCircleOutlined } from "@mui/icons-material";
 const FAQ = () => {
   const [openIndex, setOpenIndex] = useState(0);
 
@@ -66,72 +67,74 @@ const FAQ = () => {
 
       {/* Banner Section */}
       <Box
+      sx={{
+        width: "100%",
+        height: { xs: "200px", sm: "250px", md: "300px" },
+        backgroundImage: `url(${bannerImage})`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        position: "relative",
+      }}
+    >
+      <Typography
+        variant="h1"
         sx={{
-          width: "100%",
-          height: "220px",
-          backgroundImage: `url(${bannerImage})`,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          position: "relative",
+          color: "#3D3D3C",
+          fontFamily: "Caprasimo",
+          fontSize: { xs: "20px", sm: "32px", md: "40px" },
+          position: "absolute",
+          bottom: "10%",
+          fontWeight: 400,
+          textAlign: "center",
         }}
       >
-        <Typography
-          variant="h1"
-          sx={{
-            color: "#3D3D3C",
-            fontFamily: "Caprasimo",
-            fontSize: { xs: "36px", sm: "48px", md: "56px" },
-            position: "absolute",
-            top: "80%",
-            transform: "translateY(-50%)",
-          }}
-        >
-          FAQs
-        </Typography>
-      </Box>
+        FAQs
+      </Typography>
+    </Box>
+
       {/* FAQ Content */}
-      <section className="px-[160px] py-[60px] flex flex-col gap-5">
+      <Box sx={{ px: { xs: "20px", sm: "40px", md: "160px" }, py: "60px" }}>
         {questions.map((item, index) => (
-          <article
+          <Accordion
             key={index}
-            className="p-[49px] bg-white rounded-[8px] border border-[#C4BAA2] flex flex-col overflow-hidden transition-all duration-300 ease-in-out"
-            style={{ height: openIndex === index ? "auto" : "150px" }}
+            sx={{
+              mb: 2,
+              p: 2,
+              bgcolor: "white",
+              border: "1px solid ##C4BAA2",
+              borderRadius: "8px",
+              "&:before": {
+                display: "none", // Removes default accordion divider line
+              },
+            }}
           >
-            <header
-              className="flex items-center justify-between cursor-pointer"
-              onClick={() => toggleQuestion(index)}
+            <AccordionSummary
+              expandIcon={<ArrowDropDownCircleOutlined sx={{ color: "#78B27B" , fontSize : "30px"}} />}
+              sx={{
+                fontSize: { xs: "16px", sm: "18px", md: "30px" },
+                fontWeight: "bold",
+                fontFamily: "Quicksand",
+                color: "#3D3D3C",
+              }}
             >
-              <h2 className="w-full text-black text-[30px] font-quicksand font-bold break-words">
-                {item.question}
-              </h2>
-              <div
-                className={`flex items-center justify-center transition-transform duration-300 ${
-                  openIndex === index ? "rotate-0" : "rotate-180"
-                }`}
-              >
-                <div className="w-[40px] h-[40px] rounded-full border-2 border-[#78B27B] flex items-center justify-center">
-                  {openIndex === index ? (
-                    <KeyboardArrowUp style={{ color: "#78B27B" }} />
-                  ) : (
-                    <KeyboardArrowDown style={{ color: "#78B27B" }} />
-                  )}
-                </div>
-              </div>
-            </header>
-            <Collapse in={openIndex === index} timeout="auto" unmountOnExit>
-              <section
-                className="w-full text-[#646363] text-[20px] font-poppins font-normal mt-[10px] break-words"
-                style={{ lineHeight: "30px" }}
-              >
-                {item.answer}
-              </section>
-            </Collapse>
-          </article>
+              {item.question}
+            </AccordionSummary>
+            <AccordionDetails
+              sx={{
+                fontSize: { xs: "14px", sm: "16px", md: "20px" },
+                fontFamily: "Poppins",
+                color: "#646363",
+                lineHeight: "1.6",
+              }}
+            >
+              {item.answer}
+            </AccordionDetails>
+          </Accordion>
         ))}
-      </section>
+      </Box>
 
       <Footer />
     </section>

@@ -1,9 +1,10 @@
 import React, { useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import logo from "../assets/images/footer logo.svg";
-import {  Button, Box, Typography, Grid2 } from "@mui/material";
+import { Button, Box, Typography, Grid2 } from "@mui/material";
 const Footer = () => {
   const location = useLocation();
+  const navigtion = useNavigate();
   const [email, setEmail] = useState("");
   const [error, setError] = useState(null);
   const [successMessage, setSuccessMessage] = useState("");
@@ -14,31 +15,15 @@ const Footer = () => {
     e.preventDefault();
 
     if (!email || !/\S+@\S+\.\S+/.test(email)) {
+      console.log("Invalid email:", email);
       setError("Please enter a valid email address.");
-    
       setSuccessMessage("");
-
       return;
     }
 
+    console.log("Navigating to signup with email:", email);
     setError(null);
-
-    try {
-      const response = await fetch("https://your-backend-endpoint/api/signup", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email }),
-      });
-
-      if (response.ok) {
-        setSuccessMessage("Thank you for signing up!");
-        setEmail("");
-      } else {
-        setError("Something went wrong. Please try again later.");
-      }
-    } catch (error) {
-      setError("Error connecting to the server. Please try again later.");
-    }
+    navigtion("/signup");
   };
 
   return (
@@ -100,15 +85,15 @@ const Footer = () => {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               style={{
-                width: "100%", 
-                maxWidth: "233px", 
-                height: "30px", 
-                borderRadius: "10px",
-                border: "1px solid #C4BAA2", 
-                padding: "0 10px", 
-                backgroundColor: "white", 
-                fontSize: "14px",
-                outline: "none", 
+                width: "100%", // Full width on small screens
+                maxWidth: "233px", // Maximum width on larger screens
+                height: "30px", // Fixed height
+                borderRadius: "10px", // Border radius
+                border: "1px solid #C4BAA2", // Border color: Change to your desired color
+                padding: "0 10px", // Padding for input field
+                backgroundColor: "white", // White background
+                fontSize: "14px", // Font size
+                outline: "none", // Remove default focus outline
               }}
             />
             <Button
@@ -120,7 +105,7 @@ const Footer = () => {
                 backgroundColor: "#78B27B",
                 borderRadius: "10px",
                 textTransform: "none",
-                height : "30px",
+                height: "30px",
                 width: { xs: "80px", sm: "90px", md: "100px", lg: "120px" },
                 padding: {
                   xs: "4px 8px",
@@ -187,25 +172,52 @@ const Footer = () => {
 
         {/* Legal Section */}
 
-        <Box className="flex flex-col justify-center items-center  text-left max-w-xs mt-8 sm:mt-0 mx-auto space-y-4">
-          <Typography
-            fontWeight="700"
-            color="#5A4283"
-            fontFamily="Quicksand"
-            className="font-700 text-lg mb-2"
-          >
-            Legal
-          </Typography>
-          <Box className="space-y-2">
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "center",
+            textAlign: "left",
+            maxWidth: "xs",
+            marginTop: { xs: 8, sm: 0 },
+            marginX: "auto",
+            gap: 2,
+          }}
+        >
+          {/* Title */}
+          <Box sx={{ display: "flex", flexDirection: "row" }}>
+            <Typography
+              fontWeight="700"
+              color="#5A4283"
+              fontFamily="Quicksand"
+              sx={{
+                fontSize: "lg",
+                marginBottom: 2,
+              }}
+            >
+              Legal
+            </Typography>
+          </Box>
+
+          {/* Links */}
+          <Box sx={{ display: "flex", flexDirection: "column", gap: 1 }}>
             {["Privacy", "Terms"].map((legalLink, index) => (
               <Link
                 to={`/${legalLink.toLowerCase()}`}
                 key={index}
-                className={`text-sm font-['Poppins'] m-4 ${
-                  isActive(`/${legalLink.toLowerCase()}`)
-                    ? "font-bold"
-                    : "font-normal"
-                } text-black`}
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  fontFamily: "Poppins",
+                  fontSize: "0.875rem",
+                  margin: "4px 0",
+                  color: "black",
+                  fontWeight: isActive(`/${legalLink.toLowerCase()}`)
+                    ? "bold"
+                    : "normal",
+                  textDecoration: "none",
+                }}
               >
                 {legalLink}
               </Link>

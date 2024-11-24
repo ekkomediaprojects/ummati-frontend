@@ -18,7 +18,7 @@ const Terms = () => (
     <Box
       sx={{
         width: "100%",
-        height: "220px",
+        height: { xs: "200px", sm: "250px", md: "300px" },
         backgroundImage: `url(${bannerImage})`,
         backgroundSize: "cover",
         backgroundPosition: "center",
@@ -31,12 +31,13 @@ const Terms = () => (
       <Typography
         variant="h1"
         sx={{
-          color:"#3D3D3C",
+          color: "#3D3D3C",
           fontFamily: "Caprasimo",
-          fontSize: { xs: "36px", sm: "48px", md: "56px" },
+          fontSize: { xs: "20px", sm: "32px", md: "40px" },
           position: "absolute",
-          top: "80%",
-          transform: "translateY(-50%)",
+          bottom: "10%",
+          fontWeight: 400,
+          textAlign: "center",
         }}
       >
         Terms

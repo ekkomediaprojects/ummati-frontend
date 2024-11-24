@@ -4,8 +4,6 @@ import { useNavigate } from "react-router-dom";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import googleIcon from "../assets/icons/icons8-google.svg";
-// import rightFlower from "../assets/icons/writeFlowerLogin.svg";
-
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 
@@ -14,15 +12,54 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const [errors, setErrors] = useState({ email: "", password: "" }); // Error state
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    navigate("/dashboard");
+
+    let validationErrors = {}; // Object to track validation errors
+
+    // Email Validation
+    if (!email) {
+      validationErrors.email = "Email is required.";
+    } else if (!/\S+@\S+\.\S+/.test(email)) {
+      validationErrors.email = "Please enter a valid email address.";
+    }
+
+    // Password Validation
+    if (!password) {
+      validationErrors.password = "Password is required.";
+    } else if (password.length < 6) {
+      validationErrors.password = "Password must be at least 6 characters long.";
+    }
+
+    // If there are validation errors, set them and return
+    if (Object.keys(validationErrors).length > 0) {
+      setErrors(validationErrors);
+      return;
+    }
+
+    // Clear errors if validation passes
+    setErrors({});
+
+    // Save user details to localStorage (example)
+    const userDetails = {
+      username: "john_doe",
+      email: email,
+      token: "abc123xyz",
+      member_id: "3438204207",
+      address : "street 10,los Angles",
+      imageUrl : "https://www.gravatar.com/avatar/2c7d99fe281ecd3bcd65ab915bac6dd5?s=250"
+    };
+    localStorage.setItem("userLogin", JSON.stringify(userDetails));
+
+    // Redirect user
+    navigate("/");
   };
 
   const handleGoogleLogin = () => {
     console.log("Google login clicked");
-    navigate("/dashboard");
+    navigate("/");
   };
 
   const togglePasswordVisibility = () => {
@@ -143,9 +180,19 @@ const Login = () => {
                 value={email}
                 placeholder="Write your email"
                 onChange={(e) => setEmail(e.target.value)}
-                required
-                className="w-full px-4 py-3 bg-white border border-[#8692A6] rounded-lg shadow-sm focus:outline-none focus:ring-1"
+                className={`w-full px-4 py-3 bg-white border ${
+                  errors.email ? "border-red-500" : "border-[#8692A6]"
+                } rounded-lg shadow-sm focus:outline-none focus:ring-1`}
               />
+              {errors.email && (
+                <Typography
+                  variant="body2"
+                  color="error"
+                  sx={{ marginTop: "4px", fontSize: "14px" }}
+                >
+                  {errors.email}
+                </Typography>
+              )}
             </div>
 
             {/* Password Input */}
@@ -160,28 +207,34 @@ const Login = () => {
                 id="password"
                 type={showPassword ? "text" : "password"} // Toggle the input type
                 value={password}
-                placeholder="Write your Password"
+                placeholder="Write your password"
                 onChange={(e) => setPassword(e.target.value)}
-                required
-                className="w-full px-4 py-3 border border-[#8692A6] rounded-lg shadow-sm focus:outline-none focus:ring-1"
+                className={`w-full px-4 py-3 bg-white border ${
+                  errors.password ? "border-red-500" : "border-[#8692A6]"
+                } rounded-lg shadow-sm focus:outline-none focus:ring-1`}
               />
-              {/* Eye Icon for toggling password visibility */}
               <IconButton
                 onClick={togglePasswordVisibility}
                 sx={{
                   position: "absolute",
                   right: "10px",
-                  top: "70%",
+                  top: "55%",
                   transform: "translateY(-50%)",
                 }}
               >
                 {showPassword ? <VisibilityOff /> : <Visibility />}
               </IconButton>
-            </div>
-
-            <div className="flex justify-between items-center mb-4">
               {/* Empty space to align "Forgot password?" to the right */}
               <div></div>
+              {errors.password && (
+                <Typography
+                  variant="body2"
+                  color="error"
+                  sx={{ marginTop: "4px", fontSize: "14px" }}
+                >
+                  {errors.password}
+                </Typography>
+              )}
               <Typography
                 variant="body2"
                 color="textSecondary"
@@ -218,31 +271,6 @@ const Login = () => {
               Login
             </Button>
           </form>
-
-          {/* Register Link */}
-          <Typography
-            variant="body2"
-            color="textSecondary"
-            sx={{
-              fontFamily: "Poppins",
-              textAlign: "center",
-              color: "grey",
-              fontSize: "16px",
-            }}
-            className="text-sm text-center"
-          >
-            Don&apos;t have an account?{" "}
-            <a
-              href = "/signup"
-              onClick={(e) => {
-                e.preventDefault();
-                navigate("/signup"); // Navigate to the signup page
-              }}
-              className="text-[#5A4283] hover:underline"
-            >
-              Create an account
-            </a>
-          </Typography>
         </Box>
       </Box>
       <Footer />

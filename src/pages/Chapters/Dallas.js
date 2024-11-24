@@ -19,7 +19,7 @@ const Dallas = () => (
     <Box
       sx={{
         width: "100%",
-        height: "300px",
+        height: { xs: "200px", sm: "250px", md: "300px" },
         backgroundImage: `url(${banner})`,
         backgroundSize: "cover",
         backgroundPosition: "center",
@@ -32,13 +32,13 @@ const Dallas = () => (
       <Typography
         variant="h1"
         sx={{
-          color: "black",
+          color: "#3D3D3C",
           fontFamily: "Caprasimo",
-          fontSize: { xs: "40px", md: "56px" },
+          fontSize: { xs: "20px", sm: "32px", md: "40px" },
           position: "absolute",
-          top: "80%",
-          transform: "translateY(-50%)",
+          bottom: "10%",
           fontWeight: 400,
+          textAlign: "center",
         }}
       >
         Dallas Chapter
@@ -55,13 +55,13 @@ const Dallas = () => (
     >
       <Typography
         sx={{
-          color: "black",
-          fontSize: "22px",
-          fontFamily: "Poppins",
           fontWeight: 400,
-          wordWrap: "break-word",
-          maxWidth: "1100px",
-          margin: "0 auto",
+          fontSize: { xs: "12px", sm: "16px", md: "22px" },
+          fontHeight: { xs: "18px", sm: "24px", md: "33px" },
+          fontFamily: "poppins",
+          color: "black",
+          maxWidth: { xs: "316px", md: "816px", lg: "1164px" },
+          marginX: "auto",
         }}
       >
         The Dallas chapter of Ummati Community is dedicated to building a
@@ -88,10 +88,10 @@ const Dallas = () => (
       <Typography
         sx={{
           color: "#5A4283",
-          fontSize: "40px",
+          fontSize: { xs: "24px", sm: "32px", md: "40px" }, // Responsive font size
           fontFamily: "Quicksand",
           fontWeight: 700,
-          marginBottom: "40px",
+          marginBottom: { xs: "20px", md: "40px" }, // Responsive margin
         }}
       >
         Meet The Team
@@ -101,9 +101,9 @@ const Dallas = () => (
         {[...Array(5)].map((_, index) => (
           <Grid2
             item
-            xs={12} 
-            sm={6} 
-            md={4} 
+            xs={12}
+            sm={6}
+            md={4}
             key={index}
             sx={{
               display: "flex",
@@ -124,8 +124,9 @@ const Dallas = () => (
                 src={teamPhotoPlaceholder}
                 alt="Team Placeholder"
                 style={{
-                  width: "250px",
-                  height: "250px",
+                  width: "100%",
+                  maxWidth: "150px", // Set max width for small screens
+                  height: "auto",
                   borderRadius: "50%",
                   objectFit: "cover",
                   marginBottom: "10px",
@@ -134,7 +135,7 @@ const Dallas = () => (
               <Typography
                 sx={{
                   color: "#222222",
-                  fontSize: "20px",
+                  fontSize: { xs: "16px", md: "20px" }, // Responsive font size
                   fontFamily: "Quicksand",
                   fontWeight: 700,
                   marginBottom: "5px",
@@ -145,7 +146,7 @@ const Dallas = () => (
               <Typography
                 sx={{
                   color: "black",
-                  fontSize: "16px",
+                  fontSize: { xs: "14px", md: "16px" }, // Responsive font size
                   fontFamily: "Poppins",
                   fontWeight: 400,
                 }}
@@ -172,10 +173,11 @@ const Dallas = () => (
       <Typography
         sx={{
           color: "#E6E6FA",
-          fontSize: "28px",
+          fontSize: { xs: "20px", md: "28px" }, // Responsive font size
           fontFamily: "Quicksand",
           fontWeight: 700,
           marginBottom: "20px",
+          textAlign: "center", // Ensure centered alignment
         }}
       >
         Listen from the best podcast platform
@@ -183,8 +185,9 @@ const Dallas = () => (
       <Box
         sx={{
           display: "flex",
-          gap: "40px",
+          gap: { xs: "20px", md: "40px" }, // Responsive gap
           justifyContent: "center",
+          alignItems: "center", // Ensure vertical alignment
           flexWrap: "wrap",
         }}
       >
@@ -215,14 +218,32 @@ const Dallas = () => (
             href={link.href}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center gap-2 text-white text-xl"
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: "8px",
+              textDecoration: "none",
+              color: "white",
+              fontSize: "inherit",
+            }}
           >
             <img
               src={link.icon}
               alt={`${link.text} Icon`}
-              className="w-7 h-7"
+              style={{
+                width: "24px",
+                height: "24px", // Small size for icons
+                maxWidth: { xs: "20px", md: "30px" }, // Responsive icon size
+              }}
             />
-            {link.text}
+            <Typography
+              sx={{
+                fontSize: { xs: "14px", md: "18px" }, // Responsive font size
+                fontWeight: 500,
+              }}
+            >
+              {link.text}
+            </Typography>
           </a>
         ))}
       </Box>

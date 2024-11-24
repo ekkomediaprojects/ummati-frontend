@@ -1,13 +1,44 @@
-import React, { useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { Link, useLocation,useNavigate } from "react-router-dom";
 import logo from "../assets/icons/logo.png";
-import { useNavigate } from "react-router-dom";
+import { Menu, MenuItem, Avatar, Typography, Button } from "@mui/material";
+import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+
 const Header = () => {
   const location = useLocation();
   const navigate = useNavigate();
+
   const [menuOpen, setMenuOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [userLogined, setUserLogined] = useState(null);
+  const [anchorEl, setAnchorEl] = useState(null);
 
+  useEffect(() => {
+    const user = localStorage.getItem("userLogin");
+    console.log("user", user);
+    setUserLogined(user ? JSON.parse(user) : null);
+  }, []);
+
+  const handleMenuClick = (event) => {
+    setAnchorEl(event.currentTarget); // Open menu when the user clicks the avatar
+  };
+
+  const handleCloseMenu = () => {
+    setAnchorEl(null); // Close the menu
+  };
+
+  const handleProfile = () => {
+    navigate("/profile"); // Navigate to the profile page
+    handleCloseMenu(); // Close the menu after navigating
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem("userLogin"); // Clear the user data (or perform logout logic)
+    navigate("/login"); // Navigate to the login page
+    handleCloseMenu(); // Close the menu after logging out
+    setUserLogined(null)
+
+  };
   const navItems = [
     { name: "Events", path: "/events" },
     { name: "Podcast", path: "/podcast" },
@@ -24,33 +55,36 @@ const Header = () => {
     { name: "Little Rock, AR Chapter", path: "/chapters/little-rock" },
   ];
 
-  // Function to check if the current path matches the exact nav item or is in the chapters path
+  // Check if the current path matches a specific nav item or is in the chapters path
   const isActive = (path) => location.pathname === path;
-  
-  // Check if the current path is for any chapter
+
   const isChaptersActive = () => location.pathname.startsWith("/chapters");
-  
-  // Check if a specific chapter is selected
-  const isChapterSelected = (chapterPath) => location.pathname === chapterPath;
 
-  const toggleMenu = () => {
-    setMenuOpen((prev) => !prev);
+  const toggleMenu = () => setMenuOpen((prev) => !prev);
+
+  const handleNavigate = (path) => {
+    navigate(path);
+    setDropdownOpen(false); // Close dropdown when navigating
   };
 
-  const toggleDropdown = () => {
-    setDropdownOpen((prev) => !prev);
-  };
-
-  const handleLogin = () => {
-    navigate('/login');
-  };
   return (
-    <header className="flex items-center justify-between bg-white py-8 px-6 w-full ">
+    <header className="flex items-center justify-between bg-white py-8 px-6 w-full">
       {/* Logo */}
-      <Link to="/" className="flex items-center gap-2">
-        <span className="text-[#5A4283] text-xl font-bold">UMMATI C</span>
-        <img src={logo} alt="Logo" className="w-[40px] h-[40px] -mt-1 -mx-3" />
-        <span className="text-[#5A4283] text-xl font-bold">MMUNITY</span>
+      <Link
+        to="/"
+        className="flex items-center gap-2 sm:gap-1 sm:text-sm sm:flex-row sm:items-center"
+      >
+        <span className="text-[#5A4283] text-xl font-bold sm:text-lg">
+          UMMATI C
+        </span>
+        <img
+          src={logo}
+          alt="Logo"
+          className="w-[40px] h-[40px] -mt-1 -mx-3 sm:w-[30px] sm:h-[30px] sm:mt-0 sm:mx-0"
+        />
+        <span className="text-[#5A4283] text-xl font-bold sm:text-lg">
+          MMUNITY
+        </span>
       </Link>
 
       {/* Hamburger Icon */}
@@ -65,21 +99,24 @@ const Header = () => {
       <div
         className={`${
           menuOpen ? "flex" : "hidden"
-        } lg:flex flex-col lg:flex-row lg:items-center gap-4 absolute lg:static top-16 left-0 w-full lg:w-auto bg-white lg:bg-transparent z-10 lg:z-auto py-4 lg:py-0 px-6 lg:px-0 shadow-lg lg:shadow-none`}
+        } lg:flex flex-col lg:flex-row lg:items-center gap-2 absolute lg:static top-16 left-0 w-full lg:w-auto bg-white lg:bg-transparent z-10 lg:z-auto py-2 lg:py-0 px-4 lg:px-0 shadow-lg lg:shadow-none`}
       >
-        <nav className="flex flex-col lg:flex-row items-center lg:justify-center gap-4 px-4">
+        <nav className="flex flex-col lg:flex-row items-center lg:justify-center gap-2 px-2">
           {navItems.map((item) => {
             if (item.name === "Chapters") {
               return (
                 <div
                   key={item.name}
-                  className="relative w-full h-[40px] flex items-center px-4"
-                  onClick={toggleDropdown}
+                  className="relative w-full lg:w-auto h-[40px] flex items-center px-4"
+                  onMouseEnter={() => setDropdownOpen(true)}
+                  onMouseLeave={() => setDropdownOpen(false)}
                 >
+                  {/* Chapters Button */}
                   <button
                     className={`text-[#5A4283] text-lg w-full text-left ${
                       isChaptersActive() ? "font-bold" : "font-normal"
                     }`}
+                    onClick={() => handleNavigate(item.path)} // Navigate to /chapters on click
                   >
                     {item.name}
                   </button>
@@ -91,7 +128,9 @@ const Header = () => {
                         <div
                           key={chapter.name}
                           className={`w-full hover:bg-[#D9F4DA] h-[50px] flex items-center px-2 ${
-                            isChapterSelected(chapter.path) ? "bg-[#D9F4DA]" : ""
+                            location.pathname === chapter.path
+                              ? "bg-[#D9F4DA]"
+                              : ""
                           }`}
                         >
                           <Link
@@ -111,7 +150,7 @@ const Header = () => {
             return (
               <div
                 key={item.name}
-                className="w-full h-[40px] flex items-center px-4"
+                className="w-full lg:w-auto h-[40px] flex items-center px-4"
               >
                 <Link
                   to={item.path}
@@ -125,11 +164,66 @@ const Header = () => {
             );
           })}
         </nav>
-        <div className="mt-4 lg:mt-0 text-center">
-          <button className="bg-[#78B27B] text-white px-6 py-2 rounded-full font-bold text-sm" onClick={handleLogin}>
-            Login
-          </button>
-        </div>
+        {userLogined ? (
+          <div className="mt-4 lg:mt-0 text-center flex items-center justify-center">
+            <div>
+              <div
+                className="flex items-center justify-center cursor-pointer bg-[#D9F4DA] text-white px-2 py-2 rounded-full font-bold text-sm"
+                onClick={handleMenuClick} // Open the dropdown menu
+              >
+                <Avatar
+                  src={
+                    userLogined?.imageUrl ||
+                    "https://www.gravatar.com/avatar/placeholder-avatar"
+                  }
+                  alt="User"
+                  sx={{ width: 32, height: 32, marginRight: 1 }}
+                />
+
+                {/* User name */}
+                <Typography
+                  variant="body2"
+                  fontWeight="bold"
+                  className="text-[#4D744F]"
+                >
+                  {userLogined?.username}
+                </Typography>
+
+                {/* Dropdown icon */}
+                <KeyboardArrowDownIcon
+                  sx={{ marginLeft: 1, color: "#4D744F" }}
+                />
+              </div>
+
+              {/* Dropdown Menu */}
+              <Menu
+                anchorEl={anchorEl} // Menu is anchored to this element
+                open={Boolean(anchorEl)} // If anchorEl is set, the menu will open
+                onClose={handleCloseMenu} // Close the menu
+                PaperProps={{
+                  sx: {
+                    minWidth: 160,
+                    borderRadius: 2,
+                    boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
+                     transform: "translateY(8px)",
+                  },
+                }}
+              >
+                <MenuItem onClick={handleProfile}>Profile</MenuItem>
+                <MenuItem onClick={handleLogout}>Logout</MenuItem>
+              </Menu>
+            </div>
+          </div>
+        ) : (
+          <div className="mt-4 lg:mt-0 text-center">
+            <button
+              className="bg-[#78B27B] text-white px-6 py-2 rounded-full font-bold text-sm"
+              onClick={() => handleNavigate("/login")}
+            >
+              Login
+            </button>
+          </div>
+        )}
       </div>
     </header>
   );
