@@ -67,7 +67,7 @@ const Header = () => {
   };
 
   return (
-    <header className="flex items-center justify-between bg-white py-8 px-6 w-full">
+    <header className="relative flex items-center justify-between bg-white py-8 px-6 w-full">
       {/* Logo */}
       <Link
         to="/"
@@ -129,8 +129,8 @@ const Header = () => {
               src={logo}
               alt="Logo"
               sx={{
-                width: { xs: "30px", md: "50px" }, 
-                height: { xs: "30px", md: "50px" }, 
+                width: { xs: "25px", md: "50px" }, 
+                height: { xs: "25px", md: "50px" }, 
                 marginTop: { xs: "-2px",  md: "-4px" }, 
                 marginLeft: { xs: "-4px", md: "-6px" }, 
                 marginRight: { xs: "-4px", md: "-6px" },
@@ -154,7 +154,7 @@ const Header = () => {
 
       {/* Hamburger Icon */}
       <div
-        className="text-2xl text-[#5A4283] cursor-pointer lg:hidden"
+        className="text-2xl text-[#78B27B] cursor-pointer lg:hidden"
         onClick={toggleMenu}
       >
         {menuOpen ? "✕" : "☰"}
@@ -164,7 +164,7 @@ const Header = () => {
       <div
         className={`${
           menuOpen ? "flex" : "hidden"
-        } lg:flex flex-col lg:flex-row lg:items-center gap-2 absolute lg:static top-16 left-0 w-full lg:w-auto bg-white lg:bg-transparent z-10 lg:z-auto py-2 lg:py-0 px-4 lg:px-0 shadow-lg lg:shadow-none`}
+        } lg:flex flex-col lg:flex-row lg:items-center gap-2 absolute lg:static top-[100%] left-0 w-full lg:w-auto bg-white lg:bg-transparent z-10 lg:z-auto py-2 lg:py-0 px-4 lg:px-0 shadow-lg lg:shadow-none`}
       >
         <nav className="flex flex-col lg:flex-row items-center lg:justify-center gap-2 px-2">
           {navItems.map((item) => {
@@ -173,22 +173,37 @@ const Header = () => {
                 <div
                   key={item.name}
                   className="relative w-full lg:w-auto h-[40px] flex items-center px-2"
-                  onMouseEnter={() => setDropdownOpen(true)}
-                  onMouseLeave={() => setDropdownOpen(false)}
                 >
                   {/* Chapters Button */}
                   <button
                     className={`text-[#5A4283] text-base w-full text-left ${
-                      isChaptersActive() ? "font-bold" : "font-normal"
+                      location.pathname.startsWith("/chapters")
+                        ? "font-bold"
+                        : "font-normal"
                     }`}
-                    onClick={() => handleNavigate(item.path)} // Navigate to /chapters on click
+                    onClick={() => setDropdownOpen((prev) => !prev)} // Toggle dropdown visibility
                   >
                     {item.name}
                   </button>
 
                   {/* Dropdown Menu */}
                   {dropdownOpen && (
-                    <div className="absolute top-[40px] left-0 bg-white shadow-lg w-[300px] z-20">
+                    <div className="absolute  left-0 bg-white top-[40px] shadow-lg w-[300px]    z-20">
+                     <div
+                          key={item.name}
+                          className={`w-full hover:bg-[#D9F4DA] h-[50px] flex items-center px-2 ${
+                            location.pathname === item.path
+                              ? "bg-[#D9F4DA]"
+                              : ""
+                          }`}
+                        >
+                        <Link
+                          to={item.path}
+                          className={`text-[#5A4283] text-sm w-full font-normal`}
+                        >
+                          {item.name}
+                        </Link>
+                      </div>
                       {chapters.map((chapter) => (
                         <div
                           key={chapter.name}
@@ -201,6 +216,7 @@ const Header = () => {
                           <Link
                             to={chapter.path}
                             className="text-[#5A4283] text-sm w-full"
+                            onClick={() => handleNavigate(chapter.path)} // Navigate to chapter page on click
                           >
                             {chapter.name}
                           </Link>

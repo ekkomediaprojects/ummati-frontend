@@ -84,7 +84,7 @@ const FAQ = () => {
         sx={{
           color: "#3D3D3C",
           fontFamily: "Caprasimo",
-          fontSize: { xs: "20px", sm: "32px", md: "40px" },
+          fontSize: { xs: "32px", md: "40px" },
           position: "absolute",
           bottom: "10%",
           fontWeight: 400,
