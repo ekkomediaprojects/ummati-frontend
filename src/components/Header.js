@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { Link, useLocation,useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import logo from "../assets/icons/logo.png";
-import { Menu, MenuItem, Avatar, Typography, Button } from "@mui/material";
+import { Menu, MenuItem, Avatar, Typography, Button, Box } from "@mui/material";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 
 const Header = () => {
@@ -36,8 +36,7 @@ const Header = () => {
     localStorage.removeItem("userLogin"); // Clear the user data (or perform logout logic)
     navigate("/login"); // Navigate to the login page
     handleCloseMenu(); // Close the menu after logging out
-    setUserLogined(null)
-
+    setUserLogined(null);
   };
   const navItems = [
     { name: "Events", path: "/events" },
@@ -72,19 +71,85 @@ const Header = () => {
       {/* Logo */}
       <Link
         to="/"
-        className="flex items-center gap-2 sm:gap-1 sm:text-sm sm:flex-row sm:items-center"
+        style={{ textDecoration: "none" }} 
       >
-        <span className="text-[#5A4283] text-xl font-bold sm:text-lg">
-          UMMATI C
-        </span>
-        <img
-          src={logo}
-          alt="Logo"
-          className="w-[40px] h-[40px] -mt-1 -mx-3 sm:w-[30px] sm:h-[30px] sm:mt-0 sm:mx-0"
-        />
-        <span className="text-[#5A4283] text-xl font-bold sm:text-lg">
-          MMUNITY
-        </span>
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: { xs: "column", md: "row" }, 
+            alignItems: "center",
+            gap: { xs: 0, md: 1 },
+          }}
+        >
+          {/* First Child Box */}
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "row",
+              alignItems: "center",
+              gap: 0.5, 
+            }}
+          >
+            <Typography
+              variant="h6"
+              sx={{
+                color: "#5A4283",
+                fontWeight: "700",
+                fontFamily: "Quicksand",
+                fontSize: { xs: "26px", lg: "32px" },
+                fontHeight: { xs: "32.5", lg: "40px" },
+              }}
+            >
+              UMMATI
+            </Typography>
+          </Box>
+
+          {/* Second Child Box */}
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "row", 
+              alignItems: "center",
+            }}
+          >
+            <Typography
+              variant="h6"
+              sx={{
+                color: "#5A4283",
+                fontWeight: "700",
+                fontFamily: "Quicksand",
+                fontSize: { xs: "16px",md: "26px", lg: "32px" },
+                fontHeight: { xs: "20px", md: "32.5", lg: "40px" },
+              }}
+            >
+              C
+            </Typography>
+            <Box
+              component="img"
+              src={logo}
+              alt="Logo"
+              sx={{
+                width: { xs: "30px", md: "50px" }, 
+                height: { xs: "30px", md: "50px" }, 
+                marginTop: { xs: "-2px",  md: "-4px" }, 
+                marginLeft: { xs: "-4px", md: "-6px" }, 
+                marginRight: { xs: "-4px", md: "-6px" },
+              }}
+            />
+            <Typography
+              variant="h6"
+              sx={{
+                color: "#5A4283",
+                fontWeight: "700",
+                fontFamily: "Quicksand",
+                fontSize: { xs: "16px",md: "26px", lg: "32px" },
+                fontHeight: { xs: "20px", md: "32.5", lg: "40px" },
+              }}
+            >
+              MMUNITY
+            </Typography>
+          </Box>
+        </Box>
       </Link>
 
       {/* Hamburger Icon */}
@@ -107,13 +172,13 @@ const Header = () => {
               return (
                 <div
                   key={item.name}
-                  className="relative w-full lg:w-auto h-[40px] flex items-center px-4"
+                  className="relative w-full lg:w-auto h-[40px] flex items-center px-2"
                   onMouseEnter={() => setDropdownOpen(true)}
                   onMouseLeave={() => setDropdownOpen(false)}
                 >
                   {/* Chapters Button */}
                   <button
-                    className={`text-[#5A4283] text-lg w-full text-left ${
+                    className={`text-[#5A4283] text-base w-full text-left ${
                       isChaptersActive() ? "font-bold" : "font-normal"
                     }`}
                     onClick={() => handleNavigate(item.path)} // Navigate to /chapters on click
@@ -150,11 +215,11 @@ const Header = () => {
             return (
               <div
                 key={item.name}
-                className="w-full lg:w-auto h-[40px] flex items-center px-4"
+                className="w-full lg:w-auto h-[40px] flex items-center px-2"
               >
                 <Link
                   to={item.path}
-                  className={`text-[#5A4283] text-lg w-full ${
+                  className={`text-[#5A4283] text-base w-full ${
                     isActive(item.path) ? "font-bold" : "font-normal"
                   }`}
                 >
@@ -205,7 +270,7 @@ const Header = () => {
                     minWidth: 160,
                     borderRadius: 2,
                     boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
-                     transform: "translateY(8px)",
+                    transform: "translateY(8px)",
                   },
                 }}
               >
