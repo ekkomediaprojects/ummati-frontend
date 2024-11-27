@@ -14,25 +14,48 @@ const SignUp = () => {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const [agreedToTerms, setAgreedToTerms] = useState(false);
+
+  // Error states
+  const [errors, setErrors] = useState({
+    email: "",
+    password: "",
+    firstName: "",
+    lastName: "",
+    terms: "",
+  });
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    navigate("/dashboard");
-  };
 
-  const handleGoogleLogin = () => {
-    console.log("Google login clicked");
-    navigate("/dashboard");
+    // Validation
+    const newErrors = {};
+    if (!firstName) newErrors.firstName = "First Name is required.";
+    if (!lastName) newErrors.lastName = "Last Name is required.";
+    if (!email) newErrors.email = "Email is required.";
+    else if (!/\S+@\S+\.\S+/.test(email))
+      newErrors.email = "Enter a valid email address.";
+    if (!password) newErrors.password = "Password is required.";
+    else if (password.length < 6)
+      newErrors.password = "Password must be at least 6 characters.";
+    if (!agreedToTerms)
+      newErrors.terms = "You must agree to the Terms and Conditions.";
+
+    setErrors(newErrors);
+
+    // If no errors, proceed
+    if (Object.keys(newErrors).length === 0) {
+      console.log("Form submitted successfully!");
+      navigate("/");
+    }
   };
 
   const togglePasswordVisibility = () => {
     setShowPassword((prevState) => !prevState);
   };
 
-  const [agreedToTerms, setAgreedToTerms] = useState(false); // New state for checkbox
-
   const handleTermsChange = (e) => {
-    setAgreedToTerms(e.target.checked); // Update the state when checkbox is toggled
+    setAgreedToTerms(e.target.checked);
   };
   return (
     <div>
@@ -50,8 +73,8 @@ const SignUp = () => {
             flexDirection: "column",
             alignItems: "center",
             justifyContent: "center",
-            gap: "24px", // Adds equal spacing between all children
-            boxSizing: "border-box", // Ensures padding doesn't push the element out of view
+            gap: "24px",
+            boxSizing: "border-box",
           }}
           className="p-6 bg-white shadow-lg"
         >
@@ -67,7 +90,7 @@ const SignUp = () => {
               color: "#5A4283",
             }}
           >
-           Sign Up With
+            Sign Up With
           </Typography>
 
           {/* Google Login Button */}
@@ -81,7 +104,7 @@ const SignUp = () => {
                 style={{ width: "24px", height: "24px" }}
               />
             }
-            onClick={handleGoogleLogin}
+            onClick={() => console.log("Google login clicked")}
             sx={{
               boxShadow: "10px 0px 10px 0px rgba(0, 0, 0, 0.1)",
               borderRadius: "10px",
@@ -96,46 +119,29 @@ const SignUp = () => {
               padding: "10px",
             }}
           >
-             Sign up with Google
+            Sign up with Google
           </Button>
+
+          {/* OR Divider */}
           <Box
             sx={{
               display: "flex",
               alignItems: "center",
               width: "100%",
-              margin: "16px 0", // Adjusts spacing around the divider
+              margin: "16px 0",
             }}
           >
-            <Box
-              sx={{
-                flex: 1,
-                height: "1px",
-                backgroundColor: "#5A4283",
-              }}
-            />
+            <Box sx={{ flex: 1, height: "1px", backgroundColor: "#5A4283" }} />
             <Typography
-              sx={{
-                padding: "0 16px",
-                fontSize: "14px",
-                color: "#5A4283",
-                fontFamily: "Quicksand, sans-serif",
-              }}
+              sx={{ padding: "0 16px", fontSize: "14px", color: "#5A4283" }}
             >
               OR
             </Typography>
-            <Box
-              sx={{
-                flex: 1,
-                height: "1px",
-                backgroundColor: "#5A4283",
-              }}
-            />
+            <Box sx={{ flex: 1, height: "1px", backgroundColor: "#5A4283" }} />
           </Box>
 
-          {/* Email & Password Form */}
+          {/* Form */}
           <form onSubmit={handleSubmit} className="w-full">
-            {/* First Name Input */}
-
             <div className="mb-4">
               <label
                 htmlFor="firstName"
@@ -152,13 +158,16 @@ const SignUp = () => {
                 required
                 className="w-full px-4 py-3 bg-white border border-[#8692A6] rounded-lg shadow-sm focus:outline-none focus:ring-1"
               />
+              {errors.firstName && (
+                <p className="text-red-500 text-sm">{errors.firstName}</p>
+              )}
             </div>
             <div className="mb-4">
               <label
                 htmlFor="lastName"
                 className="block text-sm font-medium text-[#8692A6] mb-2"
               >
-                First Name
+                Last Name
               </label>
               <input
                 id="lastName"
@@ -169,13 +178,16 @@ const SignUp = () => {
                 required
                 className="w-full px-4 py-3 bg-white border border-[#8692A6] rounded-lg shadow-sm focus:outline-none focus:ring-1"
               />
+              {errors.lastName && (
+                <p className="text-red-500 text-sm">{errors.lastName}</p>
+              )}
             </div>
             <div className="mb-4">
               <label
                 htmlFor="email"
                 className="block text-sm font-medium text-[#8692A6] mb-2"
               >
-                Your Email
+                Email
               </label>
               <input
                 id="email"
@@ -186,6 +198,9 @@ const SignUp = () => {
                 required
                 className="w-full px-4 py-3 bg-white border border-[#8692A6] rounded-lg shadow-sm focus:outline-none focus:ring-1"
               />
+              {errors.email && (
+                <p className="text-red-500 text-sm">{errors.email}</p>
+              )}
             </div>
             {/* Password Input */}
             <div className="mb-4 relative">
@@ -195,27 +210,31 @@ const SignUp = () => {
               >
                 Password
               </label>
-              <input
-                id="password"
-                type={showPassword ? "text" : "password"} // Toggle the input type
-                value={password}
-                placeholder="Write your Password"
-                onChange={(e) => setPassword(e.target.value)}
-                required
-                className="w-full px-4 py-3 border border-[#8692A6] rounded-lg shadow-sm focus:outline-none focus:ring-1"
-              />
-              {/* Eye Icon for toggling password visibility */}
-              <IconButton
-                onClick={togglePasswordVisibility}
-                sx={{
-                  position: "absolute",
-                  right: "10px",
-                  top: "70%",
-                  transform: "translateY(-50%)",
-                }}
-              >
-                {showPassword ? <VisibilityOff /> : <Visibility />}
-              </IconButton>
+              <div className="relative">
+                <input
+                  id="password"
+                  type={showPassword ? "text" : "password"}
+                  value={password}
+                  placeholder="Write your Password"
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                  className="w-full px-4 py-3 border border-[#8692A6] rounded-lg shadow-sm focus:outline-none focus:ring-1"
+                />
+                <IconButton
+                  onClick={togglePasswordVisibility}
+                  sx={{
+                    position: "absolute",
+                    right: "10px",
+                    top: "50%",
+                    transform: "translateY(-50%)",
+                  }}
+                >
+                  {showPassword ? <VisibilityOff /> : <Visibility />}
+                </IconButton>
+              </div>
+              {errors.password && (
+                <p className="text-red-500 text-sm">{errors.password}</p>
+              )}
             </div>
 
             <div className="flex justify-between items-center mb-4">
@@ -225,18 +244,18 @@ const SignUp = () => {
                 <FormControlLabel
                   control={
                     <Checkbox
-                    checked={agreedToTerms}
-                    onChange={handleTermsChange}
-                    required
-                    sx={{
-                      '& .MuiCheckbox-root': {
-                        color: '#5A4283', // Set the default color of the checkbox
-                      },
-                      '&.Mui-checked': {
-                        color: '#5A4283', // Set the color when checkbox is checked
-                      },
-                    }}
-                  />
+                      checked={agreedToTerms}
+                      onChange={handleTermsChange}
+                      required
+                      sx={{
+                        "& .MuiCheckbox-root": {
+                          color: "#5A4283", // Set the default color of the checkbox
+                        },
+                        "&.Mui-checked": {
+                          color: "#5A4283", // Set the color when checkbox is checked
+                        },
+                      }}
+                    />
                   }
                   label={
                     <Typography
