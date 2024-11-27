@@ -18,11 +18,12 @@ import Events from './pages/Events/EventsParent';
 import Login from './pages/Login';
 import SignUp from './pages/SignUp';
 import Profile from './pages/Profile/Profile';
-
+import ScrollToTop from './pages/ScrollToTop';
 
 function App() {
   return (
     <Router>
+       <ScrollToTop />
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/login" element={<Login />} />
