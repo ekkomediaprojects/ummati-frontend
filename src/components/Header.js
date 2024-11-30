@@ -69,14 +69,11 @@ const Header = () => {
   return (
     <header className="relative flex items-center justify-between bg-white py-8 px-6 w-full">
       {/* Logo */}
-      <Link
-        to="/"
-        style={{ textDecoration: "none" }} 
-      >
+      <Link to="/" style={{ textDecoration: "none" }}>
         <Box
           sx={{
             display: "flex",
-            flexDirection: { xs: "column", md: "row" }, 
+            flexDirection: { xs: "column", md: "row" },
             alignItems: "center",
             gap: { xs: 0, md: 1 },
           }}
@@ -87,7 +84,7 @@ const Header = () => {
               display: "flex",
               flexDirection: "row",
               alignItems: "center",
-              gap: 0.5, 
+              gap: 0.5,
             }}
           >
             <Typography
@@ -108,7 +105,7 @@ const Header = () => {
           <Box
             sx={{
               display: "flex",
-              flexDirection: "row", 
+              flexDirection: "row",
               alignItems: "center",
             }}
           >
@@ -118,7 +115,7 @@ const Header = () => {
                 color: "#5A4283",
                 fontWeight: "700",
                 fontFamily: "Quicksand",
-                fontSize: { xs: "16px",md: "26px", lg: "32px" },
+                fontSize: { xs: "16px", md: "26px", lg: "32px" },
                 fontHeight: { xs: "20px", md: "32.5", lg: "40px" },
               }}
             >
@@ -129,10 +126,10 @@ const Header = () => {
               src={logo}
               alt="Logo"
               sx={{
-                width: { xs: "25px", md: "50px" }, 
-                height: { xs: "25px", md: "50px" }, 
-                marginTop: { xs: "-2px",  md: "-4px" }, 
-                marginLeft: { xs: "-4px", md: "-6px" }, 
+                width: { xs: "25px", md: "50px" },
+                height: { xs: "25px", md: "50px" },
+                marginTop: { xs: "-2px", md: "-4px" },
+                marginLeft: { xs: "-4px", md: "-6px" },
                 marginRight: { xs: "-4px", md: "-6px" },
               }}
             />
@@ -142,7 +139,7 @@ const Header = () => {
                 color: "#5A4283",
                 fontWeight: "700",
                 fontFamily: "Quicksand",
-                fontSize: { xs: "16px",md: "26px", lg: "32px" },
+                fontSize: { xs: "16px", md: "26px", lg: "32px" },
                 fontHeight: { xs: "20px", md: "32.5", lg: "40px" },
               }}
             >
@@ -166,7 +163,7 @@ const Header = () => {
           menuOpen ? "flex" : "hidden"
         } lg:flex flex-col lg:flex-row lg:items-center gap-2 absolute lg:static top-[100%] left-0 w-full lg:w-auto bg-white lg:bg-transparent z-10 lg:z-auto py-2 lg:py-0 px-4 lg:px-0 shadow-lg lg:shadow-none`}
       >
-        <nav className="flex flex-col lg:flex-row items-center lg:justify-center gap-2 px-2">
+        <nav className="flex flex-col lg:flex-row items-center lg:justify-center gap-2 px-4">
           {navItems.map((item) => {
             if (item.name === "Chapters") {
               return (
@@ -175,31 +172,47 @@ const Header = () => {
                   className="relative w-full lg:w-auto h-[40px] flex items-center px-2"
                 >
                   {/* Chapters Button */}
-                  <button
-                    className={`text-[#5A4283] text-base w-full text-left ${
-                      location.pathname.startsWith("/chapters")
-                        ? "font-bold"
-                        : "font-normal"
-                    }`}
-                    onClick={() => setDropdownOpen((prev) => !prev)} // Toggle dropdown visibility
+                  <Link
+                    style={{
+                      width: "100%",
+                      textAlign: "left",
+                      color: "#5A4283",
+                      fontSize: "16px",
+                      fontFamily: "Quicksand, sans-serif",
+                      lineHeight: "20px",
+                      fontWeight: location.pathname.startsWith("/chapters")
+                        ? "900"
+                        : "400",
+                      textDecoration: "none",
+                      textUnderlineOffset: "auto",
+                      textDecorationSkipInk: "none",
+                      textTransform: "none",
+                    }}
+                    onClick={() => setDropdownOpen((prev) => !prev)}
                   >
                     {item.name}
-                  </button>
-
+                  </Link>
                   {/* Dropdown Menu */}
                   {dropdownOpen && (
-                    <div className="absolute  left-0 bg-white top-[40px] shadow-lg w-[300px]    z-20">
-                     <div
-                          key={item.name}
-                          className={`w-full hover:bg-[#D9F4DA] h-[50px] flex items-center px-2 ${
-                            location.pathname === item.path
-                              ? "bg-[#D9F4DA]"
-                              : ""
-                          }`}
-                        >
+                    <div className="absolute top-[50px] md:left-1/2 bg-white shadow-lg w-[300px] z-20 lg:left-0">
+                      <div
+                        key={item.name}
+                        className={`w-full hover:bg-[#D9F4DA] h-[39px] flex items-center px-2 ${
+                          location.pathname === item.path ? "bg-[#D9F4DA]" : ""
+                        }`}
+                      >
                         <Link
                           to={item.path}
-                          className={`text-[#5A4283] text-sm w-full font-normal`}
+                          style={{
+                            width: "100%",
+                            color: "#000000",
+
+                            fontSize: "12px",
+                            fontFamily: "Poppins",
+                            lineHeight: "18px",
+                            fontWeight: 400,
+                            textTransform: "none",
+                          }}
                         >
                           {item.name}
                         </Link>
@@ -207,7 +220,7 @@ const Header = () => {
                       {chapters.map((chapter) => (
                         <div
                           key={chapter.name}
-                          className={`w-full hover:bg-[#D9F4DA] h-[50px] flex items-center px-2 ${
+                          className={`w-full hover:bg-[#D9F4DA] h-[39px] flex items-center px-2 ${
                             location.pathname === chapter.path
                               ? "bg-[#D9F4DA]"
                               : ""
@@ -215,8 +228,16 @@ const Header = () => {
                         >
                           <Link
                             to={chapter.path}
-                            className="text-[#5A4283] text-sm w-full"
-                            onClick={() => handleNavigate(chapter.path)} // Navigate to chapter page on click
+                            style={{
+                              width: "100%",
+                              color: "#000000",
+                              fontSize: "12px",
+                              fontFamily: "Poppins",
+                              lineHeight: "18px",
+                              fontWeight: 400,
+                              textTransform: "none",
+                            }}
+                            onClick={() => handleNavigate(chapter.path)}
                           >
                             {chapter.name}
                           </Link>
@@ -235,9 +256,19 @@ const Header = () => {
               >
                 <Link
                   to={item.path}
-                  className={`text-[#5A4283] text-base w-full ${
-                    isActive(item.path) ? "font-bold" : "font-normal"
-                  }`}
+                  style={{
+                    width: "100%",
+                    textAlign: "left",
+                    color: "#5A4283",
+                    fontSize: "16px",
+                    fontFamily: "Quicksand, sans-serif",
+                    lineHeight: "20px",
+                    fontWeight: isActive(item.path) ? 900 : 400,
+                    textDecoration: "none",
+                    textUnderlineOffset: "auto",
+                    textDecorationSkipInk: "none",
+                    textTransform: "none",
+                  }}
                 >
                   {item.name}
                 </Link>
@@ -296,14 +327,35 @@ const Header = () => {
             </div>
           </div>
         ) : (
-          <div className="mt-4 lg:mt-0 text-center">
-            <button
-              className="bg-[#78B27B] text-white px-6 py-2 rounded-full font-bold text-sm"
+          <Box
+            sx={{
+              mt: { lg: 0 },
+              textAlign: "center",
+            }}
+          >
+            <Button
               onClick={() => handleNavigate("/login")}
+              sx={{
+                backgroundColor: "#78B27B",
+                color: "white",
+                px: 6,
+                py: 2,
+                width: "110px",
+                height: "36px",
+                fontFamily: "Quicksand",
+                borderRadius: "40px",
+                fontWeight: "700",
+                fontSize: "16px",
+                lineHeight: "20px",
+                textTransform: "none",
+                "&:hover": {
+                  backgroundColor: "#66A269",
+                },
+              }}
             >
               Login
-            </button>
-          </div>
+            </Button>
+          </Box>
         )}
       </div>
     </header>
