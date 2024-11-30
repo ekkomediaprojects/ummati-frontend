@@ -37,7 +37,7 @@ const About = () => {
       <Box
       sx={{
         width: "100%",
-        height: { xs: "200px", sm: "250px", md: "300px" },
+        height:"219px",
         backgroundImage: `url(${bannerImage})`,
         backgroundSize: "cover",
         backgroundPosition: "center",
