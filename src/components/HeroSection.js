@@ -59,7 +59,7 @@ const HeroSection = () => {
           alt="Left side illustration"
           sx={{
             width: { xs: "97px", sm: "20%", md: "35%" },
-            height: { xs: "114px", sm: "80%" },
+            height: { xs: "114px", sm: "auto" },
             objectFit: "contain",
             maxWidth: "100%",
             alignSelf: "flex-end",
@@ -83,10 +83,10 @@ const HeroSection = () => {
             sx={{
               fontFamily: "Quicksand",
               fontWeight: 700,
-              fontSize: { xs: "8px", sm: "16px", md: "24px", lg: "32px" },
+              fontSize: { xs: "8px", sm: "16px", lg: "32px" },
               color: "black",
-              lineHeight: { xs: "10px", sm: "20px", md: "24px", lg: "40px" },
-              marginBottom: { sm: "20px", md: "40px" },
+              lineHeight: { xs: "10px", sm: "20px", lg: "40px" },
+              marginBottom: { sm: "20px", lg: "40px" },
             }}
           >
             We Are One People, One Nation.
@@ -130,7 +130,7 @@ const HeroSection = () => {
           alt="Right side illustration"
           sx={{
             width: { xs: "108px", sm: "20%", md: "35%" },
-            height: { xs: "100px", sm: "70%", md: "60%" }, 
+            height: { xs: "100px", sm: "auto" }, 
             objectFit: "contain", // Ensures the image maintains its aspect ratio
             maxWidth: "100%",
             alignSelf: "flex-end", // Align the image to the bottom

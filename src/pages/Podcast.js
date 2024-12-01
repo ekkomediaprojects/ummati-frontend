@@ -107,7 +107,7 @@ const Podcast = () => (
     <Box
       sx={{
         width: '100%',
-        height: { xs: '150px', md: '200px' }, // Responsive height
+        height:'210px', // Responsive height
         backgroundImage: `url(${coverImage})`,
         backgroundSize: 'cover',
         backgroundPosition: 'center',
@@ -116,6 +116,7 @@ const Podcast = () => (
         justifyContent: 'center',
         alignItems: 'center',
         textAlign: 'center',
+        margin: '0 auto', // 
       }}
     >
       <Box sx={{ position: 'absolute', color: 'white' }}>
