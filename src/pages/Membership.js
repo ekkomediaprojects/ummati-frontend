@@ -8,17 +8,14 @@ import deRaCoffeeLogo from "../assets/images/membership/partnerships/deRaCoffeeL
 import { Button, Typography, Box } from "@mui/material";
 
 const Membership = () => {
-
-
   const navigate = useNavigate();
   const handleNavigate = (path) => {
     navigate(path);
   };
   return (
-
     <Box>
       <Header />
-  
+
       {/* Banner Section */}
       <Box
         sx={{
@@ -48,13 +45,13 @@ const Membership = () => {
           Membership
         </Typography>
       </Box>
-  
+
       {/* Membership Info Section */}
       <Box sx={{ backgroundColor: "#F7F5EF", py: 8, px: { xs: 2, sm: 16 } }}>
         <Box
           sx={{
             width: "100%",
-            maxWidth: "1069px",
+            maxWidth: "90%",
             margin: "0 auto",
             padding: { xs: 2, sm: 4 },
           }}
@@ -70,11 +67,12 @@ const Membership = () => {
             }}
           >
             Unlock exclusive benefits and elevate your experience by joining our
-            membership program! As a valued member, you'll gain access to special
-            discounts, early product releases, members-only events, and more.
+            membership program! As a valued member, you'll gain access to
+            special discounts, early product releases, members-only events, and
+            more.
           </Typography>
         </Box>
-  
+
         <Box
           sx={{
             display: "flex",
@@ -88,6 +86,7 @@ const Membership = () => {
             sx={{
               width: { xs: "100%", sm: "360px" },
               backgroundColor: "white",
+              height: "300px",
               p: 4,
               borderRadius: "16px",
               border: "1px solid #C4BAA2",
@@ -117,14 +116,16 @@ const Membership = () => {
                 listStyleType: "disc",
               }}
             >
-              <li>You pay for the events you want to attend.</li>
-              <li>
+              <li style={{ marginBottom: "1rem" }}>
+                You pay for the events you want to attend.
+              </li>
+              <li style={{ marginBottom: "1rem" }}>
                 The ticket price includes all supplies and planning for each
                 event.
               </li>
             </ul>
           </Box>
-  
+
           {/* Premium Membership Box */}
           <Box
             sx={{
@@ -167,11 +168,14 @@ const Membership = () => {
                 listStyleType: "disc",
               }}
             >
-              <li>You have access to all the events with no event fees.</li>
-              <li>
+              <li style={{ marginBottom: "1rem" }}>You have access to all the events with no event fees.</li>
+              <li style={{ marginBottom: "1rem" }}>
                 Get exclusive discounts on your favorite restaurants, brands,
                 cafes, and more!
               </li>
+              <li  style={{ marginBottom: "1rem" }}>You have early access to events.</li>
+              <li  style={{ marginBottom: "1rem" }}>You have early access to the travel groups.</li>
+              <li  style={{ marginBottom: "1rem" }}>You will have access to member only events.</li>
             </ul>
             <Button
               variant="contained"
@@ -188,9 +192,9 @@ const Membership = () => {
           </Box>
         </Box>
       </Box>
-  
+
       {/* Partnerships Section */}
-      <Box
+      {/* <Box
         sx={{
           py: 4,
           px: { xs: 2, sm: 10 },
@@ -220,7 +224,6 @@ const Membership = () => {
             gap: { xs: 2, sm: 4 },
           }}
         >
-          {/* Logo 1 */}
           <Box
             sx={{
               display: "flex",
@@ -253,8 +256,7 @@ const Membership = () => {
               Dallas location: 10% off
             </Typography>
           </Box>
-  
-          {/* Logo 2 */}
+
           <Box
             sx={{
               display: "flex",
@@ -288,11 +290,11 @@ const Membership = () => {
             </Typography>
           </Box>
         </Box>
-      </Box>
-  
+      </Box> */}
+
       <Footer />
     </Box>
-  )
+  );
 };
 
 export default Membership;
