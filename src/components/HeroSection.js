@@ -24,7 +24,6 @@ const HeroSection = () => {
       {/* Header */}
       <Box textAlign="center">
         <Typography
-          variant="h4"
           sx={{
             fontFamily: "Caprasimo",
             fontSize: { xs: "14px", sm: "24px", md: "34px", lg: "42px" },
@@ -47,7 +46,7 @@ const HeroSection = () => {
           gap: { xs: "8px", sm: "14px", md: "32px" },
           boxSizing: "border-box",
           overflow: "hidden",
-          marginTop: { sm: "20px" },
+          // marginTop: { sm: "20px" },
           borderBottom: {
             sm: "3px solid #ECE7DA",
           },
@@ -59,8 +58,8 @@ const HeroSection = () => {
           src={leftImage}
           alt="Left side illustration"
           sx={{
-            width: { xs: "97px", sm: "20%", md: "30%" },
-            height: { xs: "114px", sm: "auto" },
+            width: { xs: "97px", sm: "20%", md: "35%" },
+            height: { xs: "114px", sm: "80%" },
             objectFit: "contain",
             maxWidth: "100%",
             alignSelf: "flex-end",
@@ -70,10 +69,13 @@ const HeroSection = () => {
         {/* Center Content */}
         <Box
           sx={{
+            display: "flex", // Enable flexbox
+            flexDirection: "column",
+            justifyContent: "flex-start", // Align content at the top of the container
+            alignItems: "center",
             textAlign: "center",
-            maxWidth: { xs: "80%", sm: "60%", md: "40%" },
+            maxWidth: { xs: "80%", sm: "60%", md: "30%" },
             mx: "auto",
-            justifyContent: "center",
           }}
         >
           <Typography
@@ -81,9 +83,10 @@ const HeroSection = () => {
             sx={{
               fontFamily: "Quicksand",
               fontWeight: 700,
-              fontSize: { xs: "8px", sm: "10px", md: "18px", lg: "20px" },
+              fontSize: { xs: "8px", sm: "16px", md: "24px", lg: "32px" },
               color: "black",
-              lineHeight: { xs: "10px", sm: "12px", md: "20px", lg: "30px" },
+              lineHeight: { xs: "10px", sm: "20px", md: "24px", lg: "40px" },
+              marginBottom: { sm: "20px", md: "40px" },
             }}
           >
             We Are One People, One Nation.
@@ -121,17 +124,16 @@ const HeroSection = () => {
           </Button>
         </Box>
 
-        {/* Right Image */}
         <Box
           component="img"
           src={rightImage}
           alt="Right side illustration"
           sx={{
-            width: { xs: "108px", sm: "20%", md: "30%" },
-            height: { xs: "121px", sm: "auto" },
-            objectFit: "contain",
+            width: { xs: "108px", sm: "20%", md: "35%" },
+            height: { xs: "100px", sm: "70%", md: "60%" }, 
+            objectFit: "contain", // Ensures the image maintains its aspect ratio
             maxWidth: "100%",
-            alignSelf: "flex-end", // Align this image to the bottom
+            alignSelf: "flex-end", // Align the image to the bottom
           }}
         />
       </Box>
@@ -139,7 +141,7 @@ const HeroSection = () => {
       <Box
         sx={{
           marginTop: "20px",
-          maxWidth: "1200px",
+          maxWidth: "100%",
           mx: "auto",
           padding: "5px",
           alignItems: "center",

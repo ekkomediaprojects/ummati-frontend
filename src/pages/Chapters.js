@@ -50,8 +50,8 @@ const Chapters = () => (
           color: "black",
           fontFamily: "Poppins, sans-serif",
           fontWeight: 400,
-          fontSize: { xs: "16px", sm: "18px", md: "22px" , lg  : "28px"}, // Responsive font sizes
-          lineHeight: { xs: "24px", sm: "28px", md: "33px" , lg : "41px" }, // Adjusted line height
+          fontSize: { xs: "16px", sm: "18px", md: "22px" }, // Responsive font sizes
+          lineHeight: { xs: "24px", sm: "28px", md: "33px"}, // Adjusted line height
         }}
       >
         Ummati Community is a dynamic and expanding organization committed to
