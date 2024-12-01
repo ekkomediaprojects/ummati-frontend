@@ -151,6 +151,7 @@ const HeroSection = () => {
           flexDirection: { xs: "column", sm: "row" },
         }}
       >
+        
         {[
           { title: "Explore Our Calendar", image: podcastImage },
           { title: "Become A Member", image: podcastImage },
