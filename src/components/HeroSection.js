@@ -2,6 +2,9 @@ import React from "react";
 import { Grid2, Typography, Button, Box } from "@mui/material";
 import { styled } from "@mui/system";
 import leftImage from "../assets/images/homepage/hero/left image heroSection.png";
+import leftImageCroped from "../assets/images/homepage/hero/left image heroSectionCroped.png";
+import rightImageCroped from "../assets/images/homepage/hero/right image heroSectionCroped.png";
+
 import rightImage from "../assets/images/homepage/hero/right image heroSection.png";
 import podcastImage from "../assets/images/homepage/hero/podcast.png";
 import { useNavigate } from "react-router-dom";
@@ -25,8 +28,9 @@ const HeroSection = () => {
       <Box textAlign="center">
         <Typography
           sx={{
-            fontFamily: "Caprasimo",
-            fontSize: { xs: "14px", sm: "24px", md: "34px", lg: "42px" },
+            fontFamily: "Cooper Black",
+            fontWeight : "bold",
+            fontSize: { xs: "14px", sm: "24px", md: "34px", lg: "82px" },
             margin: 0,
             lineHeight: "1.2",
             color: "#3D3D3C",
@@ -46,7 +50,7 @@ const HeroSection = () => {
           gap: { xs: "8px", sm: "14px", md: "32px" },
           boxSizing: "border-box",
           overflow: "hidden",
-          // marginTop: { sm: "20px" },
+          marginTop: { sm: "20px" },
           borderBottom: {
             sm: "3px solid #ECE7DA",
           },
@@ -60,7 +64,6 @@ const HeroSection = () => {
           sx={{
             width: { xs: "97px", sm: "20%", md: "35%" },
             height: { xs: "114px", sm: "auto" },
-            objectFit: "contain",
             maxWidth: "100%",
             alignSelf: "flex-end",
           }}
@@ -74,7 +77,7 @@ const HeroSection = () => {
             justifyContent: "flex-start", // Align content at the top of the container
             alignItems: "center",
             textAlign: "center",
-            maxWidth: { xs: "80%", sm: "60%", md: "30%" },
+            maxWidth: { xs: "80%", sm: "60%", md: "28%" },
             mx: "auto",
           }}
         >
@@ -86,7 +89,7 @@ const HeroSection = () => {
               fontSize: { xs: "8px", sm: "16px", lg: "32px" },
               color: "black",
               lineHeight: { xs: "10px", sm: "20px", lg: "40px" },
-              marginBottom: { sm: "20px", lg: "40px" },
+              marginBottom: { sm: "20px", lg: "60px" },
             }}
           >
             We Are One People, One Nation.
@@ -96,27 +99,26 @@ const HeroSection = () => {
               fontFamily: "Poppins",
               fontSize: { xs: "6px", sm: "8px", md: "14px", lg: "20px" },
               fontWeight: 400,
-              lineHeight: { xs: "10px", sm: "12px", md: "25px" },
+              textAlign : "center",
+              lineHeight: { xs: "10px", sm: "12px", md: "30px" },
               mt: { lg: 2 },
             }}
           >
-            We are a community where you can meet like-minded women and enjoy
-            the company of so many others just like you! We're bringing together
-            all who love attending a variety of social events and creating a
-            community of friendship and sisterhood.
+          We are a community where you can meet like-minded women and enjoy the company of so many others just like you! We're bringing together all who love attending a variety of social events and creating a community of friendship and sisterhood.
           </Typography>
 
           <Button
             variant="contained"
             sx={{
-              fontSize: { xs: "8px", sm: "10px", md: "14px", lg: "16px" },
+              fontSize: { xs: "7px", sm: "10px", md: "14px", lg: "16px" },
               fontFamily: "Quicksand",
               fontWeight: "700",
               backgroundColor: "#78B27B",
               borderRadius: "10px",
               textTransform: "none",
-              marginTop: { xs: "10px", lg: "20px" },
-              width: { xs: "120px", sm: "140px", md: "200px", lg: "250px" },
+              whiteSpace: "nowrap",
+              marginTop: { xs: "8px", lg: "20px" },
+              width: { xs: "100px", sm: "140px", md: "200px", lg: "250px" },
             }}
             onClick={() => handleNavigate("/signup")}
           >
