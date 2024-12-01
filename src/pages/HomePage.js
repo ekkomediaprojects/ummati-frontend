@@ -373,9 +373,9 @@ const HomePage = () => {
           </Box>
         </Box>
       </section>
-      <Box sx={{ mt: 5 }}>
+      <Box sx={{ mt: 2 }}>
         {/* Header Text */}
-        <Box sx={{ padding: 4 }}>
+        <Box sx={{ padding: 2 }}>
           <Typography
             variant="h2"
             sx={{
@@ -394,16 +394,16 @@ const HomePage = () => {
           <Typography
             variant="h4"
             sx={{
-              textAlign: "center",
+              textAlign: "start",
               mt: 2,
-              mb: 4,
+              mb: 2,
               padding: "10px",
               fontWeight: 400,
               fontSize: { xs: "12px", sm: "16px", md: "22px" },
               fontHeight: { xs: "18px", sm: "24px", md: "33px" },
               fontFamily: "poppins",
               color: "black",
-              maxWidth: { xs: "316px", md: "816px", lg: "1164px" },
+              maxWidth: { md: "816px", lg: "1164px" },
               marginX: "auto",
             }}
           >

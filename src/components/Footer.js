@@ -38,7 +38,7 @@ const Footer = () => {
         </Link>
 
         {/* Mission Section */}
-        <Box className="flex flex-col md:justify-start sm:justify-center md:items-start sm:item-center text-left max-w-xs mx-auto space-y-4">
+        <Box className="flex flex-col sm:items-center md:items-start text-center md:text-left max-w-xs mx-auto space-y-4">
           <Typography
             fontWeight="700"
             color="#5A4283"
@@ -55,7 +55,7 @@ const Footer = () => {
         </Box>
 
         {/* Stay Updated Section */}
-        <Box className="flex flex-col justify-start items-start text-left max-w-xs mx-auto space-y-4">
+        <Box className="flex flex-col sm:items-center lg:items-start text-center lg:text-left max-w-xs mx-auto space-y-4">
           <Typography
             fontWeight="700"
             color="#5A4283"
@@ -73,7 +73,7 @@ const Footer = () => {
               flexDirection: { sm: "row" },
               gap: { xs: "10px", sm: "16px" },
               alignItems: "center",
-              justifyContent: "flex-start", // Left-align the form
+              justifyContent: { sm: "center", lg: "start" },
             }}
           >
             <input
@@ -124,8 +124,7 @@ const Footer = () => {
         </Box>
 
         {/* Site Links Section */}
-        {/* Site Links Section */}
-        <Box className="flex flex-col justify-start items-start text-left max-w-xs mx-auto space-y-4">
+        <Box className="flex flex-col sm:items-center lg:items-start text-center lg:text-left max-w-xs mx-auto space-y-4">
           <Typography
             fontWeight="700"
             color="#5A4283"
@@ -173,7 +172,7 @@ const Footer = () => {
         </Box>
 
         {/* Legal Section */}
-        <Box className="flex flex-col justify-start items-start text-left max-w-xs mx-auto space-y-4">
+        <Box className="flex flex-col sm:items-center lg:items-start text-center lg:text-left max-w-xs mx-auto space-y-4">
           <Typography
             fontWeight="700"
             color="#5A4283"
