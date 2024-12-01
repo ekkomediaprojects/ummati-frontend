@@ -31,9 +31,9 @@ const Footer = () => {
       {/* Top Border Line */}
       <div className="w-full h-[3px] bg-[#C4BAA2]" />
 
-      <Box className="p-6 sm:p-12 flex flex-col sm:flex-row flex-wrap justify-between gap-8">
+      <Box className="p-6 sm:p-12 flex flex-wrap gap-8 justify-start items-start">
         {/* Logo Section */}
-        <Link to="/" className="flex justify-center">
+        <Link to="/" className="hidden lg:flex justify-center">
           <img src={logo} alt="Logo" className="w-44 h-auto" />
         </Link>
 
@@ -47,7 +47,16 @@ const Footer = () => {
           >
             Our Mission
           </Typography>
-          <Typography className="text-black font-['Poppins'] text-sm leading-relaxed">
+          <Typography
+            sx={{
+              alignItems : "start",
+              color: "black",
+              fontFamily: "Poppins",
+              fontSize: "12px",
+              lineHeight: "18px",
+              marginBottom: "1rem", 
+              textAlign: 'left',
+            }}>
             Ummati Community is a community to empower women to be themselves,
             support one another, make friends, and have fun. We are a place of
             acceptance, inclusivity, and growth.
@@ -55,7 +64,7 @@ const Footer = () => {
         </Box>
 
         {/* Stay Updated Section */}
-        <Box className="flex flex-col sm:items-center lg:items-start text-center lg:text-left max-w-xs mx-auto space-y-4">
+        <Box className="flex flex-col sm:items-center md:items-start text-center md:text-left max-w-xs mx-auto space-y-4">
           <Typography
             fontWeight="700"
             color="#5A4283"
@@ -64,16 +73,26 @@ const Footer = () => {
           >
             Stay Updated
           </Typography>
-          <Typography className="text-black font-['Poppins'] text-sm leading-relaxed mb-4">
+          <Typography
+            sx={{
+              alignItems : "start",
+              color: "black",
+              fontFamily: "Poppins",
+              fontSize: "12px",
+              lineHeight: "18px",
+              marginBottom: "1rem", 
+              textAlign: 'left',
+            }}
+          >
             Sign up with your email address to receive news and updates.
           </Typography>
           <Box
             sx={{
               display: "flex",
-              flexDirection: { sm: "row" },
-              gap: { xs: "10px", sm: "16px" },
+              flexDirection: "row",
+              gap: "5px",
               alignItems: "center",
-              justifyContent: { sm: "center", lg: "start" },
+              justifyContent: "center",
             }}
           >
             <input
@@ -85,25 +104,29 @@ const Footer = () => {
                 width: "100%",
                 maxWidth: "233px",
                 height: "30px",
+                fontWeight : "400",
                 borderRadius: "10px",
                 border: "1px solid #C4BAA2",
                 padding: "0 10px",
                 backgroundColor: "white",
-                fontSize: "14px",
+                fontSize: "12px",
                 outline: "none",
               }}
             />
             <Button
               variant="contained"
               sx={{
-                fontSize: { xs: "10px", sm: "12px" },
+                fontSize: "12px",
+                lineHeight : "15px",
                 fontFamily: "Quicksand",
-                fontWeight: "700",
+                fontWeight: 700,
                 backgroundColor: "#78B27B",
                 borderRadius: "10px",
                 textTransform: "none",
-                height: "30px",
-                width: { xs: "90px", sm: "120px" },
+                height: "26px",
+                width: "87px",
+                textAlign:"center",
+                whiteSpace: "nowrap", // Prevents text from wrapping
               }}
               onClick={handleSignUp}
             >
@@ -124,7 +147,7 @@ const Footer = () => {
         </Box>
 
         {/* Site Links Section */}
-        <Box className="flex flex-col sm:items-center lg:items-start text-center lg:text-left max-w-xs mx-auto space-y-4">
+        <Box className="flex flex-col sm:items-center md:items-start text-center md:text-left max-w-xs mx-auto space-y-4">
           <Typography
             fontWeight="700"
             color="#5A4283"
@@ -137,7 +160,7 @@ const Footer = () => {
             sx={{
               display: "grid",
               gridTemplateColumns: "repeat(3, 1fr)", // Three items per row
-              gap: "16px", // Spacing between items
+              gap: "10px", // Spacing between items
               justifyItems: "start", // Align content to the left
             }}
           >
@@ -155,7 +178,7 @@ const Footer = () => {
               <Link
                 to={`/${link.toLowerCase()}`}
                 key={index}
-                className={`text-sm font-['Poppins'] ${
+                className={` font-['Poppins'] ${
                   isActive(`/${link.toLowerCase()}`)
                     ? "font-bold"
                     : "font-normal"
@@ -163,6 +186,7 @@ const Footer = () => {
                 style={{
                   textDecoration: "none",
                   color: "black",
+                  fontSize: "12px",
                 }}
               >
                 {link}
@@ -172,7 +196,7 @@ const Footer = () => {
         </Box>
 
         {/* Legal Section */}
-        <Box className="flex flex-col sm:items-center lg:items-start text-center lg:text-left max-w-xs mx-auto space-y-4">
+        <Box className="flex flex-col sm:items-center md:items-start text-center md:text-left max-w-xs mx-auto space-y-4">
           <Typography
             fontWeight="700"
             color="#5A4283"
@@ -194,7 +218,7 @@ const Footer = () => {
                 key={index}
                 style={{
                   fontFamily: "Poppins",
-                  fontSize: "0.875rem",
+                  fontSize: "12px",
                   color: "black",
                   fontWeight: isActive(`/${legalLink.toLowerCase()}`)
                     ? "bold"
