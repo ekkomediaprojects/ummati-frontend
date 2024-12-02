@@ -42,7 +42,7 @@ const Chapters = () => (
     {/* Main Content Section */}
     <div
       className="bg-[#F7F5EF] px-4 py-16 md:px-40"
-      style={{ minHeight: "100vh" }}
+      // style={{ minHeight: "100vh" }}
     >
       <Typography
         variant="body1"
