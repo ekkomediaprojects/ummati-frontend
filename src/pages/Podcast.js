@@ -107,7 +107,7 @@ const Podcast = () => (
     <Box
       sx={{
         width: '100%',
-        height:'210px', // Responsive height
+        height:'280px', // Responsive height
         backgroundImage: `url(${coverImage})`,
         backgroundSize: 'cover',
         backgroundPosition: 'center',

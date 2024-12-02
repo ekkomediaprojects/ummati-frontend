@@ -2,7 +2,7 @@ import React from "react";
 import { Grid2, Typography, Box } from "@mui/material";
 import Header from "../../components/Header";
 import Footer from "../../components/Footer";
-import banner from "../../assets/images/chapters/Dallas/banner.png";
+import banner from "../../assets/images/chapters/Fort Worth/banner.png";
 import teamPhotoPlaceholder from "../../assets/images/chapters/teamPhotoPlaceholder.png";
 import instagramIcon from "../../assets/images/chapters/instagramIcon.svg";
 import whatsAppIcon from "../../assets/images/chapters/whatsAppIcon.svg";
