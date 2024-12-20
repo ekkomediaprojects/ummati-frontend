@@ -53,164 +53,46 @@ const HomePage = () => {
           Stay Up To Date
         </Typography>
 
-        {/* Podcast Player */}
-        <Box
-          sx={{
-            display: "flex",
-            flexDirection: "row",
-            alignItems: "center",
-            backgroundColor: "#ECE7DA",
-            borderRadius: 2,
-            padding: 2,
-            marginTop: 3,
-            maxWidth: { sm: "662px" },
-            maxHeight: { sm: "149px" },
-            marginX: "auto",
-            boxShadow: 2,
-            overflow: "hidden",
+         {/* {/* Podcast Player  */}
+         <Box
+      sx={{
+        display: "flex",
+        flexDirection: "row",
+        alignItems: "center",
+        width: '100%',
+        padding: 2,
+        textAlign: 'center',
+        justifyContent: 'center', 
+      }}
+    >
+      <Typography
+        component="div"
+        sx={{
+          width: '100%',
+          maxWidth: '1000px',
+          height: '100%'
+        }}
+      >
+        <iframe
+          style={{
+            borderRadius: '12px', // Rounded corners for the iframe
+            width: '100%', // Makes iframe width 100% of its container
+            height: '200px', // Makes iframe height 100% of its container
+            border: 'none', // Removes default iframe border
           }}
-        >
-          {/* Thumbnail */}
-          <Box
-            component="img"
-            src={podcastImage}
-            alt={`${podcastImage} illustration`}
-            sx={{
-              maxWidth: { xs: "56px", sm: "90px", md: "137px" },
-              height: { xs: "56px", sm: "90px", md: "141px" },
-              objectFit: "contain",
-              flexShrink: 0, // Prevents shrinking of image
-            }}
-          />
-
-          {/* Content */}
-          <Box
-            sx={{
-              flex: 1,
-              overflow: "hidden", // Prevent content overflow
-              // paddingLeft: 2,
-            }}
-          >
-            <Box sx={{ textAlign: "left" }}>
-              <Typography
-                sx={{
-                  fontFamily: "Quicksand",
-                  fontWeight: 400,
-                  fontSize: { xs: "16px", sm: "18px", md: "32px" },
-                  lineHeight: { xs: "16px", sm: "18px", md: "40px" },
-                  overflow: "hidden", // Ensure text does not overflow
-                  marginLeft: "20px",
-                }}
-              >
-                Episode Title
-              </Typography>
-
-              <Typography
-                sx={{
-                  fontFamily: "Quicksand",
-                  fontWeight: 700,
-                  fontSize: { xs: "14px", sm: "16px", md: "16px" },
-                  lineHeight: { xs: "14px", sm: "16px", md: "20px" },
-                  color: "#5A4283",
-                  overflow: "hidden", // Ensure text does not overflow
-                  marginLeft: "20px",
-                }}
-              >
-                Interlaced
-              </Typography>
-            </Box>
-
-            {/* Player Controls */}
-            <Box sx={{ display: "flex", alignItems: "center", margin: 0.5 }}>
-              <IconButton
-                sx={{
-                  width: { xs: 18, sm: 48 },
-                  height: { xs: 18, sm: 48 },
-                  backgroundColor: "white",
-                  borderRadius: "50%",
-                }}
-              >
-                <PlayArrowIcon
-                  sx={{
-                    fontSize: { xs: "20px", sm: "28px" }, // Smaller icon size on xs screens
-                    color: "black",
-                  }}
-                />
-              </IconButton>
-
-              {/* Progress Bar */}
-              <Box
-                sx={{
-                  flex: 1,
-                  marginX: 2,
-                  backgroundColor: "#D9D9D9",
-                  height: 8,
-                  borderRadius: 1,
-                  overflow: "hidden", // Ensure the progress bar doesn't overflow
-                }}
-              >
-                <Box
-                  sx={{
-                    width: "33%",
-                    backgroundColor: "#5A4283",
-                    height: "100%",
-                  }}
-                />
-              </Box>
-            </Box>
-
-            {/* Rewind, Pause, Forward Controls */}
-            <Box
-              sx={{
-                display: "flex",
-                justifyContent: "space-between",
-                marginLeft: 2,
-                overflow: "hidden",
-              }}
-            >
-              <Box sx={{ display: "flex", gap: 1 }}>
-                <IconButton
-                  sx={{
-                    color: "black",
-                    width: { xs: 18, sm: 48 },
-                    height: { xs: 18, sm: 48 },
-                  }}
-                >
-                  <FastRewindIcon />
-                </IconButton>
-                <IconButton
-                  sx={{
-                    color: "black",
-                    width: { xs: 18, sm: 48 },
-                    height: { xs: 18, sm: 48 },
-                  }}
-                >
-                  <PauseIcon />
-                </IconButton>
-                <IconButton
-                  sx={{
-                    color: "black",
-                    width: { xs: 18, sm: 48 },
-                    height: { xs: 18, sm: 48 },
-                  }}
-                >
-                  <FastForwardIcon />
-                </IconButton>
-              </Box>
-              <Typography
-                sx={{ color: "black", fontSize: { xs: "12px", sm: "14px" } }}
-              >
-                15:32
-              </Typography>
-            </Box>
-          </Box>
-        </Box>
+          src="https://open.spotify.com/embed/track/2Cd9iWfcOpGDHLz6tVA3G4?utm_source=generator&theme=0"
+          frameBorder="0"
+          allowFullScreen
+          allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+          loading="lazy"
+        ></iframe>
+      </Typography>
+    </Box>
 
         {/* More Episodes Button */}
         <Button
           variant="contained"
           sx={{
-            marginTop: 3,
             padding: "8px 16px",
             fontSize: { xs: "12px", sm: "14px", md: "16px", lg: "18px" }, // Responsive font size
             fontFamily: "Quicksand",
