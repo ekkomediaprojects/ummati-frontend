@@ -1,8 +1,8 @@
-import React from "react";
+import React ,{ useState, useEffect } from "react";
 import Header from "../components/Header";
 import HeroSection from "../components/HeroSection";
-import { useNavigate } from "react-router-dom";
-import { Typography, Button, Box, IconButton } from "@mui/material";
+import { useNavigate} from "react-router-dom";
+import { Typography, Button, Box, CircularProgress ,Skeleton} from "@mui/material";
 import Footer from "../components/Footer";
 import podcastImage from "../assets/images/homepage/hero/podcast.png";
 import generalEvents from "../assets/images/homepage/Types of Events/General Events.png";
@@ -11,21 +11,75 @@ import mommyNMe from "../assets/images/homepage/Types of Events/Mommy n me.png";
 import getInvolved1 from "../assets/images/homepage/Get involved/getInvolved1.png";
 import getInvolved2 from "../assets/images/homepage/Get involved/getInvolved2.png";
 import getInvolved3 from "../assets/images/homepage/Get involved/getInvolved3.png";
-import PlayArrowIcon from "@mui/icons-material/PlayArrow";
-import FastRewindIcon from "@mui/icons-material/FastRewind";
-import PauseIcon from "@mui/icons-material/Pause";
-import FastForwardIcon from "@mui/icons-material/FastForward";
-
+import axios  from 'axios'
 const HomePage = () => {
+  const [accessToken, setAccessToken] = useState(null);
+  const [latestPodcastEpi, setLatestPodcastEpi] = useState(null);
+
+  const [loading, setLoading] = useState(true);
+  const [isIframeLoaded, setIsIframeLoaded] = useState(false);
+  
   const navigate = useNavigate();
+  useEffect(() => {
+    setAccessToken(localStorage.getItem('AccessToken')); 
+    const getPlaylistAndEpisode = async () => {
+      const podcastID = process.env.REACT_APP_PODCAST_ID;
+      if (accessToken && podcastID) {
+        try {
+          setLoading(true);
+          let podcastIDArray = podcastID.split(',')
+          const latestEpisodes = await Promise.all(
+            podcastIDArray.map(async (podcast) => {
+              const podcast_id = podcast
+              try {
+                const episodesResponse = await axios.get(
+                  `https://api.spotify.com/v1/shows/${podcast_id}/episodes?market=US`,
+                  {
+                    headers: {
+                      Authorization: `Bearer ${accessToken}`              
+                    },
+                  }
+                );
+                const latestEpisode = episodesResponse?.data?.items?.[0]; 
+                return {
+                  showName: podcast.name,
+                  showUrl: podcast.external_urls?.spotify,
+                  latestEpisodeId: latestEpisode?.id,
+                  latestEpisodeUrl: latestEpisode?.external_urls?.spotify,
+                  episodePublishTime: latestEpisode?.release_date, 
+                };
+              } catch (error) {
+                console.error(`Error fetching episodes for show ${podcastID}:`, error);
+                return null;
+              }
+            })
+          );
+          const validEpisodes = latestEpisodes.filter((episode) => episode !== null);
+          const sortedEpisodes = validEpisodes.sort((a, b) => new Date(a?.episodePublishTime) - new Date(b?.episodePublishTime));
+          const latestEpisodeId = sortedEpisodes[0]?.latestEpisodeId; 
+          setLatestPodcastEpi(latestEpisodeId)
+        } catch (error) {
+          console.error('Error fetching podcast or episode:', error);
+        } finally {
+          setLoading(false);
+        }
+      }
+    };
+
+    if (accessToken) {
+      getPlaylistAndEpisode();
+    }
+  }, [accessToken]); 
   const handleNavigate = (path) => {
     navigate(path);
+  };
+  const handleIframeLoad = () => {
+    setIsIframeLoaded(true);
   };
   return (
     <div className="">
       <Header />
       <HeroSection />
-      {/* Latest Episode Section */}
       <section className="w-full px-6 py-10 bg-white text-center">
         <Typography
           variant="h2"
@@ -66,27 +120,48 @@ const HomePage = () => {
       }}
     >
       <Typography
-        component="div"
-        sx={{
-          width: '100%',
-          maxWidth: '1000px',
-          height: '100%'
-        }}
-      >
-        <iframe
+      component="div"
+      sx={{
+        width: '100%',
+        maxWidth: '1000px',
+        height: '100%',
+      }}
+    >
+      {loading ? (
+        <Skeleton variant="rectangular" width="100%" height={200} sx={{ borderRadius: '12px' }} />
+      ) : (
+        <Box sx={{ position: 'relative' }}>
+          {!isIframeLoaded && (
+            <Box
+              sx={{
+                position: 'absolute',
+                top: '50%',
+                left: '50%',
+                transform: 'translate(-50%, -50%)',
+                zIndex: 1,
+              }}
+            >
+              <CircularProgress />
+            </Box>
+          )}
+          <iframe
           style={{
-            borderRadius: '12px', // Rounded corners for the iframe
-            width: '100%', // Makes iframe width 100% of its container
-            height: '200px', // Makes iframe height 100% of its container
-            border: 'none', // Removes default iframe border
+            borderRadius: '12px',
+            width: '100%',
+            height: '200px',
+            border: 'none',
           }}
-          src="https://open.spotify.com/embed/track/2Cd9iWfcOpGDHLz6tVA3G4?utm_source=generator&theme=0"
+          src={`https://open.spotify.com/embed/episode/${latestPodcastEpi}`}
           frameBorder="0"
           allowFullScreen
           allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
           loading="lazy"
-        ></iframe>
-      </Typography>
+          onLoad={handleIframeLoad}
+          ></iframe>
+
+        </Box>
+      )}
+    </Typography>
     </Box>
 
         {/* More Episodes Button */}

@@ -1,5 +1,4 @@
-// src/App.js
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import HomePage from './pages/HomePage';
 import Podcast from './pages/Podcast';
@@ -19,8 +18,53 @@ import Login from './pages/Login';
 import SignUp from './pages/SignUp';
 import Profile from './pages/Profile/Profile';
 import ScrollToTop from './pages/ScrollToTop';
+import axios from 'axios';
 
 function App() {
+  useEffect(() => {
+    // Function to fetch a new access token from Spotify
+    const getSpotifyAccessToken = async () => {
+      const client_id = process.env.REACT_APP_SPOTIFY_CLIENT_ID;
+      const client_secret = process.env.REACT_APP_SPOTIFY_CLIENT_SECRET;
+      const credentials = btoa(client_id + ':' + client_secret);
+      const scope = 'user-read-playback-position  user-modify-playback-state user-read-email'; // Example scopes
+
+
+      try {
+        const response = await axios.post('https://accounts.spotify.com/api/token',
+          new URLSearchParams({
+            grant_type: 'client_credentials',
+            scope: scope
+          }),
+          {
+            headers: {
+              'Authorization': `Basic ${credentials}`,
+              'Content-Type': 'application/x-www-form-urlencoded'
+            },
+          }
+        );
+
+        const token = response?.data?.access_token;
+        const expiresIn = response?.data?.expires_in;
+
+        localStorage.setItem('AccessToken', token);
+        localStorage.setItem('TokenExpiry', Date.now() + expiresIn * 1000);
+        setTimeout(getSpotifyAccessToken, expiresIn * 1000 - 60000);
+      } catch (error) {
+        console.error('Error getting access token:', error);
+      }
+    };
+    const existingToken = localStorage.getItem('AccessToken');
+    const tokenExpiry = localStorage.getItem('TokenExpiry');
+
+    if (existingToken && tokenExpiry && Date.now() < tokenExpiry) {
+      setTimeout(getSpotifyAccessToken, tokenExpiry - Date.now() - 60000); 
+    } else {
+      getSpotifyAccessToken();
+    }
+
+  }, []);
+
   return (
     <Router>
        <ScrollToTop />

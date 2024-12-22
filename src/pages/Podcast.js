@@ -1,24 +1,78 @@
-import React, { useState } from 'react';
-import { Box, Typography, Grid, IconButton, CircularProgress } from '@mui/material';
-import Header from '../components/Header';
-import Footer from '../components/Footer';
-import banner from '../assets/images/podcasts/banner.png';
-import podcastLogo from '../assets/images/podcasts/Ummati Podcast Logo.svg';
-import spotifyIcon from '../assets/images/podcasts/spotifyIcon.svg';
-import applePodcastIcon from '../assets/images/podcasts/applePodcastIcon.svg';
-import youtubeIcon from '../assets/images/podcasts/YouTube Icon.svg';
-import coverImage from '../assets/images/podcasts/podcastCover.png';
-import '../assets/fonts/Quicksand-Regular.ttf';
-import '../assets/fonts/Poppins-Regular.ttf';
+import React, { useState, useEffect } from "react";
+import {
+  Box,
+  Typography,
+  Grid,
+  IconButton,
+  CircularProgress,
+  Pagination,
+} from "@mui/material";
+import Header from "../components/Header";
+import Footer from "../components/Footer";
+import banner from "../assets/images/podcasts/banner.png";
+import podcastLogo from "../assets/images/podcasts/Ummati Podcast Logo.svg";
+import spotifyIcon from "../assets/images/podcasts/spotifyIcon.svg";
+import applePodcastIcon from "../assets/images/podcasts/applePodcastIcon.svg";
+import youtubeIcon from "../assets/images/podcasts/YouTube Icon.svg";
+import coverImage from "../assets/images/podcasts/podcastCover.png";
+import "../assets/fonts/Quicksand-Regular.ttf";
+import "../assets/fonts/Poppins-Regular.ttf";
+import axios from "axios";
 
 const Podcast = () => {
-  // State for iframe loading
   const [isIframeLoaded, setIsIframeLoaded] = useState(false);
+  const [podcasts, setPodcasts] = useState([]); 
+  const [loading, setLoading] = useState(true); 
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPodcasts, setTotalPodcasts] = useState(0); 
+  const [accessToken, setAccessToken] = useState(null);
+  const podcastsPerPage = 2; 
 
   // Function to handle iframe load
   const handleIframeLoad = () => {
     setIsIframeLoaded(true);
   };
+
+  const handlePageChange = (event, value) => {
+    setCurrentPage(value);
+  };
+
+  const getSpotifyPodcasts = async () => {
+    const podcastID = process.env.REACT_APP_PODCAST_ID;
+    setLoading(true);
+    try {
+      const response = await axios.get(
+        `https://api.spotify.com/v1/shows?ids=${podcastID}&market=US`,
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      );
+
+      const fetchedPodcasts = response?.data?.shows;
+      console.log("fetached" , fetchedPodcasts)
+      const totalCount = response?.data?.shows.length;
+      setPodcasts(fetchedPodcasts);
+      setTotalPodcasts(totalCount);
+      setLoading(false);
+    } catch (error) {
+      console.error("Error fetching podcasts:", error);
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    const token = localStorage.getItem("AccessToken");
+    setAccessToken(token); // Set the access token properly
+
+    if (token) {
+      getSpotifyPodcasts();
+    }
+  }, [accessToken]);
+
+  // Paginate podcasts based on the current page
+  const paginatedPodcasts = podcasts.slice((currentPage - 1) * podcastsPerPage,currentPage * podcastsPerPage);
 
   return (
     <Box>
@@ -99,51 +153,82 @@ const Podcast = () => {
         {/* Row 2: Media Player Box */}
         <Box
           sx={{
-            width: '100%',
-            background: 'white',
-            borderRadius: '8px',
-            border: '1px solid #C4BAA2',
-            textAlign: 'center',
-            display: 'flex', 
-            justifyContent: 'center', 
-            alignItems: 'center',
-            p: 2, 
-            position: 'relative',
+            width: "100%",
+            background: "white",
+            borderRadius: "8px",
+            border: "1px solid #C4BAA2",
+            textAlign: "center",
+            display: "flex",
+            justifyContent: "center", // Aligns the content to the start of the row
+            flexWrap: "wrap", // Ensures items wrap to the next line on smaller screens
+            gap: 2, // Adds space between podcast items
+            p: 2,
           }}
         >
-          {!isIframeLoaded && (
+        {loading ? (
+          <CircularProgress />
+        ) : paginatedPodcasts.length === 0 ? (
+          <Typography>No podcasts available at the moment</Typography>
+        ) : (
+          paginatedPodcasts.map((podcast) => (
             <Box
+              key={podcast?.id}
               sx={{
-                position: 'absolute',
-                top: '50%',
-                left: '50%',
-                transform: 'translate(-50%, -50%)',
-                zIndex: 1,
+                display: "flex",
+                flexDirection: "row",
+                width: "80%",
+                alignItems: "center",
+                justifyContent: "center",
+                position: "relative", // Needed for absolute positioning of loader
               }}
             >
-              <CircularProgress />
-            </Box>
-          )}
+              {/* Show loader if iframe is not loaded */}
+              {!isIframeLoaded && (
+                <Box
+                  sx={{
+                    position: "absolute",
+                    top: "50%",
+                    left: "50%",
+                    transform: "translate(-50%, -50%)",
+                    zIndex: 1,
+                  }}
+                >
+                  <CircularProgress />
+                </Box>
+              )}
 
-          <Typography
-            component="div"
-            sx={{
-              width: '100%',
-              maxWidth: '1000px',
-            }}
-          >
-            <iframe
-              style={{ borderRadius: '12px' }}
-              src="https://open.spotify.com/embed/playlist/3nS8d7ekVjFLM4jVyqbDGY?utm_source=generator&theme=0"
-              width="100%" // Full width for responsiveness
-              height="452" // Increased height for better display
-              frameBorder="0"
-              allowFullScreen
-              allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-              loading="lazy"
-              onLoad={handleIframeLoad} // On load, hide the loader
-            ></iframe>
-          </Typography>
+              {/* The iframe */}
+              <iframe
+                style={{ borderRadius: "12px" }}
+                src={`https://open.spotify.com/embed/show/${podcast?.id}?theme=light`}
+                width="100%" // Full width for responsiveness
+                height="152" // Increased height for better display
+                frameBorder="0"
+                allowFullScreen
+                allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+                loading="lazy"
+                onLoad={handleIframeLoad}
+              ></iframe>
+            </Box>
+          ))
+        )}
+        </Box>
+
+        {/* Pagination */}
+        <Box
+          sx={{
+            mt: 4,
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <Pagination
+            count={Math.ceil(totalPodcasts / podcastsPerPage)} // Calculate the number of pages based on total podcasts
+            page={currentPage}
+            onChange={handlePageChange}
+            color="primary"
+          />
         </Box>
       </Box>
 
