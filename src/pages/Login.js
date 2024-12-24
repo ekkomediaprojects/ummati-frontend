@@ -1,5 +1,7 @@
 import React, { useState } from "react";
-import { Button, Typography, Box, IconButton } from "@mui/material";
+import { Button, Typography, Box, IconButton, CircularProgress } from "@mui/material";
+import { useAuth } from '../authProviders/AuthContext'; // Import the useAuth hook to access the context
+
 import { useNavigate } from "react-router-dom";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
@@ -12,12 +14,14 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-  const [errors, setErrors] = useState({ email: "", password: "" }); // Error state
-
-  const handleSubmit = (e) => {
+  const [errors, setErrors] = useState({ email: "", password: "" });
+  const [isLoading, setIsLoading] = useState(false);
+  const [apiError, setApiError] = useState(""); // API error message
+  const { setIsLoggedIn ,setUserDetails} = useAuth(); 
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    let validationErrors = {}; // Object to track validation errors
+    let validationErrors = {};
 
     // Email Validation
     if (!email) {
@@ -33,28 +37,47 @@ const Login = () => {
       validationErrors.password = "Password must be at least 6 characters long.";
     }
 
-    // If there are validation errors, set them and return
     if (Object.keys(validationErrors).length > 0) {
       setErrors(validationErrors);
       return;
     }
 
-    // Clear errors if validation passes
     setErrors({});
+    setIsLoading(true);
+    setApiError("");
 
-    // Save user details to localStorage (example)
-    const userDetails = {
-      username: "john_doe",
-      email: email,
-      token: "abc123xyz",
-      member_id: "3438204207",
-      address : "street 10,los Angles",
-      imageUrl : "https://www.gravatar.com/avatar/2c7d99fe281ecd3bcd65ab915bac6dd5?s=250"
-    };
-    localStorage.setItem("userLogin", JSON.stringify(userDetails));
+    try {
+      // const response = await fetch("/api/login", {
+      //   method: "POST",
+      //   headers: { "Content-Type": "application/json" },
+      //   body: JSON.stringify({ email, password }),
+      // });
 
-    // Redirect user
-    navigate("/");
+      // let data = await response.json();
+// 
+      let data = {
+        username: "john_doe",
+        email: email,
+        token: "abc123xyz",
+        member_id: "3438204207",
+        address : "street 10,los Angles",
+        imageUrl : "https://www.gravatar.com/avatar/2c7d99fe281ecd3bcd65ab915bac6dd5?s=250"
+      };
+      // if (response.ok) {
+        // Save user details to localStorage
+       
+        setIsLoggedIn(true);  // Set login state to true in the AuthContext
+        setUserDetails(data)
+        localStorage.setItem("userLogin", JSON.stringify(data));
+        navigate("/");
+      // } else {
+      //   setApiError(data.message || "Login failed. Please try again.");
+      // }
+    } catch (error) {
+      setApiError("An error occurred. Please try again.");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const handleGoogleLogin = () => {
@@ -197,10 +220,7 @@ const Login = () => {
 
             {/* Password Input */}
             <div className="mb-4 relative">
-              <label
-                htmlFor="password"
-                className="block text-sm font-medium text-[#8692A6] mb-2"
-              >
+              <label htmlFor="password" className="block text-sm font-medium text-[#8692A6] mb-2">
                 Your Password
               </label>
               <input
@@ -227,11 +247,7 @@ const Login = () => {
               {/* Empty space to align "Forgot password?" to the right */}
               <div></div>
               {errors.password && (
-                <Typography
-                  variant="body2"
-                  color="error"
-                  sx={{ marginTop: "4px", fontSize: "14px" }}
-                >
+                <Typography variant="body2" color="error" sx={{ marginTop: "4px" }}>
                   {errors.password}
                 </Typography>
               )}
@@ -253,9 +269,9 @@ const Login = () => {
               </Typography>
             </div>
 
-            {/* Submit Button */}
             <Button
               type="submit"
+              disabled={isLoading}
               sx={{
                 fontSize: { lg: "20px" },
                 fontFamily: "Quicksand",
@@ -268,8 +284,13 @@ const Login = () => {
                 color: "white",
               }}
             >
-              Login
+              {isLoading ? <CircularProgress size={24} color="inherit" /> : "Login"}
             </Button>
+            {apiError && (
+              <Typography variant="body2" color="error" sx={{ marginTop: "16px" }}>
+                {apiError}
+              </Typography>
+            )}
           </form>
         </Box>
       </Box>

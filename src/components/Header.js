@@ -3,24 +3,26 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import logo from "../assets/icons/logo.png";
 import { Menu, MenuItem, Avatar, Typography, Button, Box } from "@mui/material";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import LogoutContext  from "../authProviders/LogoutContext"
+import { useAuth } from '../authProviders/AuthContext'; // Import the useAuth hook to access the context
 
 const Header = () => {
   const location = useLocation();
   const navigate = useNavigate();
-
+  const { setIsLoggedIn ,userDetails, isLoggedIn,logout } = useAuth();
   const [menuOpen, setMenuOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
-  const [userLogined, setUserLogined] = useState(null);
   const [anchorEl, setAnchorEl] = useState(null);
 
   useEffect(() => {
-    const user = localStorage.getItem("userLogin");
-    console.log("user", user);
-    setUserLogined(user ? JSON.parse(user) : null);
   }, []);
 
   const handleMenuClick = (event) => {
     setAnchorEl(event.currentTarget); // Open menu when the user clicks the avatar
+  };
+
+  const handleLogout = () => {
+    logout();
   };
 
   const handleCloseMenu = () => {
@@ -30,13 +32,6 @@ const Header = () => {
   const handleProfile = () => {
     navigate("/profile"); // Navigate to the profile page
     handleCloseMenu(); // Close the menu after navigating
-  };
-
-  const handleLogout = () => {
-    localStorage.removeItem("userLogin"); // Clear the user data (or perform logout logic)
-    navigate("/login"); // Navigate to the login page
-    handleCloseMenu(); // Close the menu after logging out
-    setUserLogined(null);
   };
   const navItems = [
     { name: "Events", path: "/events" },
@@ -276,7 +271,7 @@ const Header = () => {
             );
           })}
         </nav>
-        {userLogined ? (
+        {isLoggedIn ? (
           <div className="mt-4 lg:mt-0 text-center flex items-center justify-center">
             <div>
               <div
@@ -285,7 +280,7 @@ const Header = () => {
               >
                 <Avatar
                   src={
-                    userLogined?.imageUrl ||
+                    userDetails?.imageUrl ||
                     "https://www.gravatar.com/avatar/placeholder-avatar"
                   }
                   alt="User"
@@ -298,7 +293,7 @@ const Header = () => {
                   fontWeight="bold"
                   className="text-[#4D744F]"
                 >
-                  {userLogined?.username}
+                  {userDetails?.username}
                 </Typography>
 
                 {/* Dropdown icon */}
