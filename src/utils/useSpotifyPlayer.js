@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
-
 export const useSpotifyPlayer = (token) => {
   const [player, setPlayer] = useState(null);
-
   useEffect(() => {
     // Ensure window.Spotify is available
+  window.onSpotifyWebPlaybackSDKReady = () => {};
+
     if (window?.Spotify && token) {
       console.log("Spotify SDK is available");
 
@@ -40,8 +40,7 @@ export const useSpotifyPlayer = (token) => {
 
       
       spotifyPlayer.connect();
-
-      // Cleanup on component unmount or token change
+      
       return () => {
         console.log("Cleaning up player");
         spotifyPlayer.disconnect();
@@ -49,7 +48,8 @@ export const useSpotifyPlayer = (token) => {
     } else {
       console.log("Spotify SDK or Token is missing");
     }
-  }, [token]); // Re-run effect if the token changes
+  }, [token]);
 
+  console.log("playmer", player)
   return player;
 };

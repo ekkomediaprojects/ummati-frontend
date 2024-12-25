@@ -27,7 +27,7 @@ const Podcast = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPodcasts, setTotalPodcasts] = useState(0); 
   const [accessToken, setAccessToken] = useState(null);
-  const podcastsPerPage = 2; 
+  const podcastsPerPage = 1; 
 
   // Function to handle iframe load
   // const handleIframeLoad = () => {
@@ -177,7 +177,7 @@ const Podcast = () => {
                 width: "100%",
                 alignItems: "center",
                 justifyContent: "center",
-                position: "relative", 
+                p : 1
               }}
             >
               <PodcastPlayer token={accessToken} show={podcast} />
