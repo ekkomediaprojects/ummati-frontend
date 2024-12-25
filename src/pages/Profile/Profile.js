@@ -286,7 +286,7 @@ const Profile = () => {
         sx={{
           padding: "20px",
           height: {
-            xs: selectedButton === "profile" ? "1500px" : "1000px",
+            xs: selectedButton === "profile" ? "1500px" : "1300px",
             md: "800px",
           },
         }}

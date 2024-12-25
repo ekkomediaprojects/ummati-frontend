@@ -9,6 +9,7 @@ import {
 } from "@mui/material";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
+import PodcastPlayer from "./PodcastPlayer"
 import banner from "../assets/images/podcasts/banner.png";
 import podcastLogo from "../assets/images/podcasts/Ummati Podcast Logo.svg";
 import spotifyIcon from "../assets/images/podcasts/spotifyIcon.svg";
@@ -20,7 +21,7 @@ import "../assets/fonts/Poppins-Regular.ttf";
 import axios from "axios";
 
 const Podcast = () => {
-  const [isIframeLoaded, setIsIframeLoaded] = useState(false);
+  // const [isIframeLoaded, setIsIframeLoaded] = useState(false);
   const [podcasts, setPodcasts] = useState([]); 
   const [loading, setLoading] = useState(true); 
   const [currentPage, setCurrentPage] = useState(1);
@@ -29,9 +30,9 @@ const Podcast = () => {
   const podcastsPerPage = 2; 
 
   // Function to handle iframe load
-  const handleIframeLoad = () => {
-    setIsIframeLoaded(true);
-  };
+  // const handleIframeLoad = () => {
+  //   setIsIframeLoaded(true);
+  // };
 
   const handlePageChange = (event, value) => {
     setCurrentPage(value);
@@ -154,16 +155,13 @@ const Podcast = () => {
         <Box
           sx={{
             width: "100%",
-            background: "white",
-            borderRadius: "8px",
-            border: "1px solid #C4BAA2",
             textAlign: "center",
             display: "flex",
             justifyContent: "center", // Aligns the content to the start of the row
-            flexWrap: "wrap", // Ensures items wrap to the next line on smaller screens
-            gap: 2, // Adds space between podcast items
-            p: 2,
+            flexWrap: "wrap",
+            padding : 2,
           }}
+
         >
         {loading ? (
           <CircularProgress />
@@ -176,39 +174,13 @@ const Podcast = () => {
               sx={{
                 display: "flex",
                 flexDirection: "row",
-                width: "80%",
+                width: "100%",
                 alignItems: "center",
                 justifyContent: "center",
-                position: "relative", // Needed for absolute positioning of loader
+                position: "relative", 
               }}
             >
-              {/* Show loader if iframe is not loaded */}
-              {!isIframeLoaded && (
-                <Box
-                  sx={{
-                    position: "absolute",
-                    top: "50%",
-                    left: "50%",
-                    transform: "translate(-50%, -50%)",
-                    zIndex: 1,
-                  }}
-                >
-                  <CircularProgress />
-                </Box>
-              )}
-
-              {/* The iframe */}
-              <iframe
-                style={{ borderRadius: "12px" }}
-                src={`https://open.spotify.com/embed/show/${podcast?.id}?theme=light`}
-                width="100%" // Full width for responsiveness
-                height="152" // Increased height for better display
-                frameBorder="0"
-                allowFullScreen
-                allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-                loading="lazy"
-                onLoad={handleIframeLoad}
-              ></iframe>
+              <PodcastPlayer token={accessToken} show={podcast} />
             </Box>
           ))
         )}
