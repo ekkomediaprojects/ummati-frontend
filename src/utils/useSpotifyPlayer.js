@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 export const useSpotifyPlayer = (token) => {
   const [player, setPlayer] = useState(null);
+
   useEffect(() => {
     // Ensure window.Spotify is available
   window.onSpotifyWebPlaybackSDKReady = () => {};

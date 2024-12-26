@@ -41,26 +41,29 @@ const Podcast = () => {
   const getSpotifyPodcasts = async () => {
     const podcastID = process.env.REACT_APP_PODCAST_ID;
     setLoading(true);
-    try {
-      const response = await axios.get(
-        `https://api.spotify.com/v1/shows?ids=${podcastID}&market=US`,
-        {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        }
-      );
-
-      const fetchedPodcasts = response?.data?.shows;
-      console.log("fetached" , fetchedPodcasts)
-      const totalCount = response?.data?.shows.length;
-      setPodcasts(fetchedPodcasts);
-      setTotalPodcasts(totalCount);
-      setLoading(false);
-    } catch (error) {
-      console.error("Error fetching podcasts:", error);
-      setLoading(false);
+    if(accessToken !==null){
+      try {
+        const response = await axios.get(
+          `https://api.spotify.com/v1/shows?ids=${podcastID}&market=US`,
+          {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          }
+        );
+  
+        const fetchedPodcasts = response?.data?.shows;
+        console.log("fetached" , fetchedPodcasts)
+        const totalCount = response?.data?.shows.length;
+        setPodcasts(fetchedPodcasts);
+        setTotalPodcasts(totalCount);
+        setLoading(false);
+      } catch (error) {
+        console.error("Error fetching podcasts:", error);
+        setLoading(false);
+      }
     }
+   
   };
 
   useEffect(() => {
