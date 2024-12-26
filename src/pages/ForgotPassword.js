@@ -39,8 +39,8 @@ const ForgotPassword = () => {
     setApiError("");
 
     try {
-      // const url = `https://ummatibackend-env.eba-uhxvmumy.us-east-1.elasticbeans/auth/forgot-password`;
-      const url = `http://localhost:5002/auth/forgot-password`;
+      const url = `${process.env.REACT_APP_API_URL}auth/forgot-password`;
+      // const url = `http://localhost:5002/auth/forgot-password`;
       const body = { email };
       const res = await RequestHandler(url, "POST", body);
       if (res?.success) {
@@ -109,6 +109,21 @@ const ForgotPassword = () => {
             Forget Password
           </Typography>
 
+          <Typography
+                variant="body2"
+                color="textSecondary"
+                className="text-sm text-right"
+                style={{
+                  fontFamily: "Poppins",
+                  fontSize: "12px",
+                  fontWeight: "500",
+                  textUnderlinePosition: "from-font",
+                  textDecorationSkipInk: "none",
+                  color: "#5A4283",
+                }}
+              >
+              A password reset link will be sent to the email address you provide.
+          </Typography>
 
           {/* Email & Password Form */}
           <form onSubmit={handleSubmit} className="w-full">

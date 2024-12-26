@@ -51,8 +51,8 @@ const SignUp = () => {
       console.log("Form validation errors:", newErrors);
       return;
     }
-    // const url = `${process.env.REACT_APP_API_URL}auth/register`;
-    const url = `http://localhost:5002/auth/register`;
+    const url = `${process.env.REACT_APP_API_URL}auth/register`;
+    // const url = `http://localhost:5002/auth/register`;
 
     const body = { email, password, firstName, lastName };
     try {
