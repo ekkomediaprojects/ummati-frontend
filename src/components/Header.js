@@ -5,6 +5,9 @@ import { Menu, MenuItem, Avatar, Typography, Button, Box } from "@mui/material";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import LogoutContext  from "../authProviders/LogoutContext"
 import { useAuth } from '../authProviders/AuthContext'; // Import the useAuth hook to access the context
+import noProfile from "../assets/images/no-profile-picture.png";
+
+
 
 const Header = () => {
   const location = useLocation();
@@ -13,9 +16,7 @@ const Header = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
-
-  useEffect(() => {
-  }, []);
+ 
 
   const handleMenuClick = (event) => {
     setAnchorEl(event.currentTarget); // Open menu when the user clicks the avatar
@@ -271,17 +272,17 @@ const Header = () => {
             );
           })}
         </nav>
-        {isLoggedIn ? (
+     
+     {isLoggedIn ? (
           <div className="mt-4 lg:mt-0 text-center flex items-center justify-center">
             <div>
               <div
                 className="flex items-center justify-center cursor-pointer bg-[#D9F4DA] text-white px-2 py-2 rounded-full font-bold text-sm"
-                onClick={handleMenuClick} // Open the dropdown menu
+                onClick={handleMenuClick}
               >
                 <Avatar
                   src={
-                    userDetails?.imageUrl ||
-                    "https://www.gravatar.com/avatar/placeholder-avatar"
+                    userDetails?.imageUrl || noProfile
                   }
                   alt="User"
                   sx={{ width: 32, height: 32, marginRight: 1 }}

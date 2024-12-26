@@ -68,20 +68,20 @@ const SpotifyTokenHandler = () => {
   };
 
   useEffect(() => {
-    const urlParams = new URLSearchParams(window.location.search);
-    const code = urlParams.get('code');  // Get the authorization code from the URL
+    // const urlParams = new URLSearchParams(window.location.search);
+    // const code = urlParams.get('code');  // Get the authorization code from the URL
 
-    if (!code) {
-      let url = 'https://accounts.spotify.com/authorize';
-      url += "?client_id=" + client_id;
-      url += "&response_type=code";
-      url += "&redirect_uri=" + encodeURI(redirectUri);
-      url += "&show_dialog=false";
-      url += "&scope=user-read-private app-remote-control user-read-email user-read-currently-playing user-modify-playback-state user-read-playback-position user-library-read streaming user-read-playback-state user-read-recently-played playlist-read-private";
-      window.location.href = url;
-    } else {
-      exchangeCodeForToken(code);
-    }
+    // if (!code) {
+    //   let url = 'https://accounts.spotify.com/authorize';
+    //   url += "?client_id=" + client_id;
+    //   url += "&response_type=code";
+    //   url += "&redirect_uri=" + encodeURI(redirectUri);
+    //   url += "&show_dialog=false";
+    //   url += "&scope=user-read-private app-remote-control user-read-email user-read-currently-playing user-modify-playback-state user-read-playback-position user-library-read streaming user-read-playback-state user-read-recently-played playlist-read-private";
+    //   window.location.href = url;
+    // } else {
+    //   exchangeCodeForToken(code);
+    // }
   }, []);
 
   return null; 

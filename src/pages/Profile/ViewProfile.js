@@ -46,7 +46,7 @@ const ProfileView = () => {
   };
   // Save the updated details
   const handleSave = () => {
-    localStorage.setItem("userLogin", JSON.stringify(userDetails));
+    localStorage.setItem("userData", JSON.stringify(userDetails));
     setUserDetails(userDetails); 
     setIsEditing(false)
     alert(userDetails);

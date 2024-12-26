@@ -68,7 +68,7 @@ const Login = () => {
        
         setIsLoggedIn(true);  // Set login state to true in the AuthContext
         setUserDetails(data)
-        localStorage.setItem("userLogin", JSON.stringify(data));
+        localStorage.setItem("userData", JSON.stringify(data));
         navigate("/");
       // } else {
       //   setApiError(data.message || "Login failed. Please try again.");
@@ -286,6 +286,31 @@ const Login = () => {
             >
               {isLoading ? <CircularProgress size={24} color="inherit" /> : "Login"}
             </Button>
+            {/* Register Link */}
+          <Typography
+            variant="body2"
+            color="textSecondary"
+            sx={{
+              fontFamily: "Poppins",
+              textAlign: "center",
+              color: "grey",
+              fontSize: "16px",
+              margin : "8px"
+            }}
+            className="text-sm text-center"
+          >
+            Do you already have an account?{" "}
+            <a
+              href="/register"
+              className="text-[#5A4283] hover:underline"
+              onClick={(e) => {
+                e.preventDefault();
+                navigate("/signup");
+              }}
+            >
+              Sign Up
+            </a>
+          </Typography>
             {apiError && (
               <Typography variant="body2" color="error" sx={{ marginTop: "16px" }}>
                 {apiError}

@@ -3,9 +3,12 @@ import { Button, Typography, Box, IconButton, FormControlLabel, Checkbox } from 
 import { useNavigate } from "react-router-dom";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
+import { useAuth } from '../authProviders/AuthContext'; 
 import googleIcon from "../assets/icons/icons8-google.svg";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
+import RequestHandler from "../utils/RequestHandler";
+import toast, { Toaster } from 'react-hot-toast';
 
 const SignUp = () => {
   const navigate = useNavigate();
@@ -15,6 +18,7 @@ const SignUp = () => {
   const [lastName, setLastName] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [agreedToTerms, setAgreedToTerms] = useState(false);
+  const { setIsLoggedIn ,setUserDetails} = useAuth(); 
 
   // Error states
   const [errors, setErrors] = useState({
@@ -25,7 +29,7 @@ const SignUp = () => {
     terms: "",
   });
 
-  const handleSubmit = (e) => {
+  const handleSubmit =async(e) => {
     e.preventDefault();
 
     // Validation
@@ -42,13 +46,41 @@ const SignUp = () => {
       newErrors.terms = "You must agree to the Terms and Conditions.";
 
     setErrors(newErrors);
-
-    // If no errors, proceed
-    if (Object.keys(newErrors).length === 0) {
-      console.log("Form submitted successfully!");
-      navigate("/");
+    if (Object.keys(newErrors).length > 0) {
+      toast.error("Please fill out all required fields");
+      console.log("Form validation errors:", newErrors);
+      return;
     }
-  };
+    // const url = `${process.env.REACT_APP_API_URL}auth/register`;
+    const url = `http://localhost:5002/auth/register`;
+
+    const body = { email, password, firstName, lastName };
+    try {
+      const res = await RequestHandler(url, "POST", body);
+  
+      if (res?.success) {
+        let data = res?.data
+        toast.success(data?.message);
+        console.log("User registered successfully:", res.data, "Status:", res.status);
+        toast('Good Job!', {icon: '👏', });
+        if(data?.user){
+          setIsLoggedIn(true);
+          setUserDetails(data?.use);
+          localStorage.setItem("userData", JSON.stringify(data?.user))
+          setTimeout(() => {navigate("/")}, 2000);
+          return;
+        }
+       
+      } else if(!res?.success) {
+        toast.error(`${res?.message}`);
+        console.error("Request error:", res, "Status:", res?.message);
+      } 
+     
+    } catch (err) {
+        toast.error("An unexpected error occurred");
+        console.error("Unexpected error occurred:", err);
+    }
+  };    
 
   const togglePasswordVisibility = () => {
     setShowPassword((prevState) => !prevState);
@@ -327,7 +359,12 @@ const SignUp = () => {
             </a>
           </Typography>
         </Box>
+        <Toaster
+          position="bottom-right"
+          reverseOrder={true}
+        />
       </Box>
+      
       <Footer />
     </div>
   );

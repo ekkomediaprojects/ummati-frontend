@@ -9,17 +9,17 @@ export const AuthProvider = ({ children }) => {
 
   // Check if user is already logged in when the component mounts
   useEffect(() => {
-    const storedUser = localStorage.getItem("userLogin");
-    if (storedUser) {
+    const storedUser = localStorage.getItem("userData");
+    if (storedUser !== undefined ||  storedUser !== null) {
       const parsedUser = JSON.parse(storedUser);
       setUserDetails(parsedUser);
       setIsLoggedIn(true);
-    }
+    } else setIsLoggedIn(false)
   }, []);
 
   // Logout function
   const logout = () => {
-    localStorage.removeItem("userLogin");
+    localStorage.removeItem("userData");
     setUserDetails(null);
     setIsLoggedIn(false);
   };

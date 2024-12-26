@@ -9,6 +9,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import SettingsComponent from "./Settings";
 import ViewProfileComponent from "./ViewProfile";
 import PaymentHistoryComponent from "./PaymentHistory";
+import noProfile from "../../assets/images/no-profile-picture-15257.png";
 
 const Profile = () => {
   const location = useLocation();
@@ -23,7 +24,7 @@ const Profile = () => {
     // navigate(`${page.toLowerCase().replace(" ", "-")}`); // Update URL based on button
   };
   useEffect(() => {
-    const user = localStorage.getItem("userLogin");
+    const user = localStorage.getItem("userData");
     console.log("user", user);
     setUserLogined(user ? JSON.parse(user) : null);
   }, []);
@@ -123,8 +124,7 @@ const Profile = () => {
               <Avatar
                 alt="Profile Image"
                 src={
-                  userLogined?.imageUrl ||
-                  "https://www.gravatar.com/avatar/placeholder-avatar"
+                  userLogined?.imageUrl || noProfile
                 }
                 sx={{ width: 135, height: 135 }}
               />
