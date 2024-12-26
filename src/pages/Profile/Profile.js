@@ -15,7 +15,8 @@ const Profile = () => {
   const navigate = useNavigate();
   const [userLogined, setUserLogined] = useState(null);
   const [selectedButton, setSelectedButton] = useState("profile");
-
+  const api_url = process.env.REACT_APP_API_URL
+  console.log("api_url",api_url)
   const handleButtonClick = (page) => {
     console.log("page", page);
     setSelectedButton(page);
