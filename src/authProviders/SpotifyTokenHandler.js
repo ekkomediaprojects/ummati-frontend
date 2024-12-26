@@ -5,8 +5,9 @@ const SpotifyTokenHandler = () => {
   const client_id = process.env.REACT_APP_SPOTIFY_CLIENT_ID;  // Your Spotify Client ID
   const client_secret = process.env.REACT_APP_SPOTIFY_CLIENT_SECRET;  // Your Spotify Client Secret
   const credentials = btoa(client_id + ':' + client_secret);  // Base64 encode clientId:clientSecret
-  const redirectUri = 'http://localhost:3000/';  // Same as in the auth URL
+  const redirectUri =  process.env.REACT_APP_REDIRECT_URL;  // Same as in the auth URL
   
+  console.log("client_i")
   const exchangeCodeForToken = async (code) => {
     
     try {
