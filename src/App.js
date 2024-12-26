@@ -26,6 +26,7 @@ import ScrollToTop from './pages/ScrollToTop';
 import Error404Page from "./404/Error404Page";
 
 function App() {
+
   return (
     <AuthProvider>
     <SpotifyTokenHandler />
@@ -33,6 +34,7 @@ function App() {
       <ScrollToTop />
       <Routes>
         <Route path="/" element={<HomePage />} />
+        <Route path="/home" element={<HomePage />} />
         <Route path="/login" element={<LoginRoute />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
