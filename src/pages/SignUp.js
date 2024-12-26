@@ -68,7 +68,7 @@ const SignUp = () => {
           setUserDetails(data?.user);
           localStorage.setItem("userToken", data?.token)
           localStorage.setItem("userData", JSON.stringify(data?.user))
-          setTimeout(() => {navigate("/")}, 1000);
+          setTimeout(() => {navigate("/")} ,2000);
           return;
         }
        

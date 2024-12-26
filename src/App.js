@@ -24,6 +24,8 @@ import SignUp from './pages/SignUp';
 import Profile from './pages/Profile/Profile';
 import ScrollToTop from './pages/ScrollToTop';
 import Error404Page from "./404/Error404Page";
+import ForgotPassword from "./pages/ForgotPassword";
+import ResetPassword from "./pages/ResetPassword";
 
 function App() {
 
@@ -51,6 +53,9 @@ function App() {
         <Route path="/chapters/houston" element={<Houston />} />
         <Route path="/chapters/fort-worth" element={<FortWorth />} />
         <Route path="/events" element={<Events />} />
+        <Route path="/forgot-password" element={<ForgotPassword/>} />
+        <Route path="/auth/reset-password/:token" element={<ResetPassword/>} />
+
         <Route path="*" element={<Error404Page />} />
       </Routes>
     </Router>

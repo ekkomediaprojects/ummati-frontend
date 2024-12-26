@@ -3,19 +3,12 @@ import axios from "axios";
 const RequestHandler = async (url, method, data = {}, config = {}) => {
   try {
     // Make the API request
-       // const response = await axios({
-    //   url,
-    //   method,
-    //   data,
-    //   headers: {
-    //     "Content-Type": "application/json"
-    //   },
-    //   ...config,
-    // });
-    const response = await axios.post(url, data, {
-      
+       const response = await axios({
+      url,
+      method,
+      data,
       headers: {
-        "Content-Type": "application/json",
+        "Content-Type": "application/json"
       },
       ...config,
     });

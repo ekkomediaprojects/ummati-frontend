@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Button, Typography, Box, IconButton, CircularProgress } from "@mui/material";
+import { Button,Link, Typography, Box, IconButton, CircularProgress } from "@mui/material";
 import { useAuth } from '../authProviders/AuthContext'; // Import the useAuth hook to access the context
 import RequestHandler from "../utils/RequestHandler";
 import toast, { Toaster } from 'react-hot-toast';
@@ -264,7 +264,16 @@ const Login = () => {
                   color: "#5A4283",
                 }}
               >
-                <a href="/forgot-password">Forgot your password?</a>
+                <a
+                  href="/forgot-password"
+                  className="text-[#5A4283]"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    navigate("/forgot-password");
+                  }}
+                >
+                  forgot password
+                </a>
               </Typography>
             </div>
 

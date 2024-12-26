@@ -142,7 +142,7 @@ const Profile = () => {
                   color: "white",
                 }}
               >
-                {userLogined?.username}
+                {userLogined?.userName}
               </Typography>
               <Typography
                 variant="body2"
