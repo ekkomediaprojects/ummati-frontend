@@ -61,13 +61,14 @@ const SignUp = () => {
       if (res?.success) {
         let data = res?.data
         toast.success(data?.message);
-        console.log("User registered successfully:", res.data, "Status:", res.status);
+        console.log("User registered successfully:", res?.data, "Status:", res?.status);
         toast('Good Job!', {icon: '👏', });
-        if(data?.user){
+        if(data?.user && data?.token){
           setIsLoggedIn(true);
-          setUserDetails(data?.use);
+          setUserDetails(data?.user);
+          localStorage.setItem("userToken", data?.token)
           localStorage.setItem("userData", JSON.stringify(data?.user))
-          setTimeout(() => {navigate("/")}, 2000);
+          setTimeout(() => {navigate("/")}, 1000);
           return;
         }
        
