@@ -52,7 +52,7 @@ const ProfileView = () => {
     alert(userDetails);
   };
   const ButtonStyling = {
-    marginTop: "20px",
+    margin: "10px",
     backgroundColor: "#78B27B",
     color: "white",
     fontWeight: 700,
@@ -62,6 +62,8 @@ const ProfileView = () => {
     textTransform: "none",
     borderRadius: "10px",
     width: { xs: "100px", md: "150px", lg: "200px" },
+    height: { xs: "20px", md: "25px", lg: "37px" },
+    alignItems: "center",
   }
   return (
     <Box
