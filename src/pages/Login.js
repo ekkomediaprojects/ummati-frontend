@@ -48,7 +48,7 @@ const Login = () => {
     setApiError("");
 
     try {
-      const url = `${process.env.REACT_APP_API_URL}auth/register`;
+      const url = `${process.env.REACT_APP_API_URL}auth/login`;
       // const url = `http://localhost:5002/auth/login`;
       const body = { email, password };
       const res = await RequestHandler(url, "POST", body);

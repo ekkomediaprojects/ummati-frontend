@@ -10,11 +10,13 @@ import SettingsComponent from "./Settings";
 import ViewProfileComponent from "./ViewProfile";
 import PaymentHistoryComponent from "./PaymentHistory";
 import noProfile from "../../assets/images/no-profile-picture-15257.png";
+import RequestHandler from "../../utils/RequestHandler";
+import toast, { Toaster } from 'react-hot-toast';
 
 const Profile = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const [userLogined, setUserLogined] = useState(null);
+  const [userData, setUserData] = useState(null);
   const [selectedButton, setSelectedButton] = useState("profile");
   const api_url = process.env.REACT_APP_API_URL
   console.log("api_url",api_url)
@@ -24,9 +26,32 @@ const Profile = () => {
     // navigate(`${page.toLowerCase().replace(" ", "-")}`); // Update URL based on button
   };
   useEffect(() => {
-    const user = localStorage.getItem("userData");
-    console.log("user", user);
-    setUserLogined(user ? JSON.parse(user) : null);
+    const fetchUserInfo = async () => {
+      let token = localStorage.getItem('userToken')
+      if(token){
+      // const url = `${process.env.REACT_APP_API_URL}/auth/profile`;
+      const url = `http://localhost:5002/auth/profile`;
+      try {
+          const res = await RequestHandler(url, "GET",{}, {'Authorization': `Bearer ${token}`});
+          if (res?.success) {
+            if(res?.data?.user){
+              setUserData(res?.data?.user)
+              return;
+            }
+          } else if(!res?.success) {
+            toast.error(`${res?.message}`);
+            console.error("Request error:", res, "Status:", res?.message);
+          } 
+        
+        } catch (err) {
+            toast.error("An unexpected error occurred");
+            console.error("Unexpected error occurred:", err);
+        }
+      }
+  
+    };
+    
+    fetchUserInfo();
   }, []);
 
   let infoStyle = {
@@ -124,7 +149,7 @@ const Profile = () => {
               <Avatar
                 alt="Profile Image"
                 src={
-                  userLogined?.imageUrl || noProfile
+                  userData?.profilePicture || noProfile
                 }
                 sx={{ width: 135, height: 135 }}
               />
@@ -142,19 +167,19 @@ const Profile = () => {
                   color: "white",
                 }}
               >
-                {userLogined?.userName}
+                {userData?.userName}
               </Typography>
               <Typography
                 variant="body2"
                 sx={{ ...infoStyle, marginTop: "20px" }}
               >
-                Member ID: {userLogined?.member_id}
+                Member ID : {userData?.memberId || 'N/A'}
               </Typography>
               <Typography
                 variant="body2"
                 sx={{ ...infoStyle, textDecoration: "underline", gap: "10px" }}
               >
-                {userLogined?.email}
+                {userData?.email}
               </Typography>
             </Box>
             <Box
@@ -172,7 +197,7 @@ const Profile = () => {
                 }}
               />
               <Typography variant="body2" sx={infoStyle}>
-                {userLogined?.address}
+                {userData?.address}
               </Typography>
             </Box>
             <Box

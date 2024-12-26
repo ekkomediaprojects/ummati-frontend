@@ -11,10 +11,17 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     const storedUser = localStorage.getItem("userData");
     if (storedUser !== undefined ||  storedUser !== null) {
-      const parsedUser = JSON.parse(storedUser);
-      setUserDetails(parsedUser);
-      setIsLoggedIn(true);
-    } else setIsLoggedIn(false)
+      try {
+        const parsedUser = JSON.parse(storedUser);
+        setUserDetails(parsedUser);
+        setIsLoggedIn(true);
+      } catch (error) {
+        console.error("Error parsing user data:", error);
+        logout(); 
+      }
+    } else {
+      setIsLoggedIn(false);
+    }
   }, []);
 
   // Logout function

@@ -8,9 +8,9 @@ const RequestHandler = async (url, method, data = {}, config = {}) => {
       method,
       data,
       headers: {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
+        ...config,
       },
-      ...config,
     });
     if (response.data.response?.error) {
       console.log("req error")
