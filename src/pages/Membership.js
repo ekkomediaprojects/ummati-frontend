@@ -185,7 +185,13 @@ const Membership = () => {
                 py: 2,
                 borderRadius: "8px",
               }}
-              onClick={() => handleNavigate("/signup")}
+              onClick={() => {
+                const link = document.createElement("a");
+                link.href = "https://www.zeffy.com/embed/ticketing/membership-10?modal=true";
+                link.target = "_blank";
+                link.rel = "noopener noreferrer";
+                link.click();
+              }}
             >
               Join Now
             </Button>
