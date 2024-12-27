@@ -29,7 +29,7 @@ const Profile = () => {
     const fetchUserInfo = async () => {
       let token = localStorage.getItem('userToken')
       if(token){
-      const url = `${process.env.REACT_APP_API_URL}/auth/profile`;
+      const url = `${process.env.REACT_APP_API_URL}auth/profile`;
       // const url = `http://localhost:5002/auth/profile`;
       try {
           const res = await RequestHandler(url, "GET",{}, {'Authorization': `Bearer ${token}`});
