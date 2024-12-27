@@ -82,7 +82,7 @@ const ProfileView = ({ userData, updateUserState }) => {
       const url = `${process.env.REACT_APP_API_URL}auth/update-profile`;
       // const url = `http://localhost:5002/auth/update-profile`;
       const body = userDetails;
-      const res = await RequestHandler(url, "POST", body, {
+      const res = await RequestHandler(url, "PUT", body, {
         Authorization: `Bearer ${token}`,
       });
       if (res?.success) {
