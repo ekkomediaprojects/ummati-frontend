@@ -9,8 +9,10 @@ export const AuthProvider = ({ children }) => {
 
   // Check if user is already logged in when the component mounts
   useEffect(() => {
+    const token = localStorage.getItem("userToken");
     const storedUser = localStorage.getItem("userData");
-    if (storedUser !== undefined ||  storedUser !== null) {
+
+    if (storedUser && token) {
       try {
         const parsedUser = JSON.parse(storedUser);
         setUserDetails(parsedUser);
