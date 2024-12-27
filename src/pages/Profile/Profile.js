@@ -25,8 +25,8 @@ const Profile = () => {
     const fetchUserInfo = async () => {
       let token = localStorage.getItem('userToken')
       if(token){
-      const url = `${process.env.REACT_APP_API_URL}auth/profile`;
-      // const url = `http://localhost:5002/auth/profile`;
+      // const url = `${process.env.REACT_APP_API_URL}auth/profile`;
+      const url = `http://localhost:5002/auth/profile`;
       try {
           const res = await RequestHandler(url, "GET",{}, {'Authorization': `Bearer ${token}`});
           if (res?.success) {
@@ -288,7 +288,7 @@ const Profile = () => {
             <Box
               sx={{
                 display: "flex",
-                height: { xs: "auto", md: "900px" },
+                height: { xs: "auto", md: "1100px" },
                 flexDirection: "column",
                 alignItems: "center",
                 padding: "16px",
@@ -313,8 +313,8 @@ const Profile = () => {
         sx={{
           padding: "20px",
           height: {
-            xs: selectedButton === "profile" ? "1500px" : "1300px",
-            md: "800px",
+            xs: selectedButton === "profile" ? "1800px" : "1300px",
+            md: "1000px",
           },
         }}
       ></Box>

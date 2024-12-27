@@ -18,6 +18,8 @@ const ProfileView = ({ userData, updateUserState }) => {
   const {setUserDetails} = useAuth();
   const [isLoading, setIsLoading] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
+  const [errors, setErrors] = useState({}); // Track errors for each field
+
   const user_data = {
     firstName: "",
     lastName: "",
@@ -31,6 +33,32 @@ const ProfileView = ({ userData, updateUserState }) => {
   };
   const [userDetails, setUser] = useState(user_data);
   const token = localStorage.getItem("userToken");
+
+
+  const validateFields = () => {
+    const newErrors = {};
+    if (!userDetails.firstName.trim()) {
+      newErrors.firstName = "First name is required";
+    } else if (userDetails.firstName.length < 3) {
+      newErrors.firstName = "First name should be more than 2 characters";
+    }
+    if (!userDetails.lastName.trim()) {
+      newErrors.lastName = "Last name is required";
+    } else if (userDetails.lastName.length < 3) {
+      newErrors.lastName = "Last name should be more than 2 characters";
+    }
+    if (isNaN(userDetails.postalCode)) {
+      newErrors.postalCode = "Postal code should be a valid number";
+    }
+    Object.keys(userDetails).forEach((key) => {
+      if (!userDetails[key].trim() && !newErrors[key]) {
+        newErrors[key] = `${key} is required`;
+      }
+    });
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0; // Return true if no errors
+  };
 
   const setUserMain = () => {
     setUser((prevDetails) => ({
@@ -54,14 +82,15 @@ const ProfileView = ({ userData, updateUserState }) => {
   const handleChange = (e) => {
     const { name, value } = e.target;
     setUser({ ...userDetails, [name]: value });
+    setErrors({ ...errors, [name]: "" }); // Clear error for this field
   };
   const handleFileChange = async (e) => {
     const file = e.target.files[0];
     if (file) {
       const formData = new FormData();
       formData.append("image", file);
-      const url = `${process.env.REACT_APP_API_URL}auth/upload-image`;
-      // const url = `http://localhost:5002/auth/upload-image`;
+      // const url = `${process.env.REACT_APP_API_URL}auth/upload-image`;
+      const url = `http://localhost:5002/auth/upload-image`;
       try {
         const res = await RequestHandler(url,"POST",formData,{ Authorization: `Bearer ${token}` },"multipart/form-data");
         if (res?.success) {
@@ -77,10 +106,17 @@ const ProfileView = ({ userData, updateUserState }) => {
   // Save the updated details
   const handleSave = async (e) => {
     e.preventDefault();
+
+    if (!validateFields()) {
+      toast.error("Please change something to update!");
+      return
+    }
+
     setIsLoading(true);
+
     try {
-      const url = `${process.env.REACT_APP_API_URL}auth/update-profile`;
-      // const url = `http://localhost:5002/auth/update-profile`;
+      // const url = `${process.env.REACT_APP_API_URL}auth/update-profile`;
+      const url = `http://localhost:5002/auth/update-profile`;
       const body = userDetails;
       const res = await RequestHandler(url, "PUT", body, {
         Authorization: `Bearer ${token}`,
@@ -89,6 +125,12 @@ const ProfileView = ({ userData, updateUserState }) => {
         let data = res?.data;
         toast.success(`${data?.message}`);
         if (data?.user) {
+          const storedUser = localStorage.getItem("userData");
+          const parsedUser = JSON.parse(storedUser);
+          parsedUser['lastName'] = data?.user?.lastName 
+          parsedUser['firstName'] = data?.user?.firstName
+          localStorage.setItem("userData", JSON.stringify(parsedUser))
+          setUserDetails(parsedUser)
           updateUserState(data?.user);
           setUserMain(data?.user);
           setIsEditing(false);
@@ -106,8 +148,8 @@ const ProfileView = ({ userData, updateUserState }) => {
   const handleSaveImage = async (e) => {
     e.preventDefault();
     try {
-      const url = `${process.env.REACT_APP_API_URL}auth/profile-picture`;
-      // const url = `http://localhost:5002/auth/profile-picture`;
+      // const url = `${process.env.REACT_APP_API_URL}auth/profile-picture`;
+      const url = `http://localhost:5002/auth/profile-picture`;
       const body = { profilePicture};
       const res = await RequestHandler(url, "PUT", body, {
         Authorization: `Bearer ${token}`,
@@ -116,12 +158,13 @@ const ProfileView = ({ userData, updateUserState }) => {
         let data = res?.data;
         toast.success(`${data?.message}`);
         if (data?.profilePicture) {
+          const  picture = data?.profilePicture || ""
           const storedUser = localStorage.getItem("userData");
           const parsedUser = JSON.parse(storedUser);
-          parsedUser['profilePicture'] = data?.profilePicture || ""
-          localStorage.setItem("userData", JSON.stringify(parsedUser))
-          setUserDetails(parsedUser);
+          localStorage.setItem("userData", JSON.stringify({...parsedUser ,profilePicture : picture}))
+          setUserDetails({...parsedUser ,profilePicture : picture});
           setIsEditing(false);
+          updateUserState({...userData ,profilePicture : picture });
           return;
         }
       } else if (!res?.success) toast.error(`${res?.message}`);
@@ -365,6 +408,12 @@ const ProfileView = ({ userData, updateUserState }) => {
               disabled={!isEditing}
               placeholder="Enter First Name"
             />
+           {errors['firstName'] && (
+            <div style={{ color: "red", fontSize: "10px", padding: "2px 4px", marginTop: "2px", borderRadius: "4px",}}>
+              {errors['firstName']}
+            </div>
+          )}
+
           </Box>
           <Box sx={{ display: "flex", flexDirection: "column", width: "100%" }}>
             <Typography
@@ -391,6 +440,11 @@ const ProfileView = ({ userData, updateUserState }) => {
               placeholder="Enter Last Name"
             />
           </Box>
+          {errors['lastName'] && (
+            <div style={{ color: "red", fontSize: "10px", padding: "2px 4px", marginTop: "2px", borderRadius: "4px",}}>
+              {errors['lastName']}
+            </div>
+          )}
         </Box>
 
         <Box
@@ -427,6 +481,11 @@ const ProfileView = ({ userData, updateUserState }) => {
               type="tel"
               placeholder="+1 Enter 10 digit number"
             />
+              {errors['phoneNumber'] && (
+            <div style={{ color: "red", fontSize: "10px", padding: "2px 4px", marginTop: "2px", borderRadius: "4px",}}>
+              {errors['phoneNumber']}
+            </div>
+          )}
           </Box>
           <Box sx={{ display: "flex", flexDirection: "column", width: "100%" }}>
             <Typography
@@ -453,6 +512,11 @@ const ProfileView = ({ userData, updateUserState }) => {
               name="email"
               placeholder="jondoe@gmail.com"
             />
+            {errors['email'] && (
+            <div style={{ color: "red", fontSize: "10px", padding: "2px 4px", marginTop: "2px", borderRadius: "4px",}}>
+              {errors['email']}
+            </div>
+          )}
           </Box>
         </Box>
 
@@ -487,6 +551,11 @@ const ProfileView = ({ userData, updateUserState }) => {
             disabled={!isEditing}
             placeholder="Enter Street Address"
           />
+            {errors['streetAddress'] && (
+            <div style={{ color: "red", fontSize: "10px", padding: "2px 4px", marginTop: "2px", borderRadius: "4px",}}>
+              {errors['streetAddress']}
+            </div>
+          )}
         </Box>
 
         <Box sx={{ display: "flex", gap: 2, mt: 2, width: "100%" }}>
@@ -515,6 +584,11 @@ const ProfileView = ({ userData, updateUserState }) => {
               name="city"
               placeholder="Your City"
             />
+              {errors['city'] && (
+            <div style={{ color: "red", fontSize: "10px", padding: "2px 4px", marginTop: "2px", borderRadius: "4px",}}>
+              {errors['city']}
+            </div>
+          )}
           </Box>
           <Box sx={{ display: "flex", flexDirection: "column", width: "100%" }}>
             <Typography
@@ -541,6 +615,11 @@ const ProfileView = ({ userData, updateUserState }) => {
               name="state"
               placeholder="Your State"
             />
+             {errors['state'] && (
+            <div style={{ color: "red", fontSize: "10px", padding: "2px 4px", marginTop: "2px", borderRadius: "4px",}}>
+              {errors['state']}
+            </div>
+          )}
           </Box>
         </Box>
 
@@ -600,6 +679,11 @@ const ProfileView = ({ userData, updateUserState }) => {
               name="postalCode"
               placeholder="eg. 00000"
             />
+            {errors['postalCode'] && (
+            <div style={{ color: "red", fontSize: "10px", padding: "2px 4px", marginTop: "2px", borderRadius: "4px",}}>
+              {errors['postalCode']}
+            </div>
+          )}
           </Box>
           <Toaster position="bottom-right" reverseOrder={true} />
         </Box>
