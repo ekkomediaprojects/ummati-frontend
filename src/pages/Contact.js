@@ -89,8 +89,8 @@ const Contact = () => {
       console.log("Form Data Submitted:", formData);
 
       try {
-        // const url = `${process.env.REACT_APP_API_URL}contactus/formSubmit`;
-        const url = `http://localhost:5002/contactus/formSubmit`;
+        const url = `${process.env.REACT_APP_API_URL}contactus/formSubmit`;
+        // const url = `http://localhost:5002/contactus/formSubmit`;
         const body = formData;
         const res = await RequestHandler(url, "POST", body);
         if (res?.success) {

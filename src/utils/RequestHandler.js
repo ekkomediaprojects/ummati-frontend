@@ -1,16 +1,17 @@
 import axios from "axios";
 
-const RequestHandler = async (url, method, data = {}, config = {}) => {
+const RequestHandler = async (url, method, data = {}, config = {} , content_type = "application/json") => {
   try {
-    // Make the API request
-       const response = await axios({
+    let headers =  {
+      "Content-Type": content_type,
+      ...config,
+    }
+    // Make the API request 
+    const response = await axios({
       url,
       method,
       data,
-      headers: {
-        "Content-Type": "application/json",
-        ...config,
-      },
+      headers,
     });
     if (response.data.response?.error) {
       console.log("req error")

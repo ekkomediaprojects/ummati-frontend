@@ -27,8 +27,8 @@ const Footer = () => {
     setIsLoading(true);
 
     try {
-      // const url = `${process.env.REACT_APP_API_URL}emailSubscribers/subscribe`;
-      const url = `http://localhost:5002/emailSubscribers/subscribe`;
+      const url = `${process.env.REACT_APP_API_URL}emailSubscribers/subscribe`;
+      // const url = `http://localhost:5002/emailSubscribers/subscribe`;
       const body = { email };
       const res = await RequestHandler(url, "POST",body);
       if (res?.success) {

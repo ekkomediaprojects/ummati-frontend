@@ -39,8 +39,8 @@ const ForgotPassword = () => {
     setApiError("");
 
     try {
-      // const url = `${process.env.REACT_APP_API_URL}auth/forgot-password`;
-      const url = `http://localhost:5002/auth/forgot-password`;
+      const url = `${process.env.REACT_APP_API_URL}auth/forgot-password`;
+      // const url = `http://localhost:5002/auth/forgot-password`;
       const body = { email };
       const res = await RequestHandler(url, "POST", body);
       if (res?.success) {

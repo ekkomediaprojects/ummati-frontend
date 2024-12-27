@@ -21,7 +21,7 @@ const ResetPassword = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [errors, setErrors] = useState({ password: "", confirmPassword: "" });
   const [isLoading, setIsLoading] = useState(false);
-  const [apiError, setApiError] = useState(""); // API error message
+  const [apiError, setApiError] = useState(""); // API error essage
   const { setIsLoggedIn ,setUserDetails} = useAuth(); 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -50,8 +50,8 @@ const ResetPassword = () => {
     setApiError("");
 
     try {
-      // const url = `${process.env.REACT_APP_API_URL}auth/reset-password/${token}`;
-      const url = `http://localhost:5002/auth/reset-password/${token}`;
+      const url = `${process.env.REACT_APP_API_URL}auth/reset-password/${token}`;
+      // const url = `http://localhost:5002/auth/reset-password/${token}`;
       const body = { password };
       const res = await RequestHandler(url, "PUT", body);
       if (res?.success) {

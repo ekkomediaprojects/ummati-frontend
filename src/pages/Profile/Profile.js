@@ -11,15 +11,11 @@ import ViewProfileComponent from "./ViewProfile";
 import PaymentHistoryComponent from "./PaymentHistory";
 import noProfile from "../../assets/images/no-profile-picture-15257.png";
 import RequestHandler from "../../utils/RequestHandler";
-import toast, { Toaster } from 'react-hot-toast';
+import toast, { Toaster} from 'react-hot-toast';
 
 const Profile = () => {
-  const location = useLocation();
-  const navigate = useNavigate();
   const [userData, setUserData] = useState(null);
   const [selectedButton, setSelectedButton] = useState("profile");
-  const api_url = process.env.REACT_APP_API_URL
-  console.log("api_url",api_url)
   const handleButtonClick = (page) => {
     console.log("page", page);
     setSelectedButton(page);
@@ -40,12 +36,9 @@ const Profile = () => {
             }
           } else if(!res?.success) {
             toast.error(`${res?.message}`);
-            console.error("Request error:", res, "Status:", res?.message);
           } 
-        
         } catch (err) {
             toast.error("An unexpected error occurred");
-            console.error("Unexpected error occurred:", err);
         }
       }
   
@@ -53,7 +46,9 @@ const Profile = () => {
     
     fetchUserInfo();
   }, []);
-
+  const updateUserState = (updated) => {
+    setUserData(updated);
+  };
   let infoStyle = {
     fontFamily: "Poppins",
     fontWeight: 500,
@@ -167,7 +162,7 @@ const Profile = () => {
                   color: "white",
                 }}
               >
-                {userData?.userName}
+                {userData?.firstName} {userData?.lastName}
               </Typography>
               <Typography
                 variant="body2"
@@ -179,27 +174,29 @@ const Profile = () => {
                 variant="body2"
                 sx={{ ...infoStyle, textDecoration: "underline", gap: "10px" }}
               >
-                {userData?.email}
+                Email : {userData?.email}
               </Typography>
             </Box>
-            <Box
-              sx={{
-                display: "flex",
-                justifyContent: { xs: "center", md: "left" },
-                alignItems: "center",
-                gap: "8px",
-              }}
-            >
-              <LocationOnIcon
+            {userData?.address && ( 
+              <Box
                 sx={{
-                  color: "#FFFFFF99",
-                  textAlign: { sm: "center", md: "left" },
+                  display: "flex",
+                  justifyContent: { xs: "center", md: "left" },
+                  alignItems: "center",
+                  gap: "8px",
                 }}
-              />
-              <Typography variant="body2" sx={infoStyle}>
-                {userData?.address}
-              </Typography>
-            </Box>
+              >
+                <LocationOnIcon
+                  sx={{
+                    color: "#FFFFFF99",
+                    textAlign: { sm: "center", md: "left" },
+                  }}
+                />
+                <Typography variant="body2" sx={infoStyle}>
+                  {userData.address}
+                </Typography>
+              </Box>
+            )}
             <Box
               sx={{
                 display: "flex",
@@ -236,9 +233,9 @@ const Profile = () => {
                 <Button
                   variant="outlined"
                   sx={{
-                    fontSize: { xs: "10px", sm: "12px", md: "16px" }, // Smaller font size for mobile
+                    fontSize: { xs: "10px", sm: "12px", md: "16px" }, 
                     padding: {
-                      xs: "1px 1px", // Smaller padding for mobile
+                      xs: "1px 1px", 
                       sm: "6px 12px",
                       md: "10px 20px",
                     },
@@ -291,7 +288,7 @@ const Profile = () => {
             <Box
               sx={{
                 display: "flex",
-                height: { xs: "auto", md: "820px" },
+                height: { xs: "auto", md: "900px" },
                 flexDirection: "column",
                 alignItems: "center",
                 padding: "16px",
@@ -299,13 +296,17 @@ const Profile = () => {
                 borderRadius: "8px",
               }}
             >
-              {selectedButton === "profile" && <ViewProfileComponent />}
+              {selectedButton === "profile" && <ViewProfileComponent  userData={userData} updateUserState={updateUserState}/>}
               {selectedButton === "paymenthistory" && (
                 <PaymentHistoryComponent />
               )}
               {selectedButton === "settings" && <SettingsComponent />}
             </Box>
           </Box>
+          <Toaster
+              position="bottom-right"
+              reverseOrder={true}
+           />
         </Box>
       </Box>
       <Box

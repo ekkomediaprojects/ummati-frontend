@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Box,
   TextField,
@@ -6,50 +6,126 @@ import {
   MenuItem,
   Typography,
   IconButton,
+  CircularProgress,
 } from "@mui/material";
 import { PhotoCamera } from "@mui/icons-material";
 import { useAuth } from "../../authProviders/AuthContext";
+import RequestHandler from "../../utils/RequestHandler";
+import toast, { Toaster } from "react-hot-toast";
 
-const ProfileView = () => {
-  // State to manage form data
-  const { setIsLoggedIn ,setUserDetails, isLoggedIn } = useAuth();
-  const [userDetails, setUser] = useState({
+const ProfileView = ({ userData, updateUserState }) => {
+  const [profilePicture, setProfilePicture] = useState("");
+  const {setUserDetails} = useAuth();
+  const [isLoading, setIsLoading] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
+  const user_data = {
     firstName: "",
     lastName: "",
-    contact: "",
+    phoneNumber: "",
     email: "",
-    address: "",
+    streetAddress: "",
     city: "",
     state: "",
-    country: "USA",
+    country: "",
     postalCode: "",
-    imageUrl : "",
-  });
-  const [isEditing, setIsEditing] = useState(false);
+  };
+  const [userDetails, setUser] = useState(user_data);
+  const token = localStorage.getItem("userToken");
+
+  const setUserMain = () => {
+    setUser((prevDetails) => ({
+      ...prevDetails,
+      ...Object.keys(prevDetails).reduce((acc, key) => {
+        acc[key] = userData[key] || "";
+        return acc;
+      }, {}),
+    }));
+  };
+  const updateUserData = () => {
+    setIsEditing(false);
+    setUserMain();
+  };
+  useEffect(() => {
+    if (userData) {
+      setUserMain();
+    }
+  }, [userData]);
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setUser({ ...userDetails, [name]: value });
   };
-  const handleFileChange = (e) => {
+  const handleFileChange = async (e) => {
     const file = e.target.files[0];
     if (file) {
-      const reader = new FileReader();
-
-      reader.onloadend = () => {
-        const base64String = reader.result; 
-        setUserDetails({ ...userDetails, 'imageUrl': base64String })
-        console.log("Base64 String:", base64String);
-      };
-
-      reader.readAsDataURL(file); // Convert the file to Base64
+      const formData = new FormData();
+      formData.append("image", file);
+      const url = `${process.env.REACT_APP_API_URL}auth/upload-image`;
+      // const url = `http://localhost:5002/auth/upload-image`;
+      try {
+        const res = await RequestHandler(url,"POST",formData,{ Authorization: `Bearer ${token}` },"multipart/form-data");
+        if (res?.success) {
+          let data = res?.data;
+          toast.success(data?.message);
+          if (data?.fileUrl) setProfilePicture(data?.fileUrl);
+        } else if (!res?.success) toast.error(`${res?.message}`);
+      } catch (error) {
+        toast.error("An unexpected error occurred");
+      }
     }
   };
   // Save the updated details
-  const handleSave = () => {
-    localStorage.setItem("userData", JSON.stringify(userDetails));
-    setUserDetails(userDetails); 
-    setIsEditing(false)
-    alert(userDetails);
+  const handleSave = async (e) => {
+    e.preventDefault();
+    setIsLoading(true);
+    try {
+      const url = `${process.env.REACT_APP_API_URL}auth/profile-update`;
+      // const url = `http://localhost:5002/auth/profile-update`;
+      const body = userDetails;
+      const res = await RequestHandler(url, "POST", body, {
+        Authorization: `Bearer ${token}`,
+      });
+      if (res?.success) {
+        let data = res?.data;
+        if (data?.profilePicture) {
+          setUserMain(data?.profilePicture);
+          const storedUser = localStorage.getItem("userData");
+          const parsedUser = JSON.parse(storedUser);
+          parsedUser['profilePicture'] = data?.profilePicture || ""
+          localStorage.setItem("userData", JSON.stringify(parsedUser))
+          setUserDetails(parsedUser);
+          setIsEditing(false);
+          return;
+        }
+      } else if (!res?.success) toast.error(`${res?.message}`);
+    } catch (error) {
+      toast.error("An unexpected error occurred");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+
+  const handleSaveImage = async (e) => {
+    e.preventDefault();
+    try {
+      const url = `${process.env.REACT_APP_API_URL}auth/profile-picture`;
+      // const url = `http://localhost:5002/auth/profile-picture`;
+      const body = { profilePicture};
+      const res = await RequestHandler(url, "PUT", body, {
+        Authorization: `Bearer ${token}`,
+      });
+      if (res?.success) {
+        let data = res?.data;
+        toast.success(`${data?.message}`);
+        if (data?.profilePicture) {
+          updateUserState(userDetails);
+          return;
+        }
+      } else if (!res?.success) toast.error(`${res?.message}`);
+    } catch (error) {
+      toast.error("An unexpected error occurred");
+    } 
   };
   const ButtonStyling = {
     margin: "10px",
@@ -64,7 +140,7 @@ const ProfileView = () => {
     width: { xs: "100px", md: "150px", lg: "200px" },
     height: { xs: "20px", md: "25px", lg: "37px" },
     alignItems: "center",
-  }
+  };
   return (
     <Box
       sx={{
@@ -77,39 +153,61 @@ const ProfileView = () => {
         paddingLeft: { md: "20px" },
       }}
     >
+      <Typography
+        sx={{
+          color: "#5A4283",
+          fontWeight: 600,
+          fontSize: { xs: "16px", md: "24px" },
+          lineHeight: "30px",
+        }}
+      >
+        Profile Photo
+      </Typography>
       <Box
         sx={{
           width: "100%",
           bgcolor: "white",
           display: "flex",
           flexDirection: "row",
-          justifyContent: "space-between",
+          justifyContent: "flex-end",
           alignItems: "center",
+          padding: "8px",
         }}
       >
-        <Typography
-          sx={{
-            color: "#5A4283",
-            fontWeight: 600,
-            fontSize: { xs: "16px", md: "24px" },
-            lineHeight: "30px",
-          }}
-        >
-          Profile Photo
-        </Typography>
         {isEditing ? (
-          <Button
-            sx={ButtonStyling}
-            onClick={handleSave} 
-          >
-            Save
+          <Box>
+            <Button
+              sx={{
+                margin: "10px",
+                backgroundColor: "#a88532",
+                color: "white",
+                fontWeight: 700,
+                fontSize: { xs: "14px", md: "16px", lg: "20px" },
+                lineHeight: "25px",
+                fontFamily: "Quicksand",
+                textTransform: "none",
+                borderRadius: "10px",
+                width: { xs: "100px", md: "150px", lg: "200px" },
+                height: { xs: "20px", md: "25px", lg: "37px" },
+                alignItems: "center",
+              }}
+              onClick={updateUserData}
+            >
+              Discard
+            </Button>
+            <Button sx={ButtonStyling} onClick={handleSave}>
+              {isLoading ? (
+                <CircularProgress size={24} color="inherit" />
+              ) : (
+                " Save"
+              )}
+            </Button>
+          </Box>
+        ) : (
+          <Button sx={ButtonStyling} onClick={() => setIsEditing(true)}>
+            Edit Profile
           </Button>
-        ) : (  <Button
-          sx={ButtonStyling}
-          onClick={() => setIsEditing(true)} 
-        >
-          Edit Profile
-        </Button>)}
+        )}
       </Box>
 
       <Box
@@ -124,73 +222,100 @@ const ProfileView = () => {
         <label
           htmlFor="upload-photo"
           style={{
-            width:  "199px",
-            height:  "199px",
+            width: "199px",
+            height: "199px",
             cursor: "pointer",
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
-            background : "#FAFAFA",
+            background: "#FAFAFA",
             border: "2px dashed #C4BAA2",
             borderRadius: "5px",
             position: "relative",
           }}
         >
-          {userDetails?.imageUrl ? (
-          <img
-              src={`data:image/jpeg;base64,${userDetails?.imageUrl}`}
-              alt="Uploaded"
-              style={{
+          {isEditing ? (
+            <Box
+              sx={{
                 width: "100%",
                 height: "100%",
-                objectFit: "cover",
+                backgroundImage: `url(${profilePicture})`, // Set background image
+                backgroundSize: "cover", // Ensure the image covers the div
+                backgroundPosition: "center", // Center the image
+                position: "relative", // For absolute positioning inside Box
               }}
-            />
-            
+            >
+              {/* Camera icon and other upload text */}
+              <PhotoCamera
+                sx={{
+                  color: "#C4BAA2",
+                  fontSize: "large",
+                  position: "absolute",
+                  top: "50%",
+                  left: "50%",
+                  transform: "translate(-50%, -50%)", // Center the icon
+                }}
+              />
+
+              <Typography
+                component="span"
+                sx={{
+                  position: "absolute",
+                  top: "70px",
+                  right: "70px",
+                  color: "#C4BAA2",
+                  fontSize: "24px",
+                  fontWeight: "900",
+                  lineHeight: "1",
+                }}
+              >
+                +
+              </Typography>
+
+              {/* Upload text below the camera icon */}
+              <Typography
+                sx={{
+                  fontSize: "14px",
+                  color: "#C4BAA2",
+                  position: "absolute",
+                  bottom: "40px",
+                  left: "50%",
+                  transform: "translateX(-50%)", // Center the text horizontally
+                }}
+              >
+                Upload
+              </Typography>
+
+              {/* Hidden file input */}
+              <input
+                type="file"
+                id="upload-photo"
+                style={{ display: "none" }}
+                onChange={handleFileChange} // Handle file change
+              />
+            </Box>
           ) : (
-            <PhotoCamera
-              sx={{
-                color: "#C4BAA2",
-                fontSize: "large",
-              }}
-            />
+            <Box>
+              {" "}
+              <img
+                src={userDetails?.profilePicture}
+                alt="Uploaded"
+                style={{
+                  width: "100%",
+                  height: "100%",
+                  objectFit: "cover",
+                }}
+              />{" "}
+            </Box>
           )}
-
-          <Typography
-            component="span"
-            sx={{
-              position: "absolute",
-              top: 70,
-              right: 70,
-              color: "#C4BAA2",
-              fontSize: "24px",
-              fontWeight: "900",
-              lineHeight: "1",
-            }}
-          >
-            +
-          </Typography>
-
-          {/* Upload text below the camera icon */}
-          <Typography
-            sx={{
-              fontSize: "14px",
-              color: "#C4BAA2",
-              position: "absolute",
-              bottom: 40, // Adjust as needed
-            }}
-          >
-            Upload
-          </Typography>
-
-          {/* Hidden file input */}
-          <input
-            type="file"
-            id="upload-photo"
-            style={{ display: "none" }}
-            onChange={handleFileChange} // Handle file change
-          />
         </label>
+        {isEditing && (
+          <Box>
+            <Button sx={ButtonStyling} onClick={handleSaveImage}>
+              Save Image
+            </Button>
+          </Box>
+        )}
       </Box>
 
       {/* Profile Form */}
@@ -293,7 +418,9 @@ const ProfileView = () => {
               variant="outlined"
               fullWidth
               size="small"
+              name="phoneNumber"
               onChange={handleChange}
+              value={userDetails?.phoneNumber}
               disabled={!isEditing}
               type="tel"
               placeholder="+1 Enter 10 digit number"
@@ -316,10 +443,12 @@ const ProfileView = () => {
             <TextField
               variant="outlined"
               fullWidth
-              onChange={handleChange}
-              disabled={!isEditing}
+              value={userDetails?.email}
+              // onChange={handleChange}
+              disabled={true}
               size="small"
               type="email"
+              name="email"
               placeholder="jondoe@gmail.com"
             />
           </Box>
@@ -350,6 +479,8 @@ const ProfileView = () => {
             variant="outlined"
             fullWidth
             size="small"
+            name="streetAddress"
+            value={userDetails?.streetAddress}
             onChange={handleChange}
             disabled={!isEditing}
             placeholder="Enter Street Address"
@@ -377,7 +508,9 @@ const ProfileView = () => {
               fullWidth
               size="small"
               onChange={handleChange}
+              value={userDetails?.city}
               disabled={!isEditing}
+              name="city"
               placeholder="Your City"
             />
           </Box>
@@ -400,8 +533,10 @@ const ProfileView = () => {
               variant="outlined"
               fullWidth
               size="small"
+              value={userDetails?.state}
               onChange={handleChange}
               disabled={!isEditing}
+              name="state"
               placeholder="Your State"
             />
           </Box>
@@ -428,11 +563,13 @@ const ProfileView = () => {
               fullWidth
               size="small"
               select
-              defaultValue="USA"
+              value={userDetails?.country}
               color="#11111166"
               onChange={handleChange}
               disabled={!isEditing}
+              name="country"
             >
+              <MenuItem value="">None</MenuItem>
               <MenuItem value="USA">USA</MenuItem>
               <MenuItem value="Pakistan">Germany</MenuItem>
             </TextField>
@@ -455,11 +592,14 @@ const ProfileView = () => {
               variant="outlined"
               fullWidth
               size="small"
+              value={userDetails?.postalCode}
               onChange={handleChange}
               disabled={!isEditing}
+              name="postalCode"
               placeholder="eg. 00000"
             />
           </Box>
+          <Toaster position="bottom-right" reverseOrder={true} />
         </Box>
       </Box>
     </Box>
