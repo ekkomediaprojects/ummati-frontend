@@ -16,7 +16,7 @@ const Header = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
- 
+  console.log("isLoggedIn", isLoggedIn)
 
   const handleMenuClick = (event) => {
     setAnchorEl(event.currentTarget); // Open menu when the user clicks the avatar
