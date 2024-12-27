@@ -127,9 +127,9 @@ const HomePage = () => {
         height: '100%',
       }}
     >
-      {loading ? (
+      {/* {loading ? (
         <Skeleton variant="rectangular" width="100%" height={200} sx={{ borderRadius: '12px' }} />
-      ) : (
+      ) : ( */}
         <Box sx={{ position: 'relative' }}>
           {!isIframeLoaded && (
             <Box
@@ -160,20 +160,10 @@ const HomePage = () => {
           ></iframe> */}
 
             <div className="flex items-center justify-center">
-                  <iframe
-                    className="shadow-lg"
-                    width="560"
-                    height="315"
-                    src="https://www.youtube.com/embed/UbnZnSIna3U?si=W34c9Pi3CeAQNjf_"
-                    title="YouTube video player"
-                    frameBorder="0"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                    referrerPolicy="strict-origin-when-cross-origin"
-                    allowFullScreen
-                  ></iframe>
+            <iframe width="560" height="315"   onLoad={handleIframeLoad} src="https://www.youtube.com/embed/8FInXCIi4Fw?si=gdk1TeLAyccsXu7M" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
                 </div>
              </Box>
-      )}
+      {/* )} */}
     </Typography>
     </Box>
 
