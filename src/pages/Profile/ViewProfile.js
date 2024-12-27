@@ -50,11 +50,11 @@ const ProfileView = ({ userData, updateUserState }) => {
     if (isNaN(userDetails.postalCode)) {
       newErrors.postalCode = "Postal code should be a valid number";
     }
-    Object.keys(userDetails).forEach((key) => {
-      if (!userDetails[key].trim() && !newErrors[key]) {
-        newErrors[key] = `${key} is required`;
-      }
-    });
+    // Object.keys(userDetails).forEach((key) => {
+    //   if (!userDetails[key].trim() && !newErrors[key]) {
+    //     newErrors[key] = `${key} is required`;
+    //   }
+    // });
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0; // Return true if no errors
@@ -107,7 +107,7 @@ const ProfileView = ({ userData, updateUserState }) => {
   const handleSave = async (e) => {
     e.preventDefault();
 
-    if (!validateFields()) {
+    if (validateFields()) {
       toast.error("Please change something to update!");
       return
     }
