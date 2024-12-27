@@ -288,7 +288,7 @@ const Profile = () => {
             <Box
               sx={{
                 display: "flex",
-                height: { xs: "auto", md: "900px" },
+                height: { xs: "auto", md: "1100px" },
                 flexDirection: "column",
                 alignItems: "center",
                 padding: "16px",
@@ -313,8 +313,8 @@ const Profile = () => {
         sx={{
           padding: "20px",
           height: {
-            xs: selectedButton === "profile" ? "1500px" : "1300px",
-            md: "800px",
+            xs: selectedButton === "profile" ? "1800px" : "1300px",
+            md: "1000px",
           },
         }}
       ></Box>
