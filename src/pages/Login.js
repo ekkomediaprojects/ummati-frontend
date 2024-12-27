@@ -55,9 +55,7 @@ const Login = () => {
       if (res?.success) {
         let data = res?.data
         toast.success(data?.message);
-        console.log("User Loggedin successfully:", res.data, "Status:", res.status);
-        if(data?.user && data?.token){
-       
+       if(data?.user && data?.token){
           localStorage.setItem("userToken", data?.token)
           setIsLoggedIn(true);
           setUserDetails(data?.user);

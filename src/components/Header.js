@@ -16,8 +16,8 @@ const Header = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
- 
-
+  console.log("isLoggedIn", isLoggedIn)
+  console.log("userDetails", userDetails)
   const handleMenuClick = (event) => {
     setAnchorEl(event.currentTarget); // Open menu when the user clicks the avatar
   };
@@ -281,9 +281,7 @@ const Header = () => {
                 onClick={handleMenuClick}
               >
                 <Avatar
-                  src={
-                    userDetails?.imageUrl || noProfile
-                  }
+                  src={ userDetails?.profilePicture || noProfile}
                   alt="User"
                   sx={{ width: 32, height: 32, marginRight: 1 }}
                 />
@@ -294,7 +292,7 @@ const Header = () => {
                   fontWeight="bold"
                   className="text-[#4D744F]"
                 >
-                  {userDetails?.username}
+                  {userDetails?.firstName}
                 </Typography>
 
                 {/* Dropdown icon */}
@@ -305,9 +303,9 @@ const Header = () => {
 
               {/* Dropdown Menu */}
               <Menu
-                anchorEl={anchorEl} // Menu is anchored to this element
-                open={Boolean(anchorEl)} // If anchorEl is set, the menu will open
-                onClose={handleCloseMenu} // Close the menu
+                anchorEl={anchorEl} 
+                open={Boolean(anchorEl)} 
+                onClose={handleCloseMenu}
                 PaperProps={{
                   sx: {
                     minWidth: 160,

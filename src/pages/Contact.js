@@ -4,8 +4,12 @@ import Footer from "../components/Footer";
 import bannerImage from "../assets/images/purpleBanner.png";
 import "../assets/fonts/Poppins-Regular.ttf";
 import "../assets/fonts/Quicksand-Regular.ttf";
-import { Typography, Button, Box, IconButton } from "@mui/material";
+import { Typography, Button, Box, IconButton,CircularProgress } from "@mui/material";
+import RequestHandler from "../utils/RequestHandler";
+import toast, { Toaster } from 'react-hot-toast';
+
 const Contact = () => {
+  const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -78,10 +82,33 @@ const Contact = () => {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (validateForm()) {
+    setIsLoading(true);
+
       console.log("Form Data Submitted:", formData);
-      alert("Form submitted successfully!");
+
+      try {
+        const url = `${process.env.REACT_APP_API_URL}contactus/formSubmit`;
+        // const url = `http://localhost:5002/contactus/formSubmit`;
+        const body = formData;
+        const res = await RequestHandler(url, "POST", body);
+        if (res?.success) {
+          let data = res?.data
+          toast.success(data?.message);
+          console.log("Forget Password:", res.data, "Status:", res.status);
+          setFormData({firstName: "",lastName: "",email: "",topic: "",message: ""})
+          return;
+        } else if(!res?.success) {
+          toast.error(`${res?.message}`);
+          console.error("Request error:", res, "Status:", res?.message);
+        }
+      } catch (error) {
+        toast.error("An Unexpected error occurred");
+        console.error("Unexpected error occurred:", error);
+      } finally {
+        setIsLoading(false);
+      }
     }
   };
 
@@ -240,9 +267,13 @@ const Contact = () => {
 
           {/* Submit Button */}
           <div style={styles.submitButton} onClick={handleSubmit}>
-            <span style={styles.submitText}>Submit</span>
+          {isLoading ? <CircularProgress color ="white" size={24} /> : <span style={styles.submitText}>Submit</span>}
           </div>
         </div>
+        <Toaster
+          position="bottom-right"
+          reverseOrder={true}
+        />
       </div>
 
       <Footer />

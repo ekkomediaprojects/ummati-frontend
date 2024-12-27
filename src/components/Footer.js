@@ -1,19 +1,21 @@
 import React, { useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import logo from "../assets/images/footer logo.svg";
-import { Button, Box, Typography, Grid2 } from "@mui/material";
+import { Button, Box, Typography, Grid2,CircularProgress } from "@mui/material";
+import RequestHandler from "../utils/RequestHandler";
+import toast, { Toaster } from 'react-hot-toast';
 const Footer = () => {
   const location = useLocation();
   const navigtion = useNavigate();
   const [email, setEmail] = useState("");
   const [error, setError] = useState(null);
   const [successMessage, setSuccessMessage] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   const isActive = (path) => location.pathname === path;
 
   const handleSignUp = async (e) => {
     e.preventDefault();
-
     if (!email || !/\S+@\S+\.\S+/.test(email)) {
       console.log("Invalid email:", email);
       setError("Please enter a valid email address.");
@@ -21,9 +23,27 @@ const Footer = () => {
       return;
     }
 
-    console.log("Navigating to signup with email:", email);
+    setError("");
+    setIsLoading(true);
+
+    try {
+      const url = `${process.env.REACT_APP_API_URL}emailSubscribers/subscribe`;
+      // const url = `http://localhost:5002/emailSubscribers/subscribe`;
+      const body = { email };
+      const res = await RequestHandler(url, "POST",body);
+      if (res?.success) {
+        let data = res?.data
+        toast.success(data?.message);
+        return;
+      } else if(!res?.success) {
+        toast.error(`${res?.message}`);
+      }
+    } catch (error) {
+      toast.error("An Unexpected error occurred");
+    } finally {
+      setIsLoading(false);
+    }
     setError(null);
-    navigtion("/signup");
   };
 
   return (
@@ -130,7 +150,7 @@ const Footer = () => {
               }}
               onClick={handleSignUp}
             >
-              Sign Up
+               {isLoading ? <CircularProgress size={24} color="inherit" /> : "Sign Up"}
             </Button>
           </Box>
 

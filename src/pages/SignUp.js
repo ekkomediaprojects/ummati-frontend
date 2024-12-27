@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Button, Typography, Box, IconButton, FormControlLabel, Checkbox } from "@mui/material";
+import { Button, Typography, Box, IconButton, FormControlLabel, Checkbox,CircularProgress } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
@@ -16,6 +16,7 @@ const SignUp = () => {
   const [password, setPassword] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [agreedToTerms, setAgreedToTerms] = useState(false);
   const { setIsLoggedIn ,setUserDetails} = useAuth(); 
@@ -51,6 +52,11 @@ const SignUp = () => {
       console.log("Form validation errors:", newErrors);
       return;
     }
+
+
+    setErrors({});
+    setIsLoading(true);
+
     const url = `${process.env.REACT_APP_API_URL}auth/register`;
     // const url = `http://localhost:5002/auth/register`;
 
@@ -80,6 +86,8 @@ const SignUp = () => {
     } catch (err) {
         toast.error("An unexpected error occurred");
         console.error("Unexpected error occurred:", err);
+    } finally {
+      setIsLoading(false);
     }
   };    
 
@@ -329,9 +337,9 @@ const SignUp = () => {
                 padding: "12px",
                 color: "white",
               }}
-              disabled={!agreedToTerms}
+              disabled={!agreedToTerms || isLoading}
             >
-              Sign Up
+              {isLoading ? <CircularProgress size={24} color="inherit" /> : "Sign Up"}
             </Button>
           </form>
 
