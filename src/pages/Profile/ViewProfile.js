@@ -79,8 +79,8 @@ const ProfileView = ({ userData, updateUserState }) => {
     e.preventDefault();
     setIsLoading(true);
     try {
-      const url = `${process.env.REACT_APP_API_URL}auth/profile-update`;
-      // const url = `http://localhost:5002/auth/profile-update`;
+      const url = `${process.env.REACT_APP_API_URL}auth/update-profile`;
+      // const url = `http://localhost:5002/auth/update-profile`;
       const body = userDetails;
       const res = await RequestHandler(url, "POST", body, {
         Authorization: `Bearer ${token}`,
@@ -237,8 +237,8 @@ const ProfileView = ({ userData, updateUserState }) => {
           {isEditing ? (
             <Box
               sx={{
-                width: "100%",
-                height: "100%",
+                width: "199px",
+                height: "199px",
                 backgroundImage: `url(${profilePicture})`, // Set background image
                 backgroundSize: "cover", // Ensure the image covers the div
                 backgroundPosition: "center", // Center the image
@@ -301,8 +301,8 @@ const ProfileView = ({ userData, updateUserState }) => {
                 src={userDetails?.profilePicture}
                 alt="Uploaded"
                 style={{
-                  width: "100%",
-                  height: "100%",
+                  width: "199px",
+                  height: "199px",
                   objectFit: "cover",
                 }}
               />{" "}

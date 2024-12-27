@@ -22,12 +22,18 @@ import axios from "axios";
 
 const Podcast = () => {
   // const [isIframeLoaded, setIsIframeLoaded] = useState(false);
-  const [podcasts, setPodcasts] = useState([]); 
-  const [loading, setLoading] = useState(true); 
+  const [podcasts, setPodcasts] = useState([
+    { id : 1, src : "https://www.youtube.com/embed/UbnZnSIna3U?si=W34c9Pi3CeAQNjf_"},
+    { id : 2, src : "https://www.youtube.com/embed/UbnZnSIna3U?si=W34c9Pi3CeAQNjf_"},
+    // { id : 3, src : "https://www.youtube.com/embed/UbnZnSIna3U?si=W34c9Pi3CeAQNjf_"},
+    // { id : 4, src : "https://www.youtube.com/embed/UbnZnSIna3U?si=W34c9Pi3CeAQNjf_"},
+    { id : 5, src : "https://www.youtube.com/embed/UbnZnSIna3U?si=W34c9Pi3CeAQNjf_"},
+  ]); 
+  const [loading, setLoading] = useState(false); 
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPodcasts, setTotalPodcasts] = useState(0); 
   const [accessToken, setAccessToken] = useState(null);
-  const podcastsPerPage = 1; 
+  const podcastsPerPage = 1000; 
 
   // Function to handle iframe load
   // const handleIframeLoad = () => {
@@ -39,41 +45,41 @@ const Podcast = () => {
   };
 
   const getSpotifyPodcasts = async () => {
-    const podcastID = process.env.REACT_APP_PODCAST_ID;
-    setLoading(true);
-    if(accessToken !==null){
-      try {
-        const response = await axios.get(
-          `https://api.spotify.com/v1/shows?ids=${podcastID}&market=US`,
-          {
-            headers: {
-              Authorization: `Bearer ${accessToken}`,
-            },
-          }
-        );
+    // const podcastID = process.env.REACT_APP_PODCAST_ID;
+    // setLoading(true);
+    // if(accessToken !==null){
+    //   try {
+    //     const response = await axios.get(
+    //       `https://api.spotify.com/v1/shows?ids=${podcastID}&market=US`,
+    //       {
+    //         headers: {
+    //           Authorization: `Bearer ${accessToken}`,
+    //         },
+    //       }
+    //     );
   
-        const fetchedPodcasts = response?.data?.shows;
-        console.log("fetached" , fetchedPodcasts)
-        const totalCount = response?.data?.shows.length;
-        setPodcasts(fetchedPodcasts);
-        setTotalPodcasts(totalCount);
-        setLoading(false);
-      } catch (error) {
-        console.error("Error fetching podcasts:", error);
-        setLoading(false);
-      }
-    }
+    //     const fetchedPodcasts = response?.data?.shows;
+    //     console.log("fetached" , fetchedPodcasts)
+    //     const totalCount = response?.data?.shows.length;
+    //     setPodcasts(fetchedPodcasts);
+    //     setTotalPodcasts(totalCount);
+    //     setLoading(false);
+    //   } catch (error) {
+    //     console.error("Error fetching podcasts:", error);
+    //     setLoading(false);
+    //   }
+    // }
    
   };
 
-  useEffect(() => {
-    const token = localStorage.getItem("AccessToken");
-    setAccessToken(token); // Set the access token properly
+  // useEffect(() => {
+  //   const token = localStorage.getItem("AccessToken");
+  //   setAccessToken(token); // Set the access token properly
 
-    if (token) {
-      getSpotifyPodcasts();
-    }
-  }, [accessToken]);
+  //   if (token) {
+  //     getSpotifyPodcasts();
+  //   }
+  // }, [accessToken]);
 
   // Paginate podcasts based on the current page
   const paginatedPodcasts = podcasts.slice((currentPage - 1) * podcastsPerPage,currentPage * podcastsPerPage);
@@ -156,38 +162,56 @@ const Podcast = () => {
 
         {/* Row 2: Media Player Box */}
         <Box
-          sx={{
-            width: "100%",
-            textAlign: "center",
-            display: "flex",
-            justifyContent: "center", // Aligns the content to the start of the row
-            flexWrap: "wrap",
-            padding : 2,
-          }}
+            sx={{
+              width: "100%",
+              display: "flex",
+              flexDirection: "row", // Set row layout
+              alignItems: "center",
+              justifyContent: "flex-start", // Align items to the start of the row
+              padding: 2,
+              gap: 2, // Add space between items
+              overflowX: "auto", // Enable horizontal scroll
+              scrollBehavior: "smooth", // Smooth scrolling
+              border: "1px solid #ccc", // Optional: Add a border for styling
+              borderRadius: 2, // Optional: Rounded corners
+              height: "auto", // Adjust height to fit content
+            }}
+          >
+            {loading ? (
+              <CircularProgress />
+            ) : paginatedPodcasts.length === 0 ? (
+              <Typography>No podcasts available at the moment</Typography>
+            ) : (
+              paginatedPodcasts.map((podcast) => (
+                <Box
+                  key={podcast?.id}
+                  sx={{
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    minWidth: "320px", // Minimum width for each podcast
+                    maxWidth: "560px", // Match iframe width
+                    p: 1,
+                    mx :10
+                  }}
+                >
+                  <iframe
+                    className="shadow-lg"
+                    width="560"
+                    height="315"
+                    src={podcast?.src}
+                    title="YouTube video player"
+                    frameBorder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    referrerPolicy="strict-origin-when-cross-origin"
+                    allowFullScreen
+                  ></iframe>
+                </Box>
+              ))
+            )}
+          </Box>
 
-        >
-        {loading ? (
-          <CircularProgress />
-        ) : paginatedPodcasts.length === 0 ? (
-          <Typography>No podcasts available at the moment</Typography>
-        ) : (
-          paginatedPodcasts.map((podcast) => (
-            <Box
-              key={podcast?.id}
-              sx={{
-                display: "flex",
-                flexDirection: "row",
-                width: "100%",
-                alignItems: "center",
-                justifyContent: "center",
-                p : 1
-              }}
-            >
-              <PodcastPlayer token={accessToken} show={podcast} />
-            </Box>
-          ))
-        )}
-        </Box>
 
         {/* Pagination */}
         <Box

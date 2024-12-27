@@ -144,7 +144,7 @@ const HomePage = () => {
               <CircularProgress />
             </Box>
           )}
-          <iframe
+          {/* <iframe
           style={{
             borderRadius: '12px',
             width: '100%',
@@ -157,9 +157,22 @@ const HomePage = () => {
           allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
           loading="lazy"
           onLoad={handleIframeLoad}
-          ></iframe>
+          ></iframe> */}
 
-        </Box>
+            <div className="flex items-center justify-center">
+                  <iframe
+                    className="shadow-lg"
+                    width="560"
+                    height="315"
+                    src="https://www.youtube.com/embed/UbnZnSIna3U?si=W34c9Pi3CeAQNjf_"
+                    title="YouTube video player"
+                    frameBorder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    referrerPolicy="strict-origin-when-cross-origin"
+                    allowFullScreen
+                  ></iframe>
+                </div>
+             </Box>
       )}
     </Typography>
     </Box>
