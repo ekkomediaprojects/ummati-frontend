@@ -1,7 +1,8 @@
 import React, { useState } from "react";
-import { Button, Typography, Box, IconButton, CircularProgress } from "@mui/material";
+import { Button,Link, Typography, Box, IconButton, CircularProgress } from "@mui/material";
 import { useAuth } from '../authProviders/AuthContext'; // Import the useAuth hook to access the context
-
+import RequestHandler from "../utils/RequestHandler";
+import toast, { Toaster } from 'react-hot-toast';
 import { useNavigate } from "react-router-dom";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
@@ -47,34 +48,32 @@ const Login = () => {
     setApiError("");
 
     try {
-      // const response = await fetch("/api/login", {
-      //   method: "POST",
-      //   headers: { "Content-Type": "application/json" },
-      //   body: JSON.stringify({ email, password }),
-      // });
-
-      // let data = await response.json();
-// 
-      let data = {
-        username: "john_doe",
-        email: email,
-        token: "abc123xyz",
-        member_id: "3438204207",
-        address : "street 10,los Angles",
-        imageUrl : "https://www.gravatar.com/avatar/2c7d99fe281ecd3bcd65ab915bac6dd5?s=250"
-      };
-      // if (response.ok) {
-        // Save user details to localStorage
+      const url = `${process.env.REACT_APP_API_URL}auth/login`;
+      // const url = `http://localhost:5002/auth/login`;
+      const body = { email, password };
+      const res = await RequestHandler(url, "POST", body);
+      if (res?.success) {
+        let data = res?.data
+        toast.success(data?.message);
+        console.log("User Loggedin successfully:", res.data, "Status:", res.status);
+        if(data?.user && data?.token){
        
-        setIsLoggedIn(true);  // Set login state to true in the AuthContext
-        setUserDetails(data)
-        localStorage.setItem("userLogin", JSON.stringify(data));
-        navigate("/");
-      // } else {
-      //   setApiError(data.message || "Login failed. Please try again.");
-      // }
+          localStorage.setItem("userToken", data?.token)
+          setIsLoggedIn(true);
+          setUserDetails(data?.user);
+          localStorage.setItem("userData", JSON.stringify(data?.user))
+          setTimeout(() => {navigate("/")}, 1000);
+          return;
+        }
+      } else if(!res?.success) {
+        toast.error(`${res?.message}`);
+        console.error("Request error:", res, "Status:", res?.message);
+      }
     } catch (error) {
-      setApiError("An error occurred. Please try again.");
+      toast.error("An unexpected error occurred");
+      console.error("Unexpected error occurred:", error);
+
+      // setApiError("An error occurred. Please try again.");
     } finally {
       setIsLoading(false);
     }
@@ -265,7 +264,16 @@ const Login = () => {
                   color: "#5A4283",
                 }}
               >
-                <a href="/forgot-password">Forgot your password?</a>
+                <a
+                  href="/forgot-password"
+                  className="text-[#5A4283]"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    navigate("/forgot-password");
+                  }}
+                >
+                  Forgot your password?
+                </a>
               </Typography>
             </div>
 
@@ -286,6 +294,31 @@ const Login = () => {
             >
               {isLoading ? <CircularProgress size={24} color="inherit" /> : "Login"}
             </Button>
+            {/* Register Link */}
+          <Typography
+            variant="body2"
+            color="textSecondary"
+            sx={{
+              fontFamily: "Poppins",
+              textAlign: "center",
+              color: "grey",
+              fontSize: "16px",
+              margin : "8px"
+            }}
+            className="text-sm text-center"
+          >
+            Do you already have an account?{" "}
+            <a
+              href="/register"
+              className="text-[#5A4283] hover:underline"
+              onClick={(e) => {
+                e.preventDefault();
+                navigate("/signup");
+              }}
+            >
+              Sign Up
+            </a>
+          </Typography>
             {apiError && (
               <Typography variant="body2" color="error" sx={{ marginTop: "16px" }}>
                 {apiError}
@@ -293,6 +326,10 @@ const Login = () => {
             )}
           </form>
         </Box>
+        <Toaster
+          position="bottom-right"
+          reverseOrder={true}
+        />
       </Box>
       <Footer />
     </div>
