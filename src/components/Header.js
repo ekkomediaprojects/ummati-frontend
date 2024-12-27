@@ -273,7 +273,7 @@ const Header = () => {
           })}
         </nav>
      
-     {isLoggedIn ? (
+     {isLoggedIn === true ? (
           <div className="mt-4 lg:mt-0 text-center flex items-center justify-center">
             <div>
               <div
