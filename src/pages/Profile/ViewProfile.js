@@ -89,8 +89,8 @@ const ProfileView = ({ userData, updateUserState }) => {
     if (file) {
       const formData = new FormData();
       formData.append("image", file);
-      // const url = `${process.env.REACT_APP_API_URL}auth/upload-image`;
-      const url = `http://localhost:5002/auth/upload-image`;
+      const url = `${process.env.REACT_APP_API_URL}auth/upload-image`;
+      // const url = `http://localhost:5002/auth/upload-image`;
       try {
         const res = await RequestHandler(url,"POST",formData,{ Authorization: `Bearer ${token}` },"multipart/form-data");
         if (res?.success) {
@@ -115,8 +115,8 @@ const ProfileView = ({ userData, updateUserState }) => {
     setIsLoading(true);
 
     try {
-      // const url = `${process.env.REACT_APP_API_URL}auth/update-profile`;
-      const url = `http://localhost:5002/auth/update-profile`;
+      const url = `${process.env.REACT_APP_API_URL}auth/update-profile`;
+      // const url = `http://localhost:5002/auth/update-profile`;
       const body = userDetails;
       const res = await RequestHandler(url, "PUT", body, {
         Authorization: `Bearer ${token}`,
@@ -148,8 +148,8 @@ const ProfileView = ({ userData, updateUserState }) => {
   const handleSaveImage = async (e) => {
     e.preventDefault();
     try {
-      // const url = `${process.env.REACT_APP_API_URL}auth/profile-picture`;
-      const url = `http://localhost:5002/auth/profile-picture`;
+      const url = `${process.env.REACT_APP_API_URL}auth/profile-picture`;
+      // const url = `http://localhost:5002/auth/profile-picture`;
       const body = { profilePicture};
       const res = await RequestHandler(url, "PUT", body, {
         Authorization: `Bearer ${token}`,
