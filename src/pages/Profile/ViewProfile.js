@@ -87,13 +87,10 @@ const ProfileView = ({ userData, updateUserState }) => {
       });
       if (res?.success) {
         let data = res?.data;
-        if (data?.profilePicture) {
-          setUserMain(data?.profilePicture);
-          const storedUser = localStorage.getItem("userData");
-          const parsedUser = JSON.parse(storedUser);
-          parsedUser['profilePicture'] = data?.profilePicture || ""
-          localStorage.setItem("userData", JSON.stringify(parsedUser))
-          setUserDetails(parsedUser);
+        toast.success(`${data?.message}`);
+        if (data?.user) {
+          updateUserState(data?.user);
+          setUserMain(data?.user);
           setIsEditing(false);
           return;
         }
@@ -119,7 +116,12 @@ const ProfileView = ({ userData, updateUserState }) => {
         let data = res?.data;
         toast.success(`${data?.message}`);
         if (data?.profilePicture) {
-          updateUserState(userDetails);
+          const storedUser = localStorage.getItem("userData");
+          const parsedUser = JSON.parse(storedUser);
+          parsedUser['profilePicture'] = data?.profilePicture || ""
+          localStorage.setItem("userData", JSON.stringify(parsedUser))
+          setUserDetails(parsedUser);
+          setIsEditing(false);
           return;
         }
       } else if (!res?.success) toast.error(`${res?.message}`);
