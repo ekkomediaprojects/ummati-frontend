@@ -6,8 +6,8 @@ import leftImageCroped from "../assets/images/homepage/hero/left image heroSecti
 import rightImageCroped from "../assets/images/homepage/hero/right image heroSectionCroped.png";
 
 import rightImage from "../assets/images/homepage/hero/right image heroSection.png";
-import calendarImage from "../assets/images/homepage/hero/calendar.png";
-import memberImage from "../assets/images/homepage/hero/member.png";
+import calendarImage from "../assets/images/homepage/hero/calendar.svg";
+import memberImage from "../assets/images/homepage/hero/member.svg";
 import podcastImage from "../assets/images/homepage/hero/podcast.png";
 import { useNavigate } from "react-router-dom";
 const StyledHero = styled(Box)({
