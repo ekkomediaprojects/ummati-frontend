@@ -1,15 +1,15 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import {
   Box,
   Typography,
   Grid,
   IconButton,
-  CircularProgress,
+//  CircularProgress,
   Pagination,
 } from "@mui/material";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
-import PodcastPlayer from "./PodcastPlayer";
+//import PodcastPlayer from "./PodcastPlayer";
 import banner from "../assets/images/podcasts/banner.png";
 import podcastLogo from "../assets/images/podcasts/Ummati Podcast Logo.svg";
 import spotifyIcon from "../assets/images/podcasts/spotifyIcon.svg";
@@ -18,11 +18,11 @@ import youtubeIcon from "../assets/images/podcasts/YouTube Icon.svg";
 import coverImage from "../assets/images/podcasts/podcastCover.png";
 import "../assets/fonts/Quicksand-Regular.ttf";
 import "../assets/fonts/Poppins-Regular.ttf";
-import axios from "axios";
+//import axios from "axios";
 
 const Podcast = () => {
   // const [isIframeLoaded, setIsIframeLoaded] = useState(false);
-  const [podcasts, setPodcasts] = useState([
+  const [podcasts] = useState([
     // {
     //   id: 1,
     //   src: "https://www.youtube.com/embed/UbnZnSIna3U?si=W34c9Pi3CeAQNjf_",
@@ -32,10 +32,10 @@ const Podcast = () => {
       src: "https://www.youtube.com/embed/8FInXCIi4Fw?si=gdk1TeLAyccsXu7M",
     },
   ]);
-  const [loading, setLoading] = useState(false);
+  //const [loading, setLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
-  const [totalPodcasts, setTotalPodcasts] = useState(0);
-  const [accessToken, setAccessToken] = useState(null);
+  const [totalPodcasts] = useState(0);
+  //const [accessToken, setAccessToken] = useState(null);
   const podcastsPerPage = 1000;
 
   // Function to handle iframe load
@@ -47,7 +47,7 @@ const Podcast = () => {
     setCurrentPage(value);
   };
 
-  const getSpotifyPodcasts = async () => {
+  //const getSpotifyPodcasts = async () => {
     // const podcastID = process.env.REACT_APP_PODCAST_ID;
     // setLoading(true);
     // if(accessToken !==null){
@@ -71,7 +71,7 @@ const Podcast = () => {
     //     setLoading(false);
     //   }
     // }
-  };
+//  };
 
   // useEffect(() => {
   //   const token = localStorage.getItem("AccessToken");
@@ -246,8 +246,13 @@ const Podcast = () => {
           >
             Listen from the best podcast platform
           </Typography>
-          <Box sx={{ display: "flex", justifyContent: "center", gap: 3 }}>
-            <IconButton>
+<Box sx={{ display: "flex", justifyContent: "center", gap: 3 }}>
+            <IconButton
+              component="a"
+              href="https://open.spotify.com/episode/0BrKk8yGsq7WqxYyLc0RLJ?si=eutwm8XGT9eEud3n6nA_aQ"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               <Box
                 component="img"
                 src={spotifyIcon}
@@ -255,7 +260,12 @@ const Podcast = () => {
                 sx={{ width: "24px", height: "24px" }}
               />
             </IconButton>
-            <IconButton>
+            <IconButton
+              component="a"
+              href="https://www.apple.com/apple-podcasts/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               <Box
                 component="img"
                 src={applePodcastIcon}
@@ -263,7 +273,12 @@ const Podcast = () => {
                 sx={{ width: "24px", height: "24px" }}
               />
             </IconButton>
-            <IconButton>
+            <IconButton
+              component="a"
+              href="https://www.youtube.com/@ummaticommunity"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               <Box
                 component="img"
                 src={youtubeIcon}
