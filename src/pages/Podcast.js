@@ -249,7 +249,7 @@ const Podcast = () => {
 <Box sx={{ display: "flex", justifyContent: "center", gap: 3 }}>
             <IconButton
               component="a"
-              href="https://open.spotify.com/episode/0BrKk8yGsq7WqxYyLc0RLJ?si=eutwm8XGT9eEud3n6nA_aQ"
+              href="https://open.spotify.com/show/2vds2W0alT5qeT8WR6lfRa"
               target="_blank"
               rel="noopener noreferrer"
             >
