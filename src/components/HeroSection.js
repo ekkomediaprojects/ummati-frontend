@@ -6,6 +6,8 @@ import leftImageCroped from "../assets/images/homepage/hero/left image heroSecti
 import rightImageCroped from "../assets/images/homepage/hero/right image heroSectionCroped.png";
 
 import rightImage from "../assets/images/homepage/hero/right image heroSection.png";
+import calendarImage from "../assets/images/homepage/hero/calendar.png";
+import memberImage from "../assets/images/homepage/hero/member.png";
 import podcastImage from "../assets/images/homepage/hero/podcast.png";
 import { useNavigate } from "react-router-dom";
 const StyledHero = styled(Box)({
@@ -155,8 +157,8 @@ const HeroSection = () => {
       >
         
         {[
-          { title: "Explore Our Calendar", image: podcastImage },
-          { title: "Become A Member", image: podcastImage },
+          { title: "Explore Our Calendar", image: calendarImage },
+          { title: "Become A Member", image: memberImage },
           { title: "Listen To Our Podcast", image: podcastImage },
         ].map((item, index) => (
           <Box
