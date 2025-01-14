@@ -63,15 +63,15 @@ const Header = () => {
   };
 
   return (
-    <header className="relative flex items-center justify-between bg-white py-8 px-6 w-full">
+    <header className="relative flex items-center justify-between bg-white px-3 lg:px-10 w-full h-[60px] lg:h-[122px] border-b-2 border-[#ECE7DA]">
       {/* Logo */}
       <Link to="/" style={{ textDecoration: "none" }}>
         <Box
           sx={{
             display: "flex",
-            flexDirection: { xs: "column", md: "row" },
+            flexDirection: "row",
             alignItems: "center",
-            gap: { xs: 0, md: 1 },
+            gap: 1 ,
           }}
         >
           {/* First Child Box */}
@@ -89,8 +89,8 @@ const Header = () => {
                 color: "#5A4283",
                 fontWeight: "700",
                 fontFamily: "Quicksand",
-                fontSize: { xs: "26px", lg: "32px" },
-                fontHeight: { xs: "32.5", lg: "40px" },
+                fontSize: { xs: "18px", lg: "32px" },
+                fontHeight: { xs: "22.5", lg: "40px" },
               }}
             >
               UMMATI
@@ -111,8 +111,8 @@ const Header = () => {
                 color: "#5A4283",
                 fontWeight: "700",
                 fontFamily: "Quicksand",
-                fontSize: { xs: "16px", md: "26px", lg: "32px" },
-                fontHeight: { xs: "20px", md: "32.5", lg: "40px" },
+                fontSize: { xs: "18px", lg: "32px" },
+                fontHeight: { xs: "22.5", lg: "40px" },
               }}
             >
               C
@@ -122,11 +122,10 @@ const Header = () => {
               src={logo}
               alt="Logo"
               sx={{
-                width: { xs: "25px", md: "50px" },
-                height: { xs: "25px", md: "50px" },
-                marginTop: { xs: "-2px", md: "-4px" },
-                marginLeft: { xs: "-4px", md: "-6px" },
-                marginRight: { xs: "-4px", md: "-6px" },
+                width: { xs: "25px", lg: "50px" , },
+                height: { xs: "25px",  lg: "50px" , },
+                marginLeft: { xs: "-4px", lg: "-4px" },
+                marginRight: { xs: "-4px", lg: "-4px" },
               }}
             />
             <Typography
@@ -135,8 +134,8 @@ const Header = () => {
                 color: "#5A4283",
                 fontWeight: "700",
                 fontFamily: "Quicksand",
-                fontSize: { xs: "16px", md: "26px", lg: "32px" },
-                fontHeight: { xs: "20px", md: "32.5", lg: "40px" },
+                fontSize: { xs: "18px", lg: "32px" },
+                fontHeight: { xs: "22.5", lg: "40px" },
               }}
             >
               MMUNITY

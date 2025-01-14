@@ -9,7 +9,8 @@ import generalEvents from "../assets/images/homepage/Types of Events/General Eve
 import professioanalNetworking from "../assets/images/homepage/Types of Events/Professional networking.png";
 import mommyNMe from "../assets/images/homepage/Types of Events/Mommy n me.png";
 import getInvolved1 from "../assets/images/homepage/Get involved/getInvolved1.png";
-import getInvolved2 from "../assets/images/homepage/Get involved/getInvolved2.png";
+import getInvolved22 from "../assets/images/homepage/Get involved/getInvolved2.png";
+import getInvolved2 from "../assets/images/homepage/Get involved/getInvolved22.png";
 import getInvolved3 from "../assets/images/homepage/Get involved/getInvolved3.png";
 import axios  from 'axios'
 const HomePage = () => {
