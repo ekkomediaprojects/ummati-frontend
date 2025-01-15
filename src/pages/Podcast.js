@@ -259,7 +259,7 @@ const Podcast = () => {
             </IconButton>
             <IconButton
               component="a"
-              href="https://www.apple.com/apple-podcasts/"
+              href="https://podcasts.apple.com/us/podcast/interlaced/id1790729541"
               target="_blank"
               rel="noopener noreferrer"
             >
