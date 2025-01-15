@@ -1,10 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import moment from "moment";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import Header from "../../components/Header";
 import Footer from "../../components/Footer";
 import bannerImage from "../../assets/images/Events/banner.png";
-import eventsArray from "./DummyData";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 import MyCalender from "./MyCalender";
@@ -22,59 +22,84 @@ import {
 
 const EventsParent = () => {
   const [showCities, setShowCities] = useState(false);
-  const [events, setEvents] = useState(eventsArray);
+  const [events, setEvents] = useState([]);
+  const [allEvents, setAllEvents] = useState([]); // Store all events for filtering/sorting
   const [listView, setListView] = useState(false);
   const isMobile = useMediaQuery("(max-width:600px)"); // Check if screen size is less than 600px
+  useEffect(() => {
+    const fetchEvents = async () => {
+      try {
+        const response = await axios.get("https://api.ummaticommunity.com/events");
+        const fetchedEvents = response.data.map((event) => ({
+          ...event,
+          title: event.title,
+          description: event.description,
+          start: new Date(event.start), // Convert dates to JS Date objects
+          end: new Date(event.end),
+          chapter: `${event.venue.city.toLowerCase()}-${event.venue.state.toLowerCase()}`, // Create chapter for filtering
+          image: event.imageUrl || "default-placeholder.png", // Use imageUrl or a fallback image
+        }));
+        setEvents(fetchedEvents); // Set events for rendering
+        setAllEvents(fetchedEvents); // Keep all events for filtering/sorting
+      } catch (error) {
+        console.error("Error fetching events:", error);
+      }
+    };
+  
+    fetchEvents();
+  }, []);  
+  
   const handleFilterChange = (selectedFilters) => {
     if (selectedFilters.length === 0) {
-      setEvents(eventsArray);
+      setEvents(allEvents); // Use all events from API
       return;
     }
-    const filteredRecords = eventsArray.filter((event) =>
+    const filteredRecords = allEvents.filter((event) =>
       selectedFilters.includes(event.chapter)
     );
     setEvents(filteredRecords);
   };
+  
 
   const handleSortingChange = (selectedSorting) => {
     const now = moment();
     let sortedData = [];
-
+  
     switch (selectedSorting) {
       case "date-new-to-old":
-        sortedData = eventsArray.sort((a, b) =>
+        sortedData = [...allEvents].sort((a, b) =>
           moment(b.start).isBefore(moment(a.start)) ? -1 : 1
         );
         break;
-
+  
       case "date-old-to-new":
-        sortedData = eventsArray.sort((a, b) =>
+        sortedData = [...allEvents].sort((a, b) =>
           moment(a.start).isBefore(moment(b.start)) ? -1 : 1
         );
         break;
-
+  
       case "upcoming-events":
-        sortedData = eventsArray.filter((event) =>
+        sortedData = allEvents.filter((event) =>
           moment(event.start).isAfter(now)
         );
         break;
-
+  
       case "past-events":
-        sortedData = eventsArray.filter((event) =>
+        sortedData = allEvents.filter((event) =>
           moment(event.start).isBefore(now)
         );
         break;
-
+  
       case "all-events":
-        sortedData = eventsArray; // No filter, return all events
+        sortedData = allEvents; // No filter, return all events
         break;
-
+  
       default:
-        sortedData = eventsArray;
+        sortedData = allEvents;
     }
-
+  
     setEvents(sortedData);
-  };
+  };  
 
   return (
     <Box sx={{ backgroundColor: "#F7F5EF", minHeight: "100vh" }}>
@@ -405,7 +430,7 @@ const EventsParent = () => {
                     {/* Content inside the Box (image, title, description, etc.) */}
                     <Box sx={{ opacity: isEventPassed ? 0.2 : 1 }}>
                       <img
-                        src={event.image}
+                        src={event.image || "default-placeholder.png"}
                         alt={event.title}
                         style={{
                           width: isMobile ? "347px" : "100%",
