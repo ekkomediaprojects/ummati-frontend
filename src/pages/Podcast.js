@@ -1,15 +1,13 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Box,
   Typography,
   Grid,
-  IconButton,
-//  CircularProgress,
   Pagination,
+  IconButton,
 } from "@mui/material";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
-//import PodcastPlayer from "./PodcastPlayer";
 import banner from "../assets/images/podcasts/banner.png";
 import podcastLogo from "../assets/images/podcasts/Ummati Podcast Logo.svg";
 import spotifyIcon from "../assets/images/podcasts/spotifyIcon.svg";
@@ -18,72 +16,46 @@ import youtubeIcon from "../assets/images/podcasts/YouTube Icon.svg";
 import coverImage from "../assets/images/podcasts/podcastCover.png";
 import "../assets/fonts/Quicksand-Regular.ttf";
 import "../assets/fonts/Poppins-Regular.ttf";
-//import axios from "axios";
 
 const Podcast = () => {
-  // const [isIframeLoaded, setIsIframeLoaded] = useState(false);
-  const [podcasts] = useState([
-    // {
-    //   id: 1,
-    //   src: "https://www.youtube.com/embed/UbnZnSIna3U?si=W34c9Pi3CeAQNjf_",
-    // },
-    {
-      id: 2,
-      src: "https://www.youtube.com/embed/8FInXCIi4Fw?si=gdk1TeLAyccsXu7M",
-    },
-  ]);
-  //const [loading, setLoading] = useState(false);
+  const [episodes, setEpisodes] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const [totalPodcasts] = useState(0);
-  //const [accessToken, setAccessToken] = useState(null);
-  const podcastsPerPage = 1000;
+  const podcastsPerPage = 5;
 
-  // Function to handle iframe load
-  // const handleIframeLoad = () => {
-  //   setIsIframeLoaded(true);
-  // };
+  useEffect(() => {
+    const fetchEpisodes = async () => {
+      try {
+        const response = await fetch(
+          "https://anchor.fm/s/fd3668b8/podcast/rss"
+        );
+        const textData = await response.text();
+
+        // Parse XML using DOMParser
+        const parser = new DOMParser();
+        const xmlDoc = parser.parseFromString(textData, "application/xml");
+        const items = xmlDoc.querySelectorAll("item");
+
+        const parsedEpisodes = Array.from(items).map((item) => ({
+          title: item.querySelector("title")?.textContent,
+          description: item.querySelector("description")?.textContent,
+          pubDate: item.querySelector("pubDate")?.textContent,
+          audio: item.querySelector("enclosure")?.getAttribute("url"),
+        }));
+
+        setEpisodes(parsedEpisodes);
+      } catch (error) {
+        console.error("Error fetching RSS feed:", error);
+      }
+    };
+
+    fetchEpisodes();
+  }, []);
 
   const handlePageChange = (event, value) => {
     setCurrentPage(value);
   };
 
-  //const getSpotifyPodcasts = async () => {
-    // const podcastID = process.env.REACT_APP_PODCAST_ID;
-    // setLoading(true);
-    // if(accessToken !==null){
-    //   try {
-    //     const response = await axios.get(
-    //       `https://api.spotify.com/v1/shows?ids=${podcastID}&market=US`,
-    //       {
-    //         headers: {
-    //           Authorization: `Bearer ${accessToken}`,
-    //         },
-    //       }
-    //     );
-    //     const fetchedPodcasts = response?.data?.shows;
-    //     console.log("fetached" , fetchedPodcasts)
-    //     const totalCount = response?.data?.shows.length;
-    //     setPodcasts(fetchedPodcasts);
-    //     setTotalPodcasts(totalCount);
-    //     setLoading(false);
-    //   } catch (error) {
-    //     console.error("Error fetching podcasts:", error);
-    //     setLoading(false);
-    //   }
-    // }
-//  };
-
-  // useEffect(() => {
-  //   const token = localStorage.getItem("AccessToken");
-  //   setAccessToken(token); // Set the access token properly
-
-  //   if (token) {
-  //     getSpotifyPodcasts();
-  //   }
-  // }, [accessToken]);
-
-  // Paginate podcasts based on the current page
-  const paginatedPodcasts = podcasts.slice(
+  const paginatedEpisodes = episodes.slice(
     (currentPage - 1) * podcastsPerPage,
     currentPage * podcastsPerPage
   );
@@ -155,47 +127,72 @@ const Podcast = () => {
               connection, inspiration, and powerful stories. Each episode is a
               journey into the heart of community, where we celebrate the bonds
               that make us stronger, the friendships that enrich our lives, and
-              the empowering journeys that bring us together. Dive in with us as
-              we share uplifting conversations and real-life experiences that
-              fuel your spirit and grow our circle of support. Hit play, join
-              the movement, and discover the beauty of connection—one story at a
-              time!
+              the empowering journeys that bring us together.
             </Typography>
           </Grid>
         </Grid>
 
-        {/* Row 2: Media Player Box */}
+        {/* Row 2: Podcast Episodes */}
         <Box
           sx={{
             display: "flex",
-            flexDirection: { xs: "column", md: "row" },
-            overflowX: { md: "auto" },
-            gap: 2,
+            flexDirection: "column",
+            gap: 4,
             padding: 2,
             textAlign: "center",
-                justifyContent : "center"
           }}
         >
-          {paginatedPodcasts.map((podcast) => (
+          {paginatedEpisodes.map((episode, index) => (
             <Box
-              key={podcast?.id}
+              key={index}
               sx={{
-                flex: "0 0 auto",
-                width: { xs: "100%", md: "560px" },
-                textAlign: "center",
-                justifyContent : "center",
+                border: "1px solid #ddd",
+                borderRadius: "8px",
+                padding: 3,
+                background: "#fff",
+                textAlign: "left",
+                boxShadow: 2,
               }}
             >
-              <iframe
-                width="100%" // Make it responsive
-                height=  "315px" // Adjust height for small screens
-                src={podcast?.src}
-                title="YouTube video player"
-                frameBorder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                referrerPolicy="strict-origin-when-cross-origin"
-                allowFullScreen
-              ></iframe>
+              <Typography
+                variant="h6"
+                sx={{ fontWeight: "bold", marginBottom: 1 }}
+              >
+                {episode.title}
+              </Typography>
+              <Typography
+                variant="body2"
+                sx={{ color: "#555", marginBottom: "8px" }}
+              >
+                {new Date(episode.pubDate).toLocaleDateString()}
+              </Typography>
+              <Typography
+                variant="body1"
+                sx={{
+                  fontSize: "14px",
+                  color: "#333",
+                  marginBottom: "8px",
+                }}
+              >
+                {episode.description}
+              </Typography>
+              {episode.audio ? (
+                <audio
+                  controls
+                  style={{
+                    width: "100%",
+                    borderRadius: "8px",
+                    backgroundColor: "#f7f5ef",
+                  }}
+                >
+                  <source src={episode.audio} type="audio/mpeg" />
+                  Your browser does not support the audio element.
+                </audio>
+              ) : (
+                <Typography variant="body2" sx={{ color: "#999" }}>
+                  Audio not available
+                </Typography>
+              )}
             </Box>
           ))}
         </Box>
@@ -210,7 +207,7 @@ const Podcast = () => {
           }}
         >
           <Pagination
-            count={Math.ceil(totalPodcasts / podcastsPerPage)} // Calculate the number of pages based on total podcasts
+            count={Math.ceil(episodes.length / podcastsPerPage)}
             page={currentPage}
             onChange={handlePageChange}
             color="primary"
@@ -222,7 +219,7 @@ const Podcast = () => {
       <Box
         sx={{
           width: "100%",
-          height: "280px", // Responsive height
+          height: "280px",
           backgroundImage: `url(${coverImage})`,
           backgroundSize: "cover",
           backgroundPosition: "center",
@@ -231,7 +228,7 @@ const Podcast = () => {
           justifyContent: "center",
           alignItems: "center",
           textAlign: "center",
-          margin: "0 auto", //
+          margin: "0 auto",
         }}
       >
         <Box sx={{ position: "absolute", color: "white" }}>
@@ -246,7 +243,7 @@ const Podcast = () => {
           >
             Listen from the best podcast platform
           </Typography>
-<Box sx={{ display: "flex", justifyContent: "center", gap: 3 }}>
+          <Box sx={{ display: "flex", justifyContent: "center", gap: 3 }}>
             <IconButton
               component="a"
               href="https://open.spotify.com/show/2vds2W0alT5qeT8WR6lfRa"
