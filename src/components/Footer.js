@@ -1,12 +1,11 @@
 import React, { useState } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import logo from "../assets/images/footer logo.svg";
-import { Button, Box, Typography, Grid2,CircularProgress } from "@mui/material";
+import { Button, Box, Typography, CircularProgress } from "@mui/material";
 import RequestHandler from "../utils/RequestHandler";
-import toast, { Toaster } from 'react-hot-toast';
+import toast from 'react-hot-toast';
 const Footer = () => {
   const location = useLocation();
-  const navigtion = useNavigate();
   const [email, setEmail] = useState("");
   const [error, setError] = useState(null);
   const [successMessage, setSuccessMessage] = useState("");
@@ -28,23 +27,30 @@ const Footer = () => {
 
     try {
       const url = `${process.env.REACT_APP_API_URL}emailSubscribers/subscribe`;
-      // const url = `http://localhost:5002/emailSubscribers/subscribe`;
       const body = { email };
-      const res = await RequestHandler(url, "POST",body);
+      const res = await RequestHandler(url, "POST", body);
+
+      console.log("Email Submitted:", email); // Debug log
+      console.log("API Response:", res); // Debug log
+
       if (res?.success) {
-        let data = res?.data
-        toast.success(data?.message);
-        return;
-      } else if(!res?.success) {
-        toast.error(`${res?.message}`);
+          let data = res?.data;
+          toast.success(data?.message);
+          setEmail(""); // Clear input
+          setError(""); // Clear error
+          setSuccessMessage(data?.message); // Set success message
+      } else if (!res?.success) {
+          toast.error(`${res?.message}`);
+          setError(res?.message);
+          console.error("Request error:", res);
       }
-    } catch (error) {
-      toast.error("An Unexpected error occurred");
-    } finally {
+  } catch (error) {
+      toast.error("An unexpected error occurred");
+      console.error("Unexpected error occurred:", error);
+  } finally {
       setIsLoading(false);
-    }
-    setError(null);
-  };
+  }
+};
 
   return (
     <footer className="bg-[#F7F5EF]">
