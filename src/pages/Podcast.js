@@ -137,8 +137,7 @@ const Podcast = () => {
                 mx: "auto",
               }}
             >
-              Welcome to The Interlaced Podcast—your destination for real
-              connection, inspiration, and powerful stories.
+              Welcome to The Interlaced Podcast—your destination for real connection, inspiration, and powerful stories. Each episode is a journey into the heart of community, where we celebrate the bonds that make us stronger, the friendships that enrich our lives, and the empowering journeys that bring us together.
             </Typography>
           </Grid>
         </Grid>
