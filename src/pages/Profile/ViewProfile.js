@@ -57,7 +57,6 @@ const ProfileView = ({ userData, updateUserState }) => {
     // });
 
     setErrors(newErrors);
-    return Object.keys(newErrors).length === 0; // Return true if no errors
   };
 
   const setUserMain = () => {
@@ -335,6 +334,7 @@ const ProfileView = ({ userData, updateUserState }) => {
               <input
                 type="file"
                 id="upload-photo"
+                accept="image/*"
                 style={{ display: "none" }}
                 onChange={handleFileChange} // Handle file change
               />

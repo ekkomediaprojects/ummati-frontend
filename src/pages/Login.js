@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import axios from 'axios';
 import { Button,Link, Typography, Box, IconButton, CircularProgress } from "@mui/material";
 import { useAuth } from '../authProviders/AuthContext'; // Import the useAuth hook to access the context
 import RequestHandler from "../utils/RequestHandler";
@@ -9,6 +10,7 @@ import Footer from "../components/Footer";
 import googleIcon from "../assets/icons/icons8-google.svg";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
+import  { useGoogleLogin } from '@react-oauth/google';
 
 const Login = () => {
   const navigate = useNavigate();
@@ -77,10 +79,20 @@ const Login = () => {
     }
   };
 
-  const handleGoogleLogin = () => {
-    console.log("Google login clicked");
-    navigate("/");
-  };
+  const handleGoogleLogin = useGoogleLogin({
+    onSuccess: async (tokenResponse) => {
+      const userInfo = await axios.get(
+        'https://www.googleapis.com/oauth2/v3/userinfo',{
+          headers: {
+            Authorization: `Bearer ${tokenResponse.access_token}`,
+          },
+        }
+      );
+      console.log(userInfo.data);
+    },
+    scope: 'openid profile email',
+    flow: "implicit",
+  });
 
   const togglePasswordVisibility = () => {
     setShowPassword((prevState) => !prevState);
@@ -150,6 +162,20 @@ const Login = () => {
           >
             Continue with Google
           </Button>
+            {/* <GoogleLogin
+              onSuccess={handleGoogleLogin}
+              onError={() => {
+                console.log("Login Failed");
+              }}
+              useOneTap
+              shape="pill"
+              logo_alignment="center"
+              size="large"
+              text="continue_with"
+              theme="outline"
+            /> */}
+
+         
           <Box
             sx={{
               display: "flex",
