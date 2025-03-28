@@ -4,7 +4,6 @@ import HeroSection from "../components/HeroSection";
 import { useNavigate} from "react-router-dom";
 import { Typography, Button, Box, CircularProgress ,Skeleton} from "@mui/material";
 import Footer from "../components/Footer";
-import podcastImage from "../assets/images/homepage/hero/podcast.png";
 import generalEvents from "../assets/images/homepage/Types of Events/General Events.png";
 import professioanalNetworking from "../assets/images/homepage/Types of Events/Professional networking.png";
 import mommyNMe from "../assets/images/homepage/Types of Events/Mommy n me.png";
@@ -12,65 +11,42 @@ import getInvolved1 from "../assets/images/homepage/Get involved/getInvolved1.pn
 import getInvolved22 from "../assets/images/homepage/Get involved/getInvolved2.png";
 import getInvolved2 from "../assets/images/homepage/Get involved/getInvolved22.png";
 import getInvolved3 from "../assets/images/homepage/Get involved/getInvolved3.png";
-import axios  from 'axios'
 const HomePage = () => {
-  const [accessToken, setAccessToken] = useState(null);
   const [latestPodcastEpi, setLatestPodcastEpi] = useState(null);
-
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const [isIframeLoaded, setIsIframeLoaded] = useState(false);
   
   const navigate = useNavigate();
-  useEffect(() => {
-    setAccessToken(localStorage.getItem('AccessToken')); 
-    const getPlaylistAndEpisode = async () => {
-      const podcastID = process.env.REACT_APP_PODCAST_ID;
-      if (accessToken && podcastID) {
+    useEffect(() => {
+      const fetchEpisodes = async () => {
         try {
           setLoading(true);
-          let podcastIDArray = podcastID.split(',')
-          const latestEpisodes = await Promise.all(
-            podcastIDArray.map(async (podcast) => {
-              const podcast_id = podcast
-              try {
-                const episodesResponse = await axios.get(
-                  `https://api.spotify.com/v1/shows/${podcast_id}/episodes?market=US`,
-                  {
-                    headers: {
-                      Authorization: `Bearer ${accessToken}`              
-                    },
-                  }
-                );
-                const latestEpisode = episodesResponse?.data?.items?.[0]; 
-                return {
-                  showName: podcast.name,
-                  showUrl: podcast.external_urls?.spotify,
-                  latestEpisodeId: latestEpisode?.id,
-                  latestEpisodeUrl: latestEpisode?.external_urls?.spotify,
-                  episodePublishTime: latestEpisode?.release_date, 
-                };
-              } catch (error) {
-                console.error(`Error fetching episodes for show ${podcastID}:`, error);
-                return null;
-              }
-            })
-          );
-          const validEpisodes = latestEpisodes.filter((episode) => episode !== null);
-          const sortedEpisodes = validEpisodes.sort((a, b) => new Date(a?.episodePublishTime) - new Date(b?.episodePublishTime));
-          const latestEpisodeId = sortedEpisodes[0]?.latestEpisodeId; 
-          setLatestPodcastEpi(latestEpisodeId)
-        } catch (error) {
-          console.error('Error fetching podcast or episode:', error);
+          const cid = process.env.REACT_APP_CLIENT_ID_YOUTUBE
+          const channelURL = encodeURIComponent(`https://www.youtube.com/feeds/videos.xml?channel_id=${cid}`)
+          const reqURL = `https://api.rss2json.com/v1/api.json?rss_url=${channelURL}`;
+          const response = await fetch(reqURL);
+          if (response?.ok) {
+              const result = await response.json();
+              if (result.items && result.items.length !== 0) {
+                setError(null)
+                const link = result.items[0].link;
+                const id = new URL(link).searchParams.get("v");
+                setLatestPodcastEpi(id);
+              } else setError("No Episodes Yet!")
+          } else {
+            setError("Failed to load episodes. Please try again later!");
+            setLoading(false);
+          }
+        } catch (err) {
+          setError("Failed to load episodes. Please try again later!");
+          setLoading(false);
         } finally {
           setLoading(false);
         }
-      }
-    };
-
-    if (accessToken) {
-      getPlaylistAndEpisode();
-    }
-  }, [accessToken]); 
+      };
+      fetchEpisodes();
+    }, []);
   const handleNavigate = (path) => {
     navigate(path);
   };
@@ -145,25 +121,27 @@ const HomePage = () => {
               <CircularProgress />
             </Box>
           )}
-          {/* <iframe
-          style={{
-            borderRadius: '12px',
-            width: '100%',
-            height: '200px',
-            border: 'none',
-          }}
-          src={`https://open.spotify.com/embed/episode/${latestPodcastEpi}`}
-          frameBorder="0"
-          allowFullScreen
-          allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-          loading="lazy"
-          onLoad={handleIframeLoad}
-          ></iframe> */}
-
-            <div className="flex items-center justify-center">
-            <iframe width="560" height="315"   onLoad={handleIframeLoad} src="https://www.youtube.com/embed/8FInXCIi4Fw?si=gdk1TeLAyccsXu7M" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-                </div>
+          <div className="flex items-center justify-center">
+            {error ? (
+             <Box className="w-screen h-40 flex items-center justify-center bg-gray-100 ">
+               <p className="text-red-500 text-md font-semibold">{error}</p>
              </Box>
+           
+            ) : (
+              latestPodcastEpi && ( // Only render the iframe if latestPodcastEpi exists
+                <iframe
+                  width="560"
+                  height="315"
+                  onLoad={handleIframeLoad}
+                  src={`https://www.youtube.com/embed/${latestPodcastEpi}`}
+                  title="YouTube video player"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                ></iframe>
+              )
+            )}
+          </div>
+        </Box>
       {/* )} */}
     </Typography>
     </Box>
