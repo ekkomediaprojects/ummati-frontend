@@ -276,21 +276,27 @@ const Podcast = () => {
 
           {/* Episode List */}
           <Box sx={{ display: "flex", flexDirection: "column", width : "100%" }}>
-            <AudioPlayer audioSrc={selectedEpisode?.audio}/>
+            <AudioPlayer 
+              audioSrc={selectedEpisode?.audio}
+              title={selectedEpisode?.title}
+              description={selectedEpisode?.description}
+              pubDate={selectedEpisode?.pubDate}
+            />
             {episodes.map((episode, index) => (
               <Box
                 key={index}
                 sx={{
-                  background: "#fff",
+                  background: selectedEpisode?.id === episode.id ? "#F0F7F0" : "#fff",
                   textAlign: "left",
                   cursor: "pointer",
-                  border : "1px solid #C4BAA2",
-                  borderTop : "none",
-                  display : "flex",
-                  flexDirection : "row",
-                  justifyContent : "space-between",
-                  p : 2,
-                  "&:hover": { backgroundColor: "#f0f0f0" },
+                  border: "1px solid #C4BAA2",
+                  borderTop: "none",
+                  borderLeft: selectedEpisode?.id === episode.id ? "4px solid #78B27B" : "1px solid #C4BAA2",
+                  display: "flex",
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                  p: 2,
+                  "&:hover": { backgroundColor: "#F0F7F0" },
                 }}
                 onClick={() => setSelectedEpisode(episode)}
               >
