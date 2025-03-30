@@ -3,13 +3,18 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import  { GoogleOAuthProvider } from '@react-oauth/google';
+const CLIENT_ID_GOOGLE = `${process.env.REACT_APP_CLIENT_ID_GOOGLE}`
 window.onSpotifyWebPlaybackSDKReady = () => {
   console.log("Spotify Web Playback SDK is ready.");
 };
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <App />
+    <GoogleOAuthProvider clientId={CLIENT_ID_GOOGLE}>
+      <App />
+    </GoogleOAuthProvider>
+   
   </React.StrictMode>
 );
 

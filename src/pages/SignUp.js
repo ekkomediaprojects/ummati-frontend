@@ -9,6 +9,8 @@ import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import RequestHandler from "../utils/RequestHandler";
 import toast, { Toaster } from 'react-hot-toast';
+import  { useGoogleLogin } from '@react-oauth/google';
+import axios from 'axios';
 
 const SignUp = () => {
   const navigate = useNavigate();
@@ -98,6 +100,22 @@ const SignUp = () => {
   const handleTermsChange = (e) => {
     setAgreedToTerms(e.target.checked);
   };
+
+    const handleGoogleSignUp = useGoogleLogin({
+      onSuccess: async (tokenResponse) => {
+        const userInfo = await axios.get(
+          'https://www.googleapis.com/oauth2/v3/userinfo',{
+            headers: {
+              Authorization: `Bearer ${tokenResponse.access_token}`,
+            },
+          }
+        );
+        console.log(userInfo.data);
+      },
+      scope: 'openid profile email',
+      flow: "implicit",
+    });
+
   return (
     <div>
       <Header />
@@ -145,7 +163,7 @@ const SignUp = () => {
                 style={{ width: "24px", height: "24px" }}
               />
             }
-            onClick={() => console.log("Google login clicked")}
+            onClick={handleGoogleSignUp}
             sx={{
               boxShadow: "10px 0px 10px 0px rgba(0, 0, 0, 0.1)",
               borderRadius: "10px",
