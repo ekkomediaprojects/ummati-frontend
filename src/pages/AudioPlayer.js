@@ -27,6 +27,8 @@ const AudioPlayer = ({ audioSrc, title, description, pubDate }) => {
   const [openInfoDialog, setOpenInfoDialog] = useState(false);
   const [openShareDialog, setOpenShareDialog] = useState(false);
   const [copied, setCopied] = useState(false);
+  const [userInteracted, setUserInteracted] = useState(false);
+
   const theme = useTheme();
   const matchesMD = useMediaQuery(theme.breakpoints.down("md"));
   const matchesSM = useMediaQuery(theme.breakpoints.down("sm"));
@@ -34,7 +36,7 @@ const AudioPlayer = ({ audioSrc, title, description, pubDate }) => {
 
   // Add effect to auto-play when audioSrc changes
   useEffect(() => {
-    if (audioRef.current) {
+    if (audioRef.current && userInteracted) {
       audioRef.current.play();
       setIsPlaying(true);
     }
@@ -87,14 +89,24 @@ const AudioPlayer = ({ audioSrc, title, description, pubDate }) => {
   }, []);
 
   const togglePlayPause = () => {
-    if (isPlaying) {
-      audioRef.current.pause();
-    } else {
-      audioRef.current.play();
+    
+    if(!userInteracted){
+        setUserInteracted(true)
     }
-    setIsPlaying(!isPlaying);
+    if (audioRef.current) {
+        if (isPlaying) {
+        audioRef.current.pause();
+        } else {
+        audioRef.current.play()
+            .catch(error => {
+            console.error("Playback failed:", error);
+            // Optionally show UI feedback
+            });
+        }
+        setIsPlaying(!isPlaying);
+    }
   };
-
+  
   const skip = (seconds) => {
     audioRef.current.currentTime += seconds;
   };
