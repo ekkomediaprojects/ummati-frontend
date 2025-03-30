@@ -378,7 +378,7 @@ const AudioPlayer = ({ audioSrc, title, description, pubDate }) => {
                 variant="caption"
                 sx={{ 
                   color: "black", 
-                  display: { xs: "none", sm: "block" },
+                  display: "block",
                   cursor: "pointer",
                   "&:hover": {
                     textDecoration: "underline",
@@ -459,7 +459,7 @@ const AudioPlayer = ({ audioSrc, title, description, pubDate }) => {
                 variant="caption"
                 sx={{ 
                   color: "black", 
-                  display: { xs: "none", sm: "block" },
+                  display: "block",
                   cursor: "pointer",
                   "&:hover": {
                     textDecoration: "underline",
