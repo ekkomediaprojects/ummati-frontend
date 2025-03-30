@@ -40,10 +40,6 @@ const Podcast = () => {
           const audio = new Audio(episode.audio);
           audioElements[episode.id] = audio;
           const handler = () => {
-            console.log("durations ", durations )
-            console.log("audio", audio)
-            console.log("audio.duration",audio.duration)
-            console.log("episode" , episode)
             setDurations(prev => ({
               ...prev,
               [episode.id]: audio.duration
@@ -313,7 +309,7 @@ const Podcast = () => {
                 </Typography>
                 <Typography
                   variant="body2"
-                  sx={{ color: "#555", marginBottom: "8px" }}
+                  sx={{ color: "#757575", py: 3 }}
                 >
                       {durations[episode.id] ? formatTime(durations[episode.id]) : '...'}
                 </Typography>
