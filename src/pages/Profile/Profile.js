@@ -12,6 +12,7 @@ import PaymentHistoryComponent from "./PaymentHistory";
 import noProfile from "../../assets/images/no-profile-picture-15257.png";
 import RequestHandler from "../../utils/RequestHandler";
 import toast, { Toaster} from 'react-hot-toast';
+import RandomQRGenerator from './RandomQRGenerator'
 
 const Profile = () => {
   const [userData, setUserData] = useState(null);
@@ -31,6 +32,7 @@ const Profile = () => {
           const res = await RequestHandler(url, "GET",{}, {'Authorization': `Bearer ${token}`});
           if (res?.success) {
             if(res?.data?.user){
+              console.log("res?.data?.user" , res?.data?.user)
               setUserData(res?.data?.user)
               return;
             }
@@ -52,8 +54,8 @@ const Profile = () => {
   let infoStyle = {
     fontFamily: "Poppins",
     fontWeight: 500,
-    fontSize: { xs: "16px", md: "18px", lg: "20px" },
-    lineHeight: { xs: "24px", md: "26px", lg: "30px" },
+    fontSize: { xs: "16px",xl: "20px" },
+    lineHeight: { xs: "24px",  xl: "30px" },
     textAlign: { xs: "center", md: "left" },
     color: "#FFFFFF99",
   };
@@ -122,14 +124,14 @@ const Profile = () => {
           <Box
             sx={{
               width: { xs: "100%", md: "28%" },
-              height: "430px",
+              height: "796px",
               marginBottom: { xs: "16px", md: "0" },
               backgroundColor: "#5A4283",
               borderRadius: "12px",
-              padding: "16px",
+              padding: "30px",
               display: "flex",
               flexDirection: "column",
-              gap: "16px",
+              gap: "24px",
               zIndex: 1,
             }}
           >
@@ -137,7 +139,7 @@ const Profile = () => {
               sx={{
                 display: "flex",
                 alignItems: "center",
-                gap: "20px",
+                gap: "30px",
                 justifyContent: { xs: "center", md: "left" },
               }}
             >
@@ -157,27 +159,22 @@ const Profile = () => {
                   fontFamily: "Poppins",
                   fontWeight: 600,
                   fontSize: "32px",
-                  lineHeight: "48px",
+                  lineHeight: "100%",
                   textAlign: { xs: "center", md: "left" },
                   color: "white",
+                  mb: 2
                 }}
               >
                 {userData?.firstName} {userData?.lastName}
               </Typography>
               <Typography
                 variant="body2"
-                sx={{ ...infoStyle, marginTop: "20px" }}
-              >
-                Member ID : {userData?.memberId || 'N/A'}
-              </Typography>
-              <Typography
-                variant="body2"
                 sx={{ ...infoStyle, textDecoration: "underline", gap: "10px" }}
               >
-                Email : {userData?.email}
+               {userData?.email}
               </Typography>
             </Box>
-            {userData?.address && ( 
+            {userData?.streetAddress && ( 
               <Box
                 sx={{
                   display: "flex",
@@ -193,19 +190,39 @@ const Profile = () => {
                   }}
                 />
                 <Typography variant="body2" sx={infoStyle}>
-                  {userData.address}
+                  {userData.streetAddress}
                 </Typography>
               </Box>
             )}
+            
             <Box
               sx={{
                 display: "flex",
                 alignItems: "center",
-                marginTop: "20px",
-                marginBottom: "20px",
+                marginTop: "30px",
+                marginBottom: "30px",
                 border: "1px solid #FFFFFF3D",
               }}
             ></Box>
+            <Box>
+              <RandomQRGenerator/>
+            </Box>
+            <Box>
+              <Typography
+                  variant="body2"
+                  sx={{  
+                      marginTop: "10px" ,
+                      fontFamily: "Poppins",
+                      fontWeight: 500,
+                      fontSize: { xs: "16px",xl: "20px" },
+                      lineHeight: { xs: "24px",  xl: "30px" },
+                      textAlign: "center",
+                      color: "#FFFFFF99",}}
+                >
+                  Member ID : {userData?.memberId || '12345678910'}
+                </Typography>
+            </Box>
+          
           </Box>
 
           <Box
@@ -313,7 +330,7 @@ const Profile = () => {
         sx={{
           padding: "20px",
           height: {
-            xs: selectedButton === "profile" ? "1800px" : "1300px",
+            xs: selectedButton === "profile" ? "1800px" : selectedButton === "settings" ? "1200px" :   "1450px",
             md: "1000px",
           },
         }}
