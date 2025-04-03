@@ -1,4 +1,6 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+import { GTMProvider } from './hooks/GTMProvider';
+
 import { useState, useEffect } from "react";
 import { AuthProvider } from "./authProviders/AuthContext";
 import SpotifyTokenHandler from "./authProviders/SpotifyTokenHandler";
@@ -32,7 +34,6 @@ function App() {
     const timer = setTimeout(() => {
       setLoading(false);
     }, 500); 
-
     return () => clearTimeout(timer);
   }, []);
   if (loading) {
@@ -51,33 +52,35 @@ function App() {
 
   return (
     <AuthProvider>
-      <SpotifyTokenHandler />
-      <Router>
-        <ScrollToTop />
-        <Routes>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/home" element={<HomePage />} />
-          <Route path="/login" element={<LoginRoute />} />
-          <Route path="/signup" element={<SignUp />} />
-          <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
-          <Route path="/podcast" element={<Podcast />} />
-          <Route path="/chapters" element={<Chapters />} />
-          <Route path="/terms" element={<Terms />} />
-          <Route path="/faqs" element={<FAQ />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/privacy" element={<Privacy />} />
-          <Route path="/membership" element={<Membership />} />
-          <Route path="/contact" element={<Contact />} />
-          <Route path="/chapters/dallas" element={<Dallas />} />
-          <Route path="/chapters/little-rock" element={<LittleRock />} />
-          <Route path="/chapters/houston" element={<Houston />} />
-          <Route path="/chapters/fort-worth" element={<FortWorth />} />
-          <Route path="/events" element={<Events />} />
-          <Route path="/forgot-password" element={<ForgotPassword />} />
-          <Route path="/auth/reset-password/:token" element={<ResetPassword />} />
-          <Route path="*" element={<Error404Page />} />
-        </Routes>
-      </Router>
+      <GTMProvider>
+        <SpotifyTokenHandler />
+        <Router>
+          <ScrollToTop />
+          <Routes>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/home" element={<HomePage />} />
+            <Route path="/login" element={<LoginRoute />} />
+            <Route path="/signup" element={<SignUp />} />
+            <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
+            <Route path="/podcast" element={<Podcast />} />
+            <Route path="/chapters" element={<Chapters />} />
+            <Route path="/terms" element={<Terms />} />
+            <Route path="/faqs" element={<FAQ />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/privacy" element={<Privacy />} />
+            <Route path="/membership" element={<Membership />} />
+            <Route path="/contact" element={<Contact />} />
+            <Route path="/chapters/dallas" element={<Dallas />} />
+            <Route path="/chapters/little-rock" element={<LittleRock />} />
+            <Route path="/chapters/houston" element={<Houston />} />
+            <Route path="/chapters/fort-worth" element={<FortWorth />} />
+            <Route path="/events" element={<Events />} />
+            <Route path="/forgot-password" element={<ForgotPassword />} />
+            <Route path="/auth/reset-password/:token" element={<ResetPassword />} />
+            <Route path="*" element={<Error404Page />} />
+          </Routes>
+        </Router>
+      </GTMProvider>
     </AuthProvider>
   );
 }
