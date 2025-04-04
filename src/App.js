@@ -1,5 +1,5 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
-import { GTMProvider } from './hooks/GTMProvider';
+import  GTMProvider  from './hooks/GTMProvider';
 
 import { useState, useEffect } from "react";
 import { AuthProvider } from "./authProviders/AuthContext";

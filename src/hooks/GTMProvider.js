@@ -11,5 +11,5 @@ export const GTMProvider = ({ children }) => {
     }
   }, []);
 
-  return <>{children}</>; 
+  return children; 
 };
