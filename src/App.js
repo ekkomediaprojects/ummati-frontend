@@ -62,6 +62,9 @@ function App() {
             <Route path="/login" element={<LoginRoute />} />
             <Route path="/signup" element={<SignUp />} />
             <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
+            <Route path="/paymenthistory" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
+            <Route path="/settings" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
+            <Route path="/subscription" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
             <Route path="/podcast" element={<Podcast />} />
             <Route path="/chapters" element={<Chapters />} />
             <Route path="/terms" element={<Terms />} />

@@ -7,6 +7,8 @@ import { Box, Typography, Avatar, Button } from "@mui/material";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import SettingsComponent from "./Settings";
+import Subscription from "./Subscription";
+
 import ViewProfileComponent from "./ViewProfile";
 import PaymentHistoryComponent from "./PaymentHistory";
 import noProfile from "../../assets/images/no-profile-picture-15257.png";
@@ -16,11 +18,12 @@ import RandomQRGenerator from './RandomQRGenerator'
 
 const Profile = () => {
   const [userData, setUserData] = useState(null);
+  const navigate = useNavigate();
   const [selectedButton, setSelectedButton] = useState("profile");
   const handleButtonClick = (page) => {
     console.log("page", page);
     setSelectedButton(page);
-    // navigate(`${page.toLowerCase().replace(" ", "-")}`); // Update URL based on button
+    navigate(`/${page.toLowerCase().replace(" ", "-")}`); 
   };
   useEffect(() => {
     const fetchUserInfo = async () => {
@@ -267,6 +270,23 @@ const Profile = () => {
                 <Button
                   variant="outlined"
                   sx={{
+                    fontSize: { xs: "10px", sm: "12px", md: "16px" }, 
+                    padding: {
+                      xs: "1px 1px", 
+                      sm: "6px 12px",
+                      md: "10px 20px",
+                    },
+                    ...(selectedButton === "subscription"
+                      ? selectedButtonStyle
+                      : unselectedButtonStyle),
+                  }}
+                  onClick={() => handleButtonClick("subscription")}
+                >
+                  Subscription
+                </Button>
+                <Button
+                  variant="outlined"
+                  sx={{
                     fontSize: { xs: "10px", sm: "12px", md: "16px" },
                     padding: {
                       xs: "4px 8px", // Smaller padding for mobile
@@ -305,7 +325,7 @@ const Profile = () => {
             <Box
               sx={{
                 display: "flex",
-                height: { xs: "auto", md: "1100px" },
+                height: { xs: "auto", md: "1400px" },
                 flexDirection: "column",
                 alignItems: "center",
                 padding: "16px",
@@ -314,6 +334,7 @@ const Profile = () => {
               }}
             >
               {selectedButton === "profile" && <ViewProfileComponent  userData={userData} updateUserState={updateUserState}/>}
+              {selectedButton === "subscription" && <Subscription />}
               {selectedButton === "paymenthistory" && (
                 <PaymentHistoryComponent />
               )}
@@ -330,8 +351,9 @@ const Profile = () => {
         sx={{
           padding: "20px",
           height: {
-            xs: selectedButton === "profile" ? "1800px" : selectedButton === "settings" ? "1200px" :   "1450px",
-            md: "1000px",
+            xs: selectedButton === "profile" || selectedButton === "subscription" ? "1900px" : selectedButton === "settings" ? "1200px" :   "1450px",
+            md: "1300px",
+            lg: "800px",
           },
         }}
       ></Box>
