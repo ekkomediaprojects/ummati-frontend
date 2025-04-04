@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
 import TagManager from 'react-gtm-module';
 
-export const GTMProvider = ({ children }) => {
-  const GTM_ID = 'GTM-KSZWJ7P3';
+ const GTMProvider = ({ children }) => {
+  const GTM_ID = "GTM-KSZWJ7P3";
   
   
   useEffect(() => {
@@ -11,5 +11,6 @@ export const GTMProvider = ({ children }) => {
     }
   }, []);
 
-  return <>{children}</>; 
+  return children; 
 };
+export default  GTMProvider;
