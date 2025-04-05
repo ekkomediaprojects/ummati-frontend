@@ -351,9 +351,9 @@ const Profile = () => {
         sx={{
           padding: "20px",
           height: {
-            xs: selectedButton === "profile" || selectedButton === "subscription" ? "1900px" : selectedButton === "settings" ? "1200px" :   "1450px",
-            md: "1300px",
-            lg: "800px",
+            xs: selectedButton === "profile" || selectedButton === "subscription" ? "2000px" : selectedButton === "settings" ? "1250px" :   "1450px",
+            md: "1400px",
+            lg: "900px",
           },
         }}
       ></Box>
