@@ -140,6 +140,7 @@ const ProfileView = ({ userData, updateUserState }) => {
       toast.error("An unexpected error occurred");
     } finally {
       setIsLoading(false);
+      setIsEditing(false);
     }
   };
 
