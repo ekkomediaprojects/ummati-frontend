@@ -172,17 +172,16 @@ const ProfileView = ({ userData, updateUserState }) => {
     } 
   };
   const ButtonStyling = {
-    margin: "10px",
     backgroundColor: "#78B27B",
     color: "white",
     fontWeight: 700,
-    fontSize: { xs: "14px", md: "16px", lg: "20px" },
+    fontSize: "20px",
     lineHeight: "25px",
     fontFamily: "Quicksand",
     textTransform: "none",
     borderRadius: "10px",
-    width: { xs: "100px", md: "150px", lg: "200px" },
-    height: { xs: "20px", md: "25px", lg: "37px" },
+    width: "200px",
+    height: "37px",
     alignItems: "center",
   };
   return (
@@ -194,65 +193,60 @@ const ProfileView = ({ userData, updateUserState }) => {
         flexDirection: "column",
         justifyContent: "flex-start",
         alignItems: "flex-start",
-        paddingLeft: { md: "20px" },
       }}
     >
-      <Typography
-        sx={{
-          color: "#5A4283",
-          fontWeight: 600,
-          fontSize: { xs: "16px", md: "24px" },
-          lineHeight: "30px",
-        }}
-      >
-        Profile Photo
-      </Typography>
-      <Box
-        sx={{
-          width: "100%",
-          bgcolor: "white",
-          display: "flex",
-          flexDirection: "row",
-          justifyContent: "flex-end",
-          alignItems: "center",
-          padding: "8px",
-        }}
-      >
-        {isEditing ? (
-          <Box>
-            <Button
-              sx={{
-                margin: "10px",
-                backgroundColor: "#a88532",
-                color: "white",
-                fontWeight: 700,
-                fontSize: { xs: "14px", md: "16px", lg: "20px" },
-                lineHeight: "25px",
-                fontFamily: "Quicksand",
-                textTransform: "none",
-                borderRadius: "10px",
-                width: { xs: "100px", md: "150px", lg: "200px" },
-                height: { xs: "20px", md: "25px", lg: "37px" },
-                alignItems: "center",
-              }}
-              onClick={updateUserData}
-            >
-              Discard
-            </Button>
-            <Button sx={ButtonStyling} onClick={handleSave}>
-              {isLoading ? (
-                <CircularProgress size={24} color="inherit" />
-              ) : (
-                " Save"
-              )}
-            </Button>
-          </Box>
-        ) : (
-          <Button sx={ButtonStyling} onClick={() => setIsEditing(true)}>
-            Edit Profile
+    <Box
+      sx={{
+        display: "flex",
+        justifyContent: "space-between",
+        alignItems: "center",
+        width: "100%",
+        bgcolor: "white",
+        my: 2,
+      }}
+    >
+    <Typography
+      sx={{
+        color: "#5A4283",
+        fontWeight: 600,
+        fontSize: { xs: "16px", md: "24px" },
+        lineHeight: "100%",
+        fontFamily: "Quicksand",
+        paddingLeft: {lg : 6},
+        m :{lg : 1},
+
+      }}
+    >
+      Profile Photo
+    </Typography>
+      {isEditing ? (
+        <Box sx={{ display: "flex"}}>
+          {/* <Button
+            sx={ButtonStyling}
+            onClick={updateUserData}
+          >
+            Discard
+          </Button> */}
+          <Button 
+            sx={ButtonStyling} 
+            onClick={handleSave}
+          >
+            {isLoading ? (
+              <CircularProgress size={24} color="inherit" />
+            ) : (
+              "Save Changes"
+            )}
           </Button>
-        )}
-      </Box>
+        </Box>
+      ) : (
+        <Button 
+          sx={ButtonStyling} 
+          onClick={() => setIsEditing(true)}
+        >
+          Edit Profile
+        </Button>
+      )}
+    </Box>
 
       <Box
         sx={{
@@ -260,6 +254,7 @@ const ProfileView = ({ userData, updateUserState }) => {
           flexDirection: "column",
           alignItems: "center",
           mb: 6,
+          px: {lg : 6},
           position: "relative",
         }}
       >
@@ -293,7 +288,9 @@ const ProfileView = ({ userData, updateUserState }) => {
               <PhotoCamera
                 sx={{
                   color: "#C4BAA2",
-                  fontSize: "large",
+                  // fontSize: "54.67px",
+                  height: "46.67px",
+                  width: "42px",
                   position: "absolute",
                   top: "50%",
                   left: "50%",
@@ -305,10 +302,10 @@ const ProfileView = ({ userData, updateUserState }) => {
                 component="span"
                 sx={{
                   position: "absolute",
-                  top: "70px",
-                  right: "70px",
+                  top: "50px",
+                  right: "50px",
                   color: "#C4BAA2",
-                  fontSize: "24px",
+                  fontSize: "40px",
                   fontWeight: "900",
                   lineHeight: "1",
                 }}
@@ -319,11 +316,13 @@ const ProfileView = ({ userData, updateUserState }) => {
               {/* Upload text below the camera icon */}
               <Typography
                 sx={{
-                  fontSize: "14px",
+                  fontSize: "18px",
                   color: "#C4BAA2",
                   position: "absolute",
                   bottom: "40px",
                   left: "50%",
+                  fontWeight:600,
+                  fontFamily:"Poppins",
                   transform: "translateX(-50%)", // Center the text horizontally
                 }}
               >
@@ -355,7 +354,7 @@ const ProfileView = ({ userData, updateUserState }) => {
           )}
         </label>
         {isEditing && (
-          <Box>
+          <Box sx ={{ m : 2}}>
             <Button sx={ButtonStyling} onClick={handleSaveImage}>
               Save Image
             </Button>
@@ -364,13 +363,14 @@ const ProfileView = ({ userData, updateUserState }) => {
       </Box>
 
       {/* Profile Form */}
-      <Box component="form" sx={{ width: "100%", maxWidth: "100%" }}>
+      <Box component="form" sx={{ width: "100%", maxWidth: "100%" , px: {lg : 6},py: 2}}>
         <Typography
           sx={{
             fontSize: { xs: "16px", md: "24px" },
             color: "#5A4283",
             fontWeight: 600,
-            lineHeight: "30px",
+            lineHeight: "100%",
+            fontFamily : "Quicksand",
             marginBottom: "10px",
           }}
         >
@@ -379,12 +379,13 @@ const ProfileView = ({ userData, updateUserState }) => {
         <Box
           sx={{
             display: "flex",
-            gap: 1,
+            gap: { xs : 2 , lg : 6},
             width: "100%",
+            mt: 2,
             flexDirection: { xs: "column", md: "row" },
           }}
         >
-          <Box sx={{ display: "flex", flexDirection: "column", width: "100%" }}>
+          <Box sx={{ display: "flex",  flexDirection: "column", width: "100%" }}>
             <Typography
               variant="subtitle2"
               sx={{
@@ -393,7 +394,7 @@ const ProfileView = ({ userData, updateUserState }) => {
                 fontFamily: "Poppins",
                 fontWeight: 600,
                 fontSize: { xs: "12px", md: "18px" },
-                lineHeight: "27px",
+                lineHeight: "100%",
               }}
             >
               First Name
@@ -401,7 +402,7 @@ const ProfileView = ({ userData, updateUserState }) => {
             <TextField
               variant="outlined"
               fullWidth
-              size="small"
+              size="large"
               name="firstName"
               value={userDetails.firstName}
               onChange={handleChange}
@@ -424,7 +425,7 @@ const ProfileView = ({ userData, updateUserState }) => {
                 fontFamily: "Poppins",
                 fontWeight: 600,
                 fontSize: { xs: "12px", md: "18px" },
-                lineHeight: "27px",
+                lineHeight: "100%",
               }}
             >
               Last Name
@@ -432,7 +433,7 @@ const ProfileView = ({ userData, updateUserState }) => {
             <TextField
               variant="outlined"
               fullWidth
-              size="small"
+              size="large"
               name="lastName"
               value={userDetails.lastName}
               onChange={handleChange}
@@ -451,8 +452,8 @@ const ProfileView = ({ userData, updateUserState }) => {
           sx={{
             display: "flex",
             flexDirection: { xs: "column", md: "row" },
-            gap: 2,
-            mt: 2,
+            gap: { xs : 2 , lg : 6},
+            mt:2,
             width: "100%",
           }}
         >
@@ -465,7 +466,7 @@ const ProfileView = ({ userData, updateUserState }) => {
                 fontFamily: "Poppins",
                 fontWeight: 600,
                 fontSize: { xs: "12px", md: "18px" },
-                lineHeight: "27px",
+                lineHeight: "100%",
               }}
             >
               Contact No.
@@ -473,7 +474,7 @@ const ProfileView = ({ userData, updateUserState }) => {
             <TextField
               variant="outlined"
               fullWidth
-              size="small"
+              size="large"
               name="phoneNumber"
               onChange={handleChange}
               value={userDetails?.phoneNumber}
@@ -487,7 +488,7 @@ const ProfileView = ({ userData, updateUserState }) => {
             </div>
           )}
           </Box>
-          <Box sx={{ display: "flex", flexDirection: "column", width: "100%" }}>
+          <Box sx={{ display: "flex", flexDirection: "column", width: "100%", }}>
             <Typography
               variant="subtitle2"
               sx={{
@@ -496,7 +497,7 @@ const ProfileView = ({ userData, updateUserState }) => {
                 fontFamily: "Poppins",
                 fontWeight: 600,
                 fontSize: { xs: "12px", md: "18px" },
-                lineHeight: "27px",
+                lineHeight: "100%",
               }}
             >
               Email Address
@@ -507,7 +508,7 @@ const ProfileView = ({ userData, updateUserState }) => {
               value={userDetails?.email}
               // onChange={handleChange}
               disabled={true}
-              size="small"
+              size="large"
               type="email"
               name="email"
               placeholder="jondoe@gmail.com"
@@ -536,7 +537,7 @@ const ProfileView = ({ userData, updateUserState }) => {
               fontFamily: "Poppins",
               fontWeight: 600,
               fontSize: { xs: "12px", md: "18px" },
-              lineHeight: "27px",
+              lineHeight: "100%",
             }}
           >
             Address
@@ -544,7 +545,7 @@ const ProfileView = ({ userData, updateUserState }) => {
           <TextField
             variant="outlined"
             fullWidth
-            size="small"
+            size="large"
             name="streetAddress"
             value={userDetails?.streetAddress}
             onChange={handleChange}
@@ -558,7 +559,7 @@ const ProfileView = ({ userData, updateUserState }) => {
           )}
         </Box>
 
-        <Box sx={{ display: "flex", gap: 2, mt: 2, width: "100%" }}>
+        <Box sx={{ display: "flex", gap: { xs : 2 , lg : 6}, mt: 2,width: { xs : "100%" , lg : "90%"} }}>
           <Box sx={{ display: "flex", flexDirection: "column", width: "100%" }}>
             <Typography
               variant="subtitle2"
@@ -566,9 +567,9 @@ const ProfileView = ({ userData, updateUserState }) => {
                 color: "#646464",
                 mb: 1,
                 fontFamily: "Poppins",
-                fontWeight: 600,
+                fontWeight: 500,
                 fontSize: { xs: "12px", md: "18px" },
-                lineHeight: "27px",
+                lineHeight: "100%",
                 placeholder: "Enter City",
               }}
             >
@@ -577,7 +578,7 @@ const ProfileView = ({ userData, updateUserState }) => {
             <TextField
               variant="outlined"
               fullWidth
-              size="small"
+              size="large"
               onChange={handleChange}
               value={userDetails?.city}
               disabled={!isEditing}
@@ -597,9 +598,9 @@ const ProfileView = ({ userData, updateUserState }) => {
                 color: "#646464",
                 mb: 1,
                 fontFamily: "Poppins",
-                fontWeight: 600,
+                fontWeight: 500,
                 fontSize: { xs: "12px", md: "18px" },
-                lineHeight: "27px",
+                lineHeight: "100%",
                 placeholder: "Enter State",
               }}
             >
@@ -608,7 +609,7 @@ const ProfileView = ({ userData, updateUserState }) => {
             <TextField
               variant="outlined"
               fullWidth
-              size="small"
+              size="large"
               value={userDetails?.state}
               onChange={handleChange}
               disabled={!isEditing}
@@ -623,7 +624,7 @@ const ProfileView = ({ userData, updateUserState }) => {
           </Box>
         </Box>
 
-        <Box sx={{ display: "flex", gap: 2, mt: 2, width: "100%" }}>
+        <Box sx={{ display: "flex", gap: { xs : 2 , lg : 6}, mt: 2,width: { xs : "100%" , lg : "90%"} }}>
           <Box sx={{ display: "flex", flexDirection: "column", width: "100%" }}>
             <Typography
               variant="subtitle2"
@@ -631,9 +632,9 @@ const ProfileView = ({ userData, updateUserState }) => {
                 color: "#646464",
                 mb: 1,
                 fontFamily: "Poppins",
-                fontWeight: 600,
+                fontWeight: 500,
                 fontSize: { xs: "12px", md: "18px" },
-                lineHeight: "27px",
+                lineHeight: "100%",
                 placeholder: "Enter Country",
               }}
             >
@@ -642,7 +643,7 @@ const ProfileView = ({ userData, updateUserState }) => {
             <TextField
               variant="outlined"
               fullWidth
-              size="small"
+              size="large"
               select
               value={userDetails?.country}
               color="#11111166"
@@ -662,9 +663,9 @@ const ProfileView = ({ userData, updateUserState }) => {
                 color: "#646464",
                 mb: 1,
                 fontFamily: "Poppins",
-                fontWeight: 600,
+                fontWeight: 500,
                 fontSize: { xs: "12px", md: "18px" },
-                lineHeight: "27px",
+                lineHeight: "100%",
               }}
             >
               Postal Code
@@ -672,7 +673,7 @@ const ProfileView = ({ userData, updateUserState }) => {
             <TextField
               variant="outlined"
               fullWidth
-              size="small"
+              size="large"
               value={userDetails?.postalCode}
               onChange={handleChange}
               disabled={!isEditing}

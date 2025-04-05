@@ -11,6 +11,8 @@ import googleIcon from "../assets/icons/icons8-google.svg";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import  { useGoogleLogin } from '@react-oauth/google';
+import group1 from "../assets/images/login/Group.png";
+import group2 from "../assets/images/login/Clippathgroup.png";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -101,23 +103,44 @@ const Login = () => {
   return (
     <div>
       <Header />
-      <Box className="flex justify-center items-center bg-[#F7F5EF] p-4 sm:p-6 md:p-10">
+      <Box className="flex md:flex-row justify-center items-end bg-[#F7F5EF] w-full">
+        <Box 
+          sx={{ 
+            display: { xs: "none", lg: "flex" },
+            alignItems: "flex-end",
+            height: "100%",
+            flex: 1,
+            maxWidth: "249.86px"
+          }}
+        >
+          <img
+            src={group1}
+            alt="Left group"
+            style={{
+              width: "100%",
+              height: "459.51px",
+              objectFit: "cover",
+            }}
+          />
+        </Box>
         <Box
-          sx={{
+            sx={{
             width: "100%",
-            maxWidth: "540px",
+            maxWidth: { xs: "100%", sm: "540px" },
+            minHeight: "585px",
             height: "auto",
             borderRadius: "8px",
-            padding: { lg: 6, xs: 4 },
+            padding: 3,
             border: "1px solid #C4BAA2",
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
             justifyContent: "center",
-            gap: "24px", // Adds equal spacing between all children
-            boxSizing: "border-box", // Ensures padding doesn't push the element out of view
+            gap: "12px", 
+            boxSizing: "border-box",
+            m : { xs : "10px", md : "50px"}
           }}
-          className=" bg-white shadow-lg"
+          className="bg-white shadow-lg"
         >
           {/* Header Text */}
           <Typography
@@ -136,8 +159,7 @@ const Login = () => {
 
           {/* Google Login Button */}
           <Button
-            variant="outlined"
-            fullWidth
+           fullWidth
             startIcon={
               <img
                 src={googleIcon}
@@ -147,14 +169,14 @@ const Login = () => {
             }
             onClick={handleGoogleLogin}
             sx={{
-              boxShadow: "10px 0px 10px 0px rgba(0, 0, 0, 0.1)",
+              boxShadow: "0px 2px 3px 0px #0000002B",
               borderRadius: "10px",
-              width: "100%",
+              maxWidth: "345px",
               height: "54px",
               fontFamily: "Roboto", // Font Family
-              fontWeight: 200, // Font Weight
+              fontWeight: 500, // Font Weight
               fontSize: "20px", // Font Size
-              lineHeight: "23.44px",
+              lineHeight: "100%",
               color: "#0000008A",
               textTransform: "none",
               padding: "10px",
@@ -162,26 +184,13 @@ const Login = () => {
           >
             Continue with Google
           </Button>
-            {/* <GoogleLogin
-              onSuccess={handleGoogleLogin}
-              onError={() => {
-                console.log("Login Failed");
-              }}
-              useOneTap
-              shape="pill"
-              logo_alignment="center"
-              size="large"
-              text="continue_with"
-              theme="outline"
-            /> */}
-
-         
           <Box
             sx={{
               display: "flex",
               alignItems: "center",
+              maxWidth: "358px",
               width: "100%",
-              margin: "16px 0", // Adjusts spacing around the divider
+              margin: "8px 0",
             }}
           >
             <Box
@@ -211,7 +220,9 @@ const Login = () => {
           </Box>
 
           {/* Email & Password Form */}
-          <form onSubmit={handleSubmit} className="w-full">
+          <form onSubmit={handleSubmit} className="w-full"  style={{
+            maxWidth: "353px",
+          }}>
             {/* Email Input */}
             <div className="mb-4">
               <label
@@ -250,7 +261,7 @@ const Login = () => {
                 id="password"
                 type={showPassword ? "text" : "password"} // Toggle the input type
                 value={password}
-                placeholder="Write your password"
+                placeholder="•••••••••"
                 onChange={(e) => setPassword(e.target.value)}
                 className={`w-full px-4 py-3 bg-white border ${
                   errors.password ? "border-red-500" : "border-[#8692A6]"
@@ -261,7 +272,7 @@ const Login = () => {
                 sx={{
                   position: "absolute",
                   right: "10px",
-                  top: "55%",
+                  top: errors.password != "" || errors.email != "" ? "40%" : "50%",
                   transform: "translateY(-50%)",
                 }}
               >
@@ -283,6 +294,7 @@ const Login = () => {
                   fontSize: "12px",
                   fontWeight: "500",
                   lineHeight: "18px",
+                  marginTop :"12px",
                   textUnderlinePosition: "from-font",
                   textDecorationSkipInk: "none",
                   color: "#5A4283",
@@ -305,7 +317,7 @@ const Login = () => {
               type="submit"
               disabled={isLoading}
               sx={{
-                fontSize: { lg: "20px" },
+                fontSize:"20px",
                 fontFamily: "Quicksand",
                 fontWeight: "700",
                 backgroundColor: "#78B27B",
@@ -319,36 +331,61 @@ const Login = () => {
               {isLoading ? <CircularProgress size={24} color="inherit" /> : "Login"}
             </Button>
             {/* Register Link */}
-          <Typography
-            variant="body2"
-            color="textSecondary"
-            sx={{
-              fontFamily: "Poppins",
-              textAlign: "center",
-              color: "grey",
-              fontSize: "16px",
-              margin : "8px"
-            }}
-            className="text-sm text-center"
-          >
-            Do you already have an account?{" "}
-            <a
-              href="/register"
-              className="text-[#5A4283] hover:underline"
-              onClick={(e) => {
-                e.preventDefault();
-                navigate("/signup");
-              }}
-            >
-              Sign Up
-            </a>
-          </Typography>
+          
             {apiError && (
-              <Typography variant="body2" color="error" sx={{ marginTop: "16px" }}>
+              <Typography variant="body2" color="error" sx={{ marginTop: "8px" }}>
                 {apiError}
               </Typography>
             )}
           </form>
+          <Box sx={{             
+                marginTop: "12px",
+                textAlign: "center",
+                marginTop: "auto" 
+              }}>
+                <Typography
+                  variant="body2"
+                  sx={{
+                    fontFamily: "Poppins",
+                    color: "grey",
+                    fontSize: "16px",
+                  }}
+                >
+                  Do you need an account?  {" "}
+                  <Link
+                    component="button"
+                    sx={{
+                      color: "#5A4283",
+                      textDecoration: "underline",
+                    }}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      navigate("/signup");
+                    }}
+                  >
+                    Create new account
+                  </Link>
+                </Typography>
+            </Box>
+        </Box>
+        <Box 
+          sx={{ 
+            display: { xs: "none", lg: "flex" },
+            alignItems: "flex-end",
+            height: "100%",
+            flex: 1,
+            maxWidth: "249.86px"
+          }}
+        >
+          <img
+            src={group2}
+            alt="Right group"
+            style={{
+              width: "100%",
+              height: "459.51px",
+              objectFit: "cover",
+            }}
+          />
         </Box>
         <Toaster
           position="bottom-right"
