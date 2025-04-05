@@ -212,7 +212,7 @@ const ProfileView = ({ userData, updateUserState }) => {
         fontSize: { xs: "16px", md: "24px" },
         lineHeight: "100%",
         fontFamily: "Quicksand",
-        paddingLeft: {lg : 6},
+        paddingLeft: {lg : 5},
         m :{lg : 1},
 
       }}
@@ -354,7 +354,7 @@ const ProfileView = ({ userData, updateUserState }) => {
           )}
         </label>
         {isEditing && (
-          <Box sx ={{ m : 2}}>
+          <Box sx ={{ mt : 2}}>
             <Button sx={ButtonStyling} onClick={handleSaveImage}>
               Save Image
             </Button>
