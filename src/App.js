@@ -27,19 +27,19 @@ import Error404Page from "./404/Error404Page";
 import ForgotPassword from "./pages/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword";
 import CircularProgress from '@mui/material/CircularProgress';
-import DashboardLayout from "./dashboard/layout";
-import AccountDetails from "./dashboard/accountdetails/page";
-import AccountSecurity from "./dashboard/accountsecuirty/page";
-import AdminSupport from "./dashboard/adminsupport/page";
-import DashboardLayout1 from "./dashboard/adminsupport/selecteduser/page"
-import Bookings from "./dashboard/bookings/page";
-import MembershipManagement from "./dashboard/membershipmanagement/page";
-import UserList from "./dashboard/userlist/page";
-import EventCategories from './dashboard/eventcategories/page';
-import EventLocations from "./dashboard/eventlocations/page";
-import EventMangement from "./dashboard/eventmanagement/page";
-import AddEvent from "./dashboard/eventmanagement/addevent/page";
-import EditEvent from "./dashboard/eventmanagement/editevent/single/page";
+import DashboardLayout from "./Dashboard/layout";
+import AccountDetails from "./Dashboard/AccountDetails/page";
+import AccountSecurity from "./Dashboard/accountsecuirty/page";
+import AdminSupport from "./Dashboard/AdminSupport/page";
+import DashboardLayout1 from "./Dashboard/AdminSupport/selecteduser/page";
+import Bookings from "./Dashboard/Bookings/page";
+import MembershipManagement from "./Dashboard/membershipmanagement/page";
+import UserList from "./Dashboard/UserList/page";
+import EventCategories from './Dashboard/EventCategories/page';
+import EventLocations from "./Dashboard/EventLocations/page";
+import EventMangement from "./Dashboard/EventManagement/page";
+import AddEvent from "./Dashboard/EventManagement/addevent/page";
+import EditEvent from "./Dashboard/EventManagement/editevent/single/page";
 
 function App() {
   const [loading, setLoading] = useState(true); 
