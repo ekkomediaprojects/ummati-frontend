@@ -27,6 +27,20 @@ import Error404Page from "./404/Error404Page";
 import ForgotPassword from "./pages/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword";
 import CircularProgress from '@mui/material/CircularProgress';
+import DashboardLayout from "./dashboard/layout";
+import AccountDetails from "./dashboard/accountdetails/page";
+import AccountSecurity from "./dashboard/accountsecuirty/page";
+import AdminSupport from "./dashboard/adminsupport/page";
+import DashboardLayout1 from "./dashboard/adminsupport/selecteduser/page"
+import Bookings from "./dashboard/bookings/page";
+import MembershipManagement from "./dashboard/membershipmanagement/page";
+import UserList from "./dashboard/userlist/page";
+import EventCategories from './dashboard/eventcategories/page';
+import EventLocations from "./dashboard/eventlocations/page";
+import EventMangement from "./dashboard/eventmanagement/page";
+import AddEvent from "./dashboard/eventmanagement/addevent/page";
+import EditEvent from "./dashboard/eventmanagement/editevent/single/page";
+
 function App() {
   const [loading, setLoading] = useState(true); 
 
@@ -50,6 +64,8 @@ function App() {
     );
   }
 
+
+  
   return (
     <AuthProvider>
       <GTMProvider>
@@ -78,6 +94,23 @@ function App() {
             <Route path="/chapters/houston" element={<Houston />} />
             <Route path="/chapters/fort-worth" element={<FortWorth />} />
             <Route path="/events" element={<Events />} />
+            <Route path="/dashboard" element={<DashboardLayout />} />
+            <Route path="/dashboard/accountdetails" element={<AccountDetails />} />
+            <Route path="/dashboard/accountsecurity" element={<AccountSecurity />} />
+            <Route path="/dashboard/adminsupport" element={<AdminSupport />} />
+            <Route path="/dashboard/adminsupport/:userid" element={<DashboardLayout1 />} />
+            <Route path="/dashboard/bookings" element={<Bookings />} />
+            <Route path="/dashboard/membershipmanagement" element={<MembershipManagement/>} />
+            <Route path="/dashboard/userlist" element={<UserList/>} />
+            <Route path="/dashboard/eventcategories" element={<EventCategories/>} />
+            <Route path="/dashboard/eventlocations" element={<EventLocations/>} />
+            <Route path="/dashboard/eventmanagement" element={<EventMangement/>} />
+            <Route path="/dashboard/eventmanagement/addevent" element={<AddEvent/>} />
+            <Route path="/dashboard/eventmanagement/editevent/single/:id" element={<EditEvent/>} />
+
+            
+
+
             <Route path="/forgot-password" element={<ForgotPassword />} />
             <Route path="/auth/reset-password/:token" element={<ResetPassword />} />
             <Route path="*" element={<Error404Page />} />

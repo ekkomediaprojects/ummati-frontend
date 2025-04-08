@@ -5,8 +5,10 @@
   "dependencies": {
     "@emotion/react": "^11.13.3",
     "@emotion/styled": "^11.13.0",
+    "@headlessui/react": "^2.2.1",
     "@mui/icons-material": "^6.1.7",
     "@mui/material": "^6.1.7",
+    "@mui/x-date-pickers": "^7.28.3",
     "@react-oauth/google": "^0.12.1",
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
@@ -20,6 +22,7 @@
     "qrcode.react": "^4.2.0",
     "react": "^18.3.1",
     "react-big-calendar": "^1.15.0",
+    "react-color": "^2.19.3",
     "react-dom": "^18.3.1",
     "react-gtm-module": "^2.0.11",
     "react-hot-toast": "^2.4.1",
