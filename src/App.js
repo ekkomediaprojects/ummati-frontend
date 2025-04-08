@@ -35,6 +35,8 @@ import DashboardLayout1 from "./dashboard/adminsupport/selecteduser/page"
 import Bookings from "./dashboard/bookings/page";
 import MembershipManagement from "./dashboard/membershipmanagement/page";
 import UserList from "./dashboard/userlist/page";
+import EventCategories from './dashboard/eventcategories/page';
+import EventLocations from "./dashboard/eventlocations/page";
 
 function App() {
   const [loading, setLoading] = useState(true); 
@@ -97,7 +99,9 @@ function App() {
             <Route path="/dashboard/bookings" element={<Bookings />} />
             <Route path="/dashboard/membershipmanagement" element={<MembershipManagement/>} />
             <Route path="/dashboard/userlist" element={<UserList/>} />
-
+            <Route path="/dashboard/eventcategories" element={<EventCategories/>} />
+            <Route path="/dashboard/eventlocations" element={<EventLocations/>} />
+            
 
 
             <Route path="/forgot-password" element={<ForgotPassword />} />
