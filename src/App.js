@@ -37,6 +37,9 @@ import MembershipManagement from "./dashboard/membershipmanagement/page";
 import UserList from "./dashboard/userlist/page";
 import EventCategories from './dashboard/eventcategories/page';
 import EventLocations from "./dashboard/eventlocations/page";
+import EventMangement from "./dashboard/eventmanagement/page";
+import AddEvent from "./dashboard/eventmanagement/addevent/page";
+import EditEvent from "./dashboard/eventmanagement/editevent/single/page";
 
 function App() {
   const [loading, setLoading] = useState(true); 
@@ -101,6 +104,10 @@ function App() {
             <Route path="/dashboard/userlist" element={<UserList/>} />
             <Route path="/dashboard/eventcategories" element={<EventCategories/>} />
             <Route path="/dashboard/eventlocations" element={<EventLocations/>} />
+            <Route path="/dashboard/eventmanagement" element={<EventMangement/>} />
+            <Route path="/dashboard/eventmanagement/addevent" element={<AddEvent/>} />
+            <Route path="/dashboard/eventmanagement/editevent/single/:id" element={<EditEvent/>} />
+
             
 
 
