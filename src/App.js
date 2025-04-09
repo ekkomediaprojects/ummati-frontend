@@ -27,7 +27,7 @@ import Error404Page from "./404/Error404Page";
 import ForgotPassword from "./pages/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword";
 import CircularProgress from '@mui/material/CircularProgress';
-import DashboardLayout from "./Dashboard/layout";
+import DashboardLayout from "./Dashboard/layout.js";
 import AccountDetails from "./Dashboard/AccountDetails/page";
 import AccountSecurity from "./Dashboard/accountsecuirty/page";
 import AdminSupport from "./Dashboard/AdminSupport/page";
