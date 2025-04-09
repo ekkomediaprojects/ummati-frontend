@@ -6,8 +6,6 @@ import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import LogoutContext  from "../authProviders/LogoutContext"
 import { useAuth } from '../authProviders/AuthContext'; // Import the useAuth hook to access the context
 import noProfile from "../assets/images/no-profile-picture.png";
-import DashboardLayout from "../Dashboard/layout.js";
-
 
 
 const Header = () => {
