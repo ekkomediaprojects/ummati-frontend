@@ -13,7 +13,7 @@ import "../../assets/fonts/Poppins-Regular.ttf";
 
 const Dallas = () => (
   <div>
-    <Header />
+    
 
     {/* Banner Section */}
     <Box
@@ -249,7 +249,7 @@ const Dallas = () => (
       </Box>
     </Box>
 
-    <Footer />
+    
   </div>
 );
 

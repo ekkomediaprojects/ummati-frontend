@@ -13,7 +13,7 @@ import "../../assets/fonts/Poppins-Regular.ttf";
 
 const LittleRock = () => (
   <div>
-    <Header />
+    
 
     {/* Banner Section */}
     <Box
@@ -249,7 +249,7 @@ const LittleRock = () => (
       </Box>
     </Box>
 
-    <Footer />
+    
   </div>
 );
 

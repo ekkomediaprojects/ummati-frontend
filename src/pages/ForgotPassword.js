@@ -63,7 +63,7 @@ const ForgotPassword = () => {
 
   return (
     <div>
-      <Header />
+      
     
       <Box className="flex justify-center items-center bg-[#F7F5EF] p-4 sm:p-6 md:p-10">
        
@@ -185,7 +185,7 @@ const ForgotPassword = () => {
           reverseOrder={true}
         />
       </Box>
-      <Footer />
+      
     </div>
   );
 };

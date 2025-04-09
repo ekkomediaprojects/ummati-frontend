@@ -13,7 +13,7 @@ import "../../assets/fonts/Poppins-Regular.ttf";
 
 const FortWorth = () => (
   <div>
-    <Header />
+    
 
     {/* Banner Section */}
     <Box
@@ -248,7 +248,7 @@ const FortWorth = () => (
       </Box>
     </Box>
 
-    <Footer />
+    
   </div>
 );
 

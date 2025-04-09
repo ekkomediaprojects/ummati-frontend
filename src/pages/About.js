@@ -31,7 +31,7 @@ const About = () => {
 
   return (
     <div>
-      <Header />
+      
 
       {/* Banner Section */}
       <Box
@@ -218,7 +218,7 @@ const About = () => {
         </Container>
       </Box>
 
-      <Footer />
+      
     </div>
   );
 };

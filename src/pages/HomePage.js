@@ -55,7 +55,7 @@ const HomePage = () => {
   };
   return (
     <div className="">
-      <Header />
+      
       <HeroSection />
       <section className="w-full px-6 py-10 bg-white text-center">
         <Typography
@@ -423,7 +423,7 @@ const HomePage = () => {
         </Box>
       </Box>
       {/* Footer */}
-      <Footer />
+      
     </div>
   );
 };

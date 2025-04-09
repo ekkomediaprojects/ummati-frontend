@@ -63,7 +63,7 @@ const FAQ = () => {
 
   return (
     <section className="w-full h-full relative bg-[#F7F5EF]">
-      <Header />
+      
 
       {/* Banner Section */}
       <Box
@@ -136,7 +136,7 @@ const FAQ = () => {
         ))}
       </Box>
 
-      <Footer />
+      
     </section>
   );
 };

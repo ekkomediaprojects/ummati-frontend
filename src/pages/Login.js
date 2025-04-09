@@ -102,7 +102,7 @@ const Login = () => {
 
   return (
     <div>
-      <Header />
+      
       <Box className="flex md:flex-row justify-center items-end bg-[#F7F5EF] w-full">
         <Box 
           sx={{ 
@@ -392,7 +392,7 @@ const Login = () => {
           reverseOrder={true}
         />
       </Box>
-      <Footer />
+      
     </div>
   );
 };

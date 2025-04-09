@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 
 function Error404Page() {
   return (
-    <div className="flex flex-col flex-1 items-center justify-center p-16">
+    <div className="flex flex-col flex-1 items-center justify-center p-16 h-screen">
       <div className="max-w-512 text-center">
         <motion.div
           initial={{ opacity: 0, scale: 0.6 }}

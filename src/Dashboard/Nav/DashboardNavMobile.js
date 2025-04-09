@@ -39,10 +39,10 @@ const DashboardNavMobile = ({ session }) => {
               />
               <DashboardNavItem text="Address" href="/dashboard/address" />
 
-              <DashboardNavItem
+              {/* <DashboardNavItem
                 text="Membership Details"
                 href="/dashboard/membershipdetails"
-              />
+              /> */}
               {true && (
                 <>
                  <DashboardNavItem
