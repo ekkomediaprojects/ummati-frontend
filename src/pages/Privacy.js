@@ -11,7 +11,7 @@ const Privacy = () => (
       minHeight: "100vh",
     }}
   >
-    <Header />
+    
 
     {/* Banner Section */}
     <Box
@@ -144,7 +144,7 @@ const Privacy = () => (
       </Section>
     </Container>
 
-    <Footer />
+    
   </Box>
 );
 

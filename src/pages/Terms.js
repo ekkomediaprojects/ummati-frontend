@@ -12,7 +12,7 @@ const Terms = () => (
       minHeight: "100vh",
     }}
   >
-    <Header />
+    
 
     {/* Banner Section */}
     <Box
@@ -145,7 +145,7 @@ const Terms = () => (
       </Section>
     </Container>
 
-    <Footer />
+    
   </Box>
 );
 

@@ -103,7 +103,7 @@ const EventsParent = () => {
 
   return (
     <Box sx={{ backgroundColor: "#F7F5EF", minHeight: "100vh" }}>
-      <Header />
+      
       <Box
       sx={{
         width: "100%",
@@ -706,7 +706,7 @@ const EventsParent = () => {
           )}
         </Box>
       </Box>
-      <Footer />
+      
     </Box>
   );
 };

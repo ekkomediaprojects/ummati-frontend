@@ -114,7 +114,7 @@ const Contact = () => {
 
   return (
     <div>
-      <Header />
+      
 
       {/* Banner Section */}
       <Box
@@ -276,7 +276,7 @@ const Contact = () => {
         />
       </div>
 
-      <Footer />
+      
     </div>
   );
 };

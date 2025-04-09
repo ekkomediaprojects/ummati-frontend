@@ -7,7 +7,7 @@ import '../assets/fonts/Poppins-Regular.ttf';
 
 const Chapters = () => (
   <div>
-    <Header />
+    
     
     {/* Banner Section */}
     <Box
@@ -83,7 +83,7 @@ const Chapters = () => (
       </Typography>
     </div>
 
-    <Footer />
+    
   </div>
 );
 

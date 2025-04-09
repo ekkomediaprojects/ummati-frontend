@@ -8,8 +8,6 @@ import {
   CircularProgress,
 } from "@mui/material";
 import DOMPurify from "dompurify"; // For sanitizing HTML
-import Header from "../components/Header";
-import Footer from "../components/Footer";
 import banner from "../assets/images/podcasts/banner.png";
 import podcastLogo from "../assets/images/podcasts/Ummati Podcast Logo.svg";
 import spotifyIcon from "../assets/images/podcasts/spotifyIcon.svg";
@@ -105,7 +103,7 @@ const Podcast = () => {
 
   if (loading) {
     return (
-      <Box sx={{ display: "flex", justifyContent: "center", mt: 5 }}>
+      <Box sx={{ display: "flex", justifyContent: "center", mt: 5, height : "100vh" }}>
         <CircularProgress />
       </Box>
     );
@@ -123,7 +121,7 @@ const Podcast = () => {
 
   return (
     <Box>
-      <Header />
+      
 
       {/* Banner Section */}
       <Box
@@ -396,7 +394,7 @@ const Podcast = () => {
         </Box>
       </Box>
 
-      <Footer />
+      
     </Box>
   );
 };

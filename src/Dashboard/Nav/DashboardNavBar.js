@@ -16,10 +16,10 @@ const DashboardNavBar = () => {
           href="/dashboard/accountsecurity" 
         />
         
-        <DashboardNavItem
+        {/* <DashboardNavItem
           text="Membership Details"
           href="/dashboard/membershipdetails"
-        />
+        /> */}
 
         {/* Admin-only links */}
         {true && (

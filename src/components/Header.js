@@ -25,6 +25,10 @@ const Header = () => {
   const handleLogout = () => {
     logout();
   };
+  useEffect(() => {
+    setMenuOpen(false);       
+    setDropdownOpen(false);  
+  }, [location.pathname]);
 
   const handleCloseMenu = () => {
     setAnchorEl(null); // Close the menu

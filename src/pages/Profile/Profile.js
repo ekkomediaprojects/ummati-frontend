@@ -100,7 +100,7 @@ const Profile = () => {
         flexDirection: "column",
       }}
     >
-      <Header />
+      
       <Box
         sx={{
           width: "100%",
@@ -357,7 +357,7 @@ const Profile = () => {
           },
         }}
       ></Box>
-      <Footer />
+      
     </Box>
   );
 };

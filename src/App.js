@@ -1,7 +1,6 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import  GTMProvider  from './hooks/GTMProvider';
-
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { AuthProvider } from "./authProviders/AuthContext";
 import SpotifyTokenHandler from "./authProviders/SpotifyTokenHandler";
 import ProtectedRoute from "./authProviders/ProtectedRoute";
@@ -40,14 +39,16 @@ import EventLocations from "./dashboard/eventlocations/page";
 import EventMangement from "./dashboard/eventmanagement/page";
 import AddEvent from "./dashboard/eventmanagement/addevent/page";
 import EditEvent from "./dashboard/eventmanagement/editevent/single/page";
+import DashboardIndex from './dashboard/page'
+import Header from "./components/Header";
+import Footer from "./components/Footer";
 
 function App() {
   const [loading, setLoading] = useState(true); 
-
   useEffect(() => {
     const timer = setTimeout(() => {
       setLoading(false);
-    }, 500); 
+    }, 500);
     return () => clearTimeout(timer);
   }, []);
   if (loading) {
@@ -72,7 +73,8 @@ function App() {
         <SpotifyTokenHandler />
         <Router>
           <ScrollToTop />
-          <Routes>
+          {!loading && <Header />}
+           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/home" element={<HomePage />} />
             <Route path="/login" element={<LoginRoute />} />
@@ -94,27 +96,26 @@ function App() {
             <Route path="/chapters/houston" element={<Houston />} />
             <Route path="/chapters/fort-worth" element={<FortWorth />} />
             <Route path="/events" element={<Events />} />
-            <Route path="/dashboard" element={<DashboardLayout />} />
-            <Route path="/dashboard/accountdetails" element={<AccountDetails />} />
-            <Route path="/dashboard/accountsecurity" element={<AccountSecurity />} />
-            <Route path="/dashboard/adminsupport" element={<AdminSupport />} />
-            <Route path="/dashboard/adminsupport/:userid" element={<DashboardLayout1 />} />
-            <Route path="/dashboard/bookings" element={<Bookings />} />
-            <Route path="/dashboard/membershipmanagement" element={<MembershipManagement/>} />
-            <Route path="/dashboard/userlist" element={<UserList/>} />
-            <Route path="/dashboard/eventcategories" element={<EventCategories/>} />
-            <Route path="/dashboard/eventlocations" element={<EventLocations/>} />
-            <Route path="/dashboard/eventmanagement" element={<EventMangement/>} />
-            <Route path="/dashboard/eventmanagement/addevent" element={<AddEvent/>} />
-            <Route path="/dashboard/eventmanagement/editevent/single/:id" element={<EditEvent/>} />
-
-            
-
-
+            <Route path="/dashboard" element={<DashboardLayout />}>
+              <Route index element={<DashboardIndex />} />
+              <Route path="/dashboard/accountdetails" element={<AccountDetails />} />
+              <Route path="/dashboard/accountsecurity" element={<AccountSecurity />} />
+              <Route path="/dashboard/adminsupport" element={<AdminSupport />} />
+              <Route path="/dashboard/adminsupport/:userid" element={<DashboardLayout1 />} />
+              <Route path="/dashboard/bookings" element={<Bookings />} />
+              <Route path="/dashboard/membershipmanagement" element={<MembershipManagement/>} />
+              <Route path="/dashboard/userlist" element={<UserList/>} />
+              <Route path="/dashboard/eventcategories" element={<EventCategories/>} />
+              <Route path="/dashboard/eventlocations" element={<EventLocations/>} />
+              <Route path="/dashboard/eventmanagement" element={<EventMangement/>} />
+              <Route path="/dashboard/eventmanagement/addevent" element={<AddEvent/>} />
+              <Route path="/dashboard/eventmanagement/editevent/single/:id" element={<EditEvent/>} />
+            </Route>
             <Route path="/forgot-password" element={<ForgotPassword />} />
             <Route path="/auth/reset-password/:token" element={<ResetPassword />} />
             <Route path="*" element={<Error404Page />} />
           </Routes>
+          {!loading && <Footer />}
         </Router>
       </GTMProvider>
     </AuthProvider>

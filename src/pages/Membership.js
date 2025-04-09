@@ -14,7 +14,7 @@ const Membership = () => {
   };
   return (
     <Box>
-      <Header />
+      
 
       {/* Banner Section */}
       <Box
@@ -298,7 +298,7 @@ const Membership = () => {
         </Box>
       </Box> */}
 
-      <Footer />
+      
     </Box>
   );
 };
