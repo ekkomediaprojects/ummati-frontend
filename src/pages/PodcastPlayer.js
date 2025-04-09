@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import SpotifyWebApi from "spotify-web-api-js";
-import logo from "../assets/images/podcasts/Ummati Community-Podcast icon- FF-01.jpg";
+import logo from "../assets/images/podcasts/Ummati Community-Podcast icon- FF-01.svg";
 import {
   Dialog,
   DialogActions,

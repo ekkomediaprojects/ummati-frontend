@@ -11,7 +11,7 @@ import DOMPurify from "dompurify"; // For sanitizing HTML
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import banner from "../assets/images/podcasts/banner.png";
-import podcastLogo from "../assets/images/podcasts/Ummati Community-Podcast icon- FF-01.jpg";
+import podcastLogo from "../assets/images/podcasts/Ummati Community-Podcast icon- FF-01.svg";
 import spotifyIcon from "../assets/images/podcasts/spotifyIcon.svg";
 import applePodcastIcon from "../assets/images/podcasts/applePodcastIcon.svg";
 import youtubeIcon from "../assets/images/podcasts/YouTube Icon.svg";

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import logo from "../assets/icons/logo.png";
+import logo from "../assets/icons/Ummati Community-FF-WithoutSlogan-01.png";
 import { Menu, MenuItem, Avatar, Typography, Button, Box } from "@mui/material";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import LogoutContext  from "../authProviders/LogoutContext"
@@ -63,7 +63,7 @@ const Header = () => {
   };
 
   return (
-    <header className="relative flex items-center justify-between bg-white px-3 lg:px-10 w-full h-[60px] lg:h-[122px] border-b-2 border-[#ECE7DA]">
+    <header className="relative flex items-center justify-between bg-white px-3 lg:px-10 w-full h-[70px] lg:h-[120px] border-b-2 border-[#ECE7DA]">
       {/* Logo */}
       <Link to="/" style={{ textDecoration: "none" }}>
         <Box
@@ -71,77 +71,19 @@ const Header = () => {
             display: "flex",
             flexDirection: "row",
             alignItems: "center",
-            gap: 1 ,
+            gap: 1,
           }}
-          
         >
-          {/* First Child Box */}
           <Box
+            component="img"
+            src={logo}
+            alt="Ummati Logo"
             sx={{
-              display: "flex",
-              flexDirection: "row",
-              alignItems: "center",
-              gap: 0.5,
+              height: { xs: "50px", lg: "100px" },
+              width: "auto",
+              objectFit: "contain",
             }}
-          >
-            <Typography
-              variant="h6"
-              sx={{
-                color: "#5A4283",
-                fontWeight: "700",
-                fontFamily: "Quicksand",
-                fontSize: { xs: "18px", lg: "32px" },
-                fontHeight: { xs: "22.5", lg: "40px" },
-              }}
-            >
-              UMMATI
-            </Typography>
-          </Box>
-
-          {/* Second Child Box */}
-          <Box
-            sx={{
-              display: "flex",
-              flexDirection: "row",
-              alignItems: "center",
-            }}
-          >
-            <Typography
-              variant="h6"
-              sx={{
-                color: "#5A4283",
-                fontWeight: "700",
-                fontFamily: "Quicksand",
-                fontSize: { xs: "18px", lg: "32px" },
-                fontHeight: { xs: "22.5", lg: "40px" },
-              }}
-            >
-              C
-            </Typography>
-            <Box
-              component="img"
-              src={logo}
-              alt="Logo"
-              sx={{
-                width: { xs: "25px", lg: "50px" , },
-                height: { xs: "25px",  lg: "50px" , },
-                marginLeft: { xs: "-4px", lg: "-4px" },
-                marginRight: { xs: "-4px", lg: "-4px" },
-              }}
-            />
-            <Typography
-              variant="h6"
-              sx={{
-                color: "#5A4283",
-                fontWeight: "700",
-                fontFamily: "Quicksand",
-                fontSize: { xs: "18px", lg: "32px" },
-                fontHeight: { xs: "22.5", lg: "40px" },
-              }}
-            >
-              MMUNITY
-            </Typography>
-          </Box>
+          />
         </Box>
       </Link>
 

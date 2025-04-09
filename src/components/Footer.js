@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import logo from "../assets/images/footer logo.svg";
+import logo from "../assets/icons/logo.png";
 import { Button, Box, Typography, CircularProgress } from "@mui/material";
 import RequestHandler from "../utils/RequestHandler";
 import toast from 'react-hot-toast';

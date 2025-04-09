@@ -8,7 +8,7 @@ import rightImageCroped from "../assets/images/homepage/hero/right image heroSec
 import rightImage from "../assets/images/homepage/hero/right image heroSection.png";
 import calendarImage from "../assets/images/homepage/hero/calendar.svg";
 import memberImage from "../assets/images/homepage/hero/member.svg";
-import podcastImage from "../assets/images/homepage/hero/podcast.svg";
+import podcastImage from "../assets/images/podcasts/Ummati Community-Podcast icon- FF-01.svg";
 import { useNavigate } from "react-router-dom";
 const StyledHero = styled(Box)({
   backgroundColor: "#F7F5EF",

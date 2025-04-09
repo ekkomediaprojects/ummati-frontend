@@ -14,7 +14,7 @@ import {
   Email as EmailIcon,
 } from "@mui/icons-material";
 import { Slider, IconButton, Box, Typography, Dialog, DialogTitle, DialogContent, DialogActions, Button } from "@mui/material";
-import podcastLogo from "../assets/images/podcasts/Ummati Community-Podcast icon- FF-01.jpg";
+import podcastLogo from "../assets/images/podcasts/Ummati Community-Podcast icon- FF-01.svg";
 import DOMPurify from "dompurify";
 
 const AudioPlayer = ({ audioSrc, title, description, pubDate }) => {
