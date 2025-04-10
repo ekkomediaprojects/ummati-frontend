@@ -11,7 +11,7 @@ const EventDashItem = ({ event }) => {
   }, []);
 
   return (
-    <button
+    <Link
       href={"/dashboard/eventmanagement/single/" + event.id}
       className="shadow-lg rounded-lg flex flex-col justify-center items-center text-center py-5 px-5 cursor-pointer"
     >
@@ -24,7 +24,7 @@ const EventDashItem = ({ event }) => {
       />
       <div>{event.name}</div>
       <div>{date}</div>
-    </button>
+    </Link>
   );
 };
 export default EventDashItem;
