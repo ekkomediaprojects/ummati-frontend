@@ -124,7 +124,7 @@ const AddEventForm = ({ cities, states, eventTypes, setIsLoading }) => {
       elevation={3}
       sx={{
         p: { xs: 2, sm: 3, md: 4 },
-        mt: 3,
+        mt: 1,
         borderRadius: 2,
         width: "100%",
         maxWidth: "100%",

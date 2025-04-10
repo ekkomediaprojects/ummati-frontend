@@ -9,7 +9,7 @@ import EditEventSection from "../../../../Dashboard/EventManagement/EditEventSec
 
 // import { getServerSession } from "next-auth";/
 
-async function getData() {
+function getData() {
   const session = {
     user: {
       id: "admin123",
@@ -156,8 +156,7 @@ async function getData() {
 export default function EditEvent({
   params,
 }) {
-  const { session, eventLocations, eventTypes, event, cities, states } =
-     getData(params.eventid);
+  const { session, eventLocations, eventTypes, event, cities, states } = getData(params?.eventid);
   // return session != null && event != null ? (
    return <EditEventSection
       event={event}

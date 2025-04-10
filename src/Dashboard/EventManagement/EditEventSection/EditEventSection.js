@@ -12,7 +12,7 @@ const EditEventSection = ({
   return (
     <div className=" text-themeblack w-3/4">
       <div className="flex justify-between">
-        <div className="text-base font-medium">Add Event</div>
+        <div className="text-base font-medium">{event ? "Edit Event" : "Add Event"}</div>
       </div>
       <hr className="mt-1" />
       <EditEventForm

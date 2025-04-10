@@ -1,17 +1,45 @@
 "use client";
-import React, { FormEvent, useState, useEffect } from "react";
-import dayjs, { Dayjs } from "dayjs";
-import {useNavigate} from 'react-router-dom';
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
 
-import { Switch } from "@headlessui/react";
-import Button from "../../../components/Button";
-import {Link} from "@mui/material";
-
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import dayjs from "dayjs";
 import axios from "axios";
 
+// Material UI components
+import {
+  TextField,
+  Button as MuiButton,
+  Grid,
+  Typography,
+  MenuItem,
+  FormControlLabel,
+  Switch as MuiSwitch,
+  Paper,
+  Box,
+  InputAdornment,
+  Divider,
+  Link as MuiLink,
+} from "@mui/material";
+import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+
+// Icons
+import {
+  CalendarMonth,
+  Title,
+  Link as LinkIcon,
+  LocationOn,
+  Description,
+  Numbers,
+  AttachMoney,
+  Category,
+  LocationCity,
+  Public,
+  Image as ImageIcon,
+  Delete as DeleteIcon,
+  Update as UpdateIcon,
+} from "@mui/icons-material";
 
 const EditEventForm = ({
   eventData,
@@ -21,41 +49,34 @@ const EditEventForm = ({
   states,
 }) => {
   const [cityList, setCityList] = useState(cities);
-  const [stateSelector, setStateSelector] = useState(cities[0].state.id);
+  const [stateSelector, setStateSelector] = useState(cities[0]?.state?.id);
   const [stateList, setStateList] = useState(states);
   const [event, setEvent] = useState(eventData);
-  const [dateTime, setDateTime] = useState(
-    dayjs(eventData.eventDate)
-  );
-  const [name, setName] = useState(eventData.name);
-  const [eventLink, setEventLink] = useState(eventData.eventLink);
-  const [mapLink, setMapLink] = useState(eventData.mapLink);
-  const [description, setDescription] = useState(eventData.description);
+  const [dateTime, setDateTime] = useState(dayjs(eventData?.eventDate));
+  const [name, setName] = useState(eventData?.name);
+  const [eventLink, setEventLink] = useState(eventData?.eventLink);
+  const [mapLink, setMapLink] = useState(eventData?.mapLink);
+  const [description, setDescription] = useState(eventData?.description);
   const [quantity, setQuantity] = useState(
-    eventData.quantity ? eventData.quantity : 0
+    eventData?.quantity ? eventData?.quantity : 0
   );
-  const [price, setPrice] = useState(eventData.price);
-  const [eventType, setEventType] = useState(eventData.eventTypeId);
-  const [city, setCity] = useState(eventData.cityId);
-  const [active, setActive] = useState(eventData.isActive);
+  const [price, setPrice] = useState(eventData?.price);
+  const [eventType, setEventType] = useState(eventData?.eventTypeId);
+  const [city, setCity] = useState(eventData?.cityId);
+  const [active, setActive] = useState(eventData?.isActive);
   const [image, setImage] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
 
-  const inputProps = {
-    placeholder: "Date and time of event",
-  };
   const navigate = useNavigate();
 
   const getEventData = async () => {
-    // const event = await getEventById(eventData.id);
-    // if (event != null) {
-    //   setEvent(event);
-    // }
+    // API call to get event data (commented out in original code)
   };
+
   useEffect(() => {
     getEventData();
-    let newStateList = [];
+    const newStateList = [];
     cities.map((cityItem) => {
       let alreadyAdded = false;
       newStateList.map((newState) => {
@@ -74,7 +95,7 @@ const EditEventForm = ({
     if (stateSelector === "") {
       setCityList(cities);
     } else {
-      let newCityList = [];
+      const newCityList = [];
       cityList.map((cityitem) => {
         if (cityitem.stateId === stateSelector) {
           newCityList.push(cityitem);
@@ -104,59 +125,7 @@ const EditEventForm = ({
 
   async function handleSubmit(e) {
     e.preventDefault();
-    // if (dateTime === null) {
-    //   setError("Please Enter a Date and Time");
-    //   return;
-    // } else {
-    //   setError("");
-    // }
-    // if (city === "") {
-    //   setError("Please select a valid city");
-    //   return;
-    // } else {
-    //   setError("");
-    // }
-
-    // const slug = replaceSpecialCharsAndSpaces(name);
-    // if (!event) {
-    //   setError("There was an issue updating the event");
-    //   return;
-    // } else {
-    //   let imgUrl = event.imageUrl || "";
-    //   if (image) {
-    //     // imgUrl = await uploadImage(image);
-    //   }
-
-    //   if (imgUrl !== "") {
-    //     const updatedEvent = await updateEvent(
-    //       event.id, // Pass the event ID for updating the specific event
-    //       slug,
-    //       city,
-    //       eventLink,
-    //       mapLink,
-    //       name,
-    //       description,
-    //       quantity,
-    //       price,
-    //       // imgUrl,
-    //       dateTime.toDate(),
-    //       eventType,
-    //       active
-    //     );
-
-    //     if (updatedEvent === null) {
-    //       setError("There was an issue updating the Event");
-    //       setIsLoading(false);
-    //     } else {
-    //       console.log("event.slug", updatedEvent.slug);
-    //       setIsLoading(false);
-    //       navigate("/dashboard/eventmanagement");
-         
-    //     }
-    //   } else {
-    //     setError("There was an error uploading an image");
-    //   }
-    // }
+    // Form submission logic (commented out in original code)
   }
 
   async function handleDeleteEvent(id) {
@@ -170,7 +139,6 @@ const EditEventForm = ({
     }
   }
 
-  // Function to replace special characters and spaces
   function replaceSpecialCharsAndSpaces(inputString) {
     // Replace special characters with blanks
     const stringWithoutSpecialChars = inputString.replace(/[^\w\s-]/g, " ");
@@ -182,188 +150,356 @@ const EditEventForm = ({
   }
 
   return (
-    <div className="mt-3">
-      {/* <PageLoader isLoading={isLoading} /> */}
+    <Paper
+      elevation={3}
+      sx={{
+        p: { xs: 2, sm: 3, md: 4 },
+        mt: 1,
+        borderRadius: 2,
+        width: "100%",
+        maxWidth: "100%",
+        overflow: "hidden",
+      }}
+    >
       <form
         onSubmit={(e) => {
-          // setisLoading(true);
+          setIsLoading(true);
           handleSubmit(e);
         }}
-        action=""
-        className="grid grid-cols-2 gap-4"
       >
-        <div>
-          <p className="mb-2">Date and Time</p>
-          <LocalizationProvider dateAdapter={AdapterDayjs}>
-            <DateTimePicker
-              value={dateTime}
-              onChange={(value) => setDateTime(value)}
-              // inputProps={inputProps}
+        <Grid container spacing={{ xs: 2, sm: 2, md: 3 }}>
+          <Grid item xs={12} md={6}>
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
+              <DateTimePicker
+                value={dateTime}
+                label="Date and Time"
+                onChange={(value) => setDateTime(value)}
+                slotProps={{
+                  textField: {
+                    fullWidth: true,
+                    variant: "outlined",
+                    size: "small",
+                    InputProps: {
+                      startAdornment: (
+                        <InputAdornment position="start">
+                          <CalendarMonth />
+                        </InputAdornment>
+                      ),
+                    },
+                  },
+                }}
+              />
+            </LocalizationProvider>
+          </Grid>
+
+          <Grid item xs={12} md={6}>
+            <TextField
+              fullWidth
+              required
+              label="Event Name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              variant="outlined"
+              size="small"
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <Title />
+                  </InputAdornment>
+                ),
+              }}
             />
-          </LocalizationProvider>
-        </div>
-        <div className="col-span-2">
-          <label htmlFor="name">Name</label>
-          <input
-            type="text"
-            name="name"
-            id=""
-            value={name}
-            required
-            onChange={(e) => setName(e.currentTarget.value)}
-          />
-        </div>
-        <div>
-          <label htmlFor="eventLink">Event Link</label>
-          <input
-            type="text"
-            name="eventLink"
-            id=""
-            required
-            value={eventLink}
-            onChange={(e) => setEventLink(e.currentTarget.value)}
-          />
-        </div>
-        <div>
-          <label htmlFor="mapLink">Map Link</label>
-          <input
-            type="text"
-            name="mapLink"
-            id=""
-            required
-            value={mapLink}
-            onChange={(e) => setMapLink(e.currentTarget.value)}
-          />
-        </div>
-        <div className="col-span-2">
-          <label htmlFor="description">Description</label>
-          <input
-            type="text"
-            name="description"
-            id=""
-            required
-            value={description}
-            onChange={(e) => setDescription(e.currentTarget.value)}
-          />
-        </div>
-        <div>
-          <label htmlFor="quantity">Quantity</label>
-          <input
-            type="number"
-            name="quantity"
-            id=""
-            required
-            value={quantity}
-            onChange={(e) => setQuantity(parseInt(e.currentTarget.value))}
-          />
-        </div>
-        <div>
-          <label htmlFor="price">Price</label>
-          <input
-            type="number"
-            name="price"
-            required
-            id=""
-            value={price}
-            onChange={(e) => setPrice(parseFloat(e.currentTarget.value))}
-          />
-        </div>
-        <div>
-          <label htmlFor="eventType">Event Type</label>
-          <select
-            name="eventType"
-            id=""
-            required
-            value={eventType}
-            onChange={(e) => setEventType(e.currentTarget.value)}
-            className="w-full border-[#e4e6eb] border-[1px] py-3 mt-2 focus:border-black px-2"
-          >
-            {eventTypes.map((type, index) => (
-              <option key={index} value={type.id}>
-                {type.name}
-              </option>
-            ))}
-          </select>
-        </div>
-        <div>
-          <label htmlFor="state">State</label>
-          <select
-            name="state"
-            id=""
-            required
-            value={stateSelector}
-            onChange={(e) => setStateSelector(e.currentTarget.value)}
-            className="w-full border-[#e4e6eb] border-[1px] py-3 mt-2 focus:border-black px-2"
-          >
-            {stateList.map((state, index) => (
-              <option key={index} value={state.id}>
-                {state.name}
-              </option>
-            ))}
-          </select>
-        </div>
-        <div>
-          <label htmlFor="city">City</label>
-          <select
-            name="city"
-            id=""
-            required
-            value={city}
-            onChange={(e) => setCity(e.currentTarget.value)}
-            className="w-full border-[#e4e6eb] border-[1px] py-3 mt-2 focus:border-black px-2"
-          >
-            {cityList.map((location, index) => (
-              <option key={index} value={location.id}>
-                {location.name}
-              </option>
-            ))}
-          </select>
-        </div>
-        <div className="col-span-2 flex gap-2">
-          <div>Active?</div>
-          <Switch
-            checked={active}
-            onChange={setActive}
-            className={`${active ? "bg-[#00acac]" : "bg-gray-600"}
-          relative inline-flex h-[25px] w-[50px] shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus-visible:ring-2  focus-visible:ring-white focus-visible:ring-opacity-75`}
-          >
-            <span className="sr-only">Active</span>
-            <span
-              aria-hidden="true"
-              className={`${active ? "translate-x-[25px]" : "translate-x-0"}
-            pointer-events-none inline-block h-[20px] w-[20px] transform rounded-full bg-white shadow-lg ring-0 transition duration-200 ease-in-out`}
+          </Grid>
+
+          <Grid item xs={12} md={6}>
+            <TextField
+              fullWidth
+              required
+              label="Event Link"
+              value={eventLink}
+              onChange={(e) => setEventLink(e.target.value)}
+              variant="outlined"
+              size="small"
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <LinkIcon />
+                  </InputAdornment>
+                ),
+              }}
             />
-          </Switch>
-        </div>
-        <div className="col-span-2 mb-2">
-          <label htmlFor="image">
-            Image : <Link href={event.imageUrl}>Original Image</Link>
-          </label>
-          <input
-            type="file"
-            name="image"
-            id=""
-            onChange={(e) =>
-              setImage(e.currentTarget.files ? e.currentTarget.files[0] : null)
-            }
-          />
-        </div>
-        {error != "" && <div className="text-red-600">{error}</div>}
-        <Button type="submit" className="mb-10 mt-4 rounded-full font-bold">
-          Update Event
-        </Button>
-        <Button
-          type="button"
-          className="mb-10 mt-4 !bg-red-600 !text-white rounded-full font-bold"
-          onClick={() => {
-            setIsLoading(true);
-            handleDeleteEvent(event.id);
-          }}
-        >
-          Delete Event
-        </Button>
+          </Grid>
+
+          <Grid item xs={12} md={6}>
+            <TextField
+              fullWidth
+              required
+              label="Map Link"
+              value={mapLink}
+              onChange={(e) => setMapLink(e.target.value)}
+              variant="outlined"
+              size="small"
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <LocationOn />
+                  </InputAdornment>
+                ),
+              }}
+            />
+          </Grid>
+
+          <Grid item xs={12}>
+            <TextField
+              fullWidth
+              required
+              label="Description"
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+              variant="outlined"
+              size="small"
+              multiline
+              rows={2}
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <Description />
+                  </InputAdornment>
+                ),
+              }}
+            />
+          </Grid>
+
+          <Grid item xs={12} md={6}>
+            <TextField
+              fullWidth
+              required
+              type="number"
+              label="Quantity"
+              value={quantity}
+              onChange={(e) => setQuantity(Number.parseInt(e.target.value))}
+              variant="outlined"
+              size="small"
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <Numbers />
+                  </InputAdornment>
+                ),
+              }}
+            />
+          </Grid>
+
+          <Grid item xs={12} md={6}>
+            <TextField
+              fullWidth
+              required
+              type="number"
+              label="Price"
+              value={price}
+              onChange={(e) => setPrice(Number.parseFloat(e.target.value))}
+              variant="outlined"
+              size="small"
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <AttachMoney />
+                  </InputAdornment>
+                ),
+              }}
+            />
+          </Grid>
+
+          <Grid item xs={12} md={6}>
+            <TextField
+              select
+              fullWidth
+              required
+              label="Event Type"
+              value={eventType}
+              onChange={(e) => setEventType(e.target.value)}
+              variant="outlined"
+              size="small"
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <Category />
+                  </InputAdornment>
+                ),
+              }}
+            >
+              {eventTypes.map((type, index) => (
+                <MenuItem key={index} value={type.id}>
+                  {type.name}
+                </MenuItem>
+              ))}
+            </TextField>
+          </Grid>
+
+          <Grid item xs={12} md={6}>
+            <TextField
+              select
+              fullWidth
+              required
+              label="State"
+              value={stateSelector}
+              onChange={(e) => setStateSelector(e.target.value)}
+              variant="outlined"
+              size="small"
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <Public />
+                  </InputAdornment>
+                ),
+              }}
+            >
+              {stateList.map((state, index) => (
+                <MenuItem key={index} value={state.id}>
+                  {state.name}
+                </MenuItem>
+              ))}
+            </TextField>
+          </Grid>
+
+          <Grid item xs={12} md={6}>
+            <TextField
+              select
+              fullWidth
+              required
+              label="City"
+              value={city}
+              onChange={(e) => setCity(e.target.value)}
+              variant="outlined"
+              size="small"
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <LocationCity />
+                  </InputAdornment>
+                ),
+              }}
+            >
+              {cityList.map((location, index) => (
+                <MenuItem key={index} value={location.id}>
+                  {location.name}
+                </MenuItem>
+              ))}
+            </TextField>
+          </Grid>
+
+          <Grid item xs={12}>
+            <Typography variant="subtitle1" gutterBottom>
+              Image
+            </Typography>
+            <Box
+              sx={{
+                border: "1px dashed #ccc",
+                p: { xs: 1, sm: 2 },
+                borderRadius: 1,
+                display: "flex",
+                flexDirection: "column",
+                gap: 2,
+              }}
+            >
+              <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+                <ImageIcon color="action" />
+                <Typography variant="body2">
+                  Current Image:{" "}
+                  <MuiLink href={event.imageUrl} target="_blank" rel="noopener">
+                    View Original Image
+                  </MuiLink>
+                </Typography>
+              </Box>
+              <Box
+                sx={{
+                  display: "flex",
+                  flexDirection: { xs: "column", sm: "row" },
+                  alignItems: { xs: "flex-start", sm: "center" },
+                  gap: 2,
+                }}
+              >
+                <Typography variant="body2">
+                  Upload New Image (optional):
+                </Typography>
+                <input
+                  type="file"
+                  onChange={(e) =>
+                    setImage(e.target.files ? e.target.files[0] : null)
+                  }
+                  style={{ width: "100%" }}
+                />
+              </Box>
+            </Box>
+          </Grid>
+          <Grid item xs={12}>
+            <FormControlLabel
+              control={
+                <MuiSwitch
+                  checked={active}
+                  onChange={(e) => setActive(e.target.checked)}
+                  color="primary"
+                />
+              }
+              label="Active"
+            />
+          </Grid>
+          {error && (
+            <Grid item xs={12}>
+              <Typography color="error">{error}</Typography>
+            </Grid>
+          )}
+
+          <Grid item xs={12} sx={{ mt: 2 }}>
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: { xs: "column", sm: "row" },
+                gap: 2,
+                width: "100%",
+              }}
+            >
+              <MuiButton
+                type="submit"
+                variant="contained"
+                color="primary"
+                disabled={isLoading}
+                startIcon={<UpdateIcon />}
+                sx={{
+                  borderRadius: 28,
+                  px: { xs: 2, sm: 3, md: 4 },
+                  py: { xs: 1, sm: 1.5 },
+                  fontWeight: "bold",
+                  flex: { xs: "1", sm: "initial" },
+                }}
+              >
+                {isLoading ? "Updating..." : "Update Event"}
+              </MuiButton>
+              <MuiButton
+                type="button"
+                variant="contained"
+                color="error"
+                disabled={isLoading}
+                startIcon={<DeleteIcon />}
+                onClick={() => {
+                  setIsLoading(true);
+                  handleDeleteEvent(event.id);
+                }}
+                sx={{
+                  borderRadius: 28,
+                  px: { xs: 2, sm: 3, md: 4 },
+                  py: { xs: 1, sm: 1.5 },
+                  fontWeight: "bold",
+                  flex: { xs: "1", sm: "initial" },
+                }}
+              >
+                {isLoading ? "Deleting..." : "Delete Event"}
+              </MuiButton>
+            </Box>
+          </Grid>
+        </Grid>
       </form>
-    </div>
+    </Paper>
   );
 };
 
