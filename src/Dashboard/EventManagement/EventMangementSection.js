@@ -4,13 +4,19 @@ import EventList from "./EventList";
 import axios from "axios";
 import {Link} from "@mui/material";
 import Button from "../../components/Button";
+import { useNavigate } from "react-router-dom";
 
 const EventMangementSection = ({ eventsData }) => {
   const [events, setEvents] = useState(eventsData);
   const [exportData, setexportData] = useState(eventsData);
+  const navigate = useNavigate();
   const refreshEventList = async () => {
     // const events = await retriveAllEvents();
     // setEvents(events);
+  };
+
+  const handleNavigation = () => {
+    navigate("/dashboard/eventmanagement/addevent");
   };
   useEffect(() => {
     refreshEventList();
@@ -31,12 +37,12 @@ const EventMangementSection = ({ eventsData }) => {
       <div className="flex justify-between">
         <div className="text-base font-medium">Events</div>
         <div className="flex gap-1">
-          <Link
-            href={"/dashboard/eventmanagement/addevent"}
+          <button
+            onClick={handleNavigation}
             className="py-2 px-4 border-black border-[1.5px] rounded-full items-center text-center"
           >
             Add
-          </Link>
+          </button>
           <Button
             type="button"
             className="rounded-full"

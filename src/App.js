@@ -109,7 +109,7 @@ function App() {
               <Route path="/dashboard/eventlocations" element={<EventLocations/>} />
               <Route path="/dashboard/eventmanagement" element={<EventMangement/>} />
               <Route path="/dashboard/eventmanagement/addevent" element={<AddEvent/>} />
-              <Route path="/dashboard/eventmanagement/editevent/single/:id" element={<EditEvent/>} />
+              <Route path="/dashboard/eventmanagement/single/:id" element={<EditEvent/>} />
             </Route>
             <Route path="/forgot-password" element={<ForgotPassword />} />
             <Route path="/auth/reset-password/:token" element={<ResetPassword />} />
