@@ -11,7 +11,7 @@ const EventDashItem = ({ event }) => {
 
   return (
     <Link
-      href={"/dashboard/eventmanagement/editevent/" + event.id}
+      href={"/dashboard/eventmanagement/single" + event.id}
       className="shadow-lg rounded-lg flex flex-col justify-center items-center text-center py-5 px-5 cursor-pointer"
     >
       <img
