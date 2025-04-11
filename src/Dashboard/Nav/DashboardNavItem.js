@@ -1,18 +1,20 @@
-import { NavLink } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom"
 
-const DashboardNavItem = ({ text, href }) => {
+const DashboardNavItem = ({ text, href, onClick }) => {
+  const location = useLocation()
+  const isActive = location.pathname === href
+
   return (
-    <NavLink
+    <Link
       to={href}
-      className={({ isActive }) =>
-        `py-4 px-4 text-[#a5a5a5] transition-colors hover:text-white ${
-          isActive ? "bg-themeblack bg-opacity-90 !text-white" : ""
-        }`
-      }
+      onClick={onClick}
+      className={`py-2 px-2 rounded-md text-sm font-medium transition-colors duration-150 block ${
+        isActive ? "bg-white text-black" : "text-gray-300 hover:text-white"
+      }`}
     >
       {text}
-    </NavLink>
-  );
-};
+    </Link>
+  )
+}
 
-export default DashboardNavItem;
+export default DashboardNavItem

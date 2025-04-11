@@ -2,17 +2,19 @@
 import React from "react";
 import {Link} from "@mui/material";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import EditEvent from "../../dashboard/eventmanagement/editevent/single/page";
 
 const EventDashItem = ({ event }) => {
   const [date, setDate] = useState("");
+  const navigate = useNavigate();
   useEffect(() => {
     // setDate(new Date(event.eventDate));
   }, []);
 
   return (
     <Link
-      href={"/dashboard/eventmanagement/single/" + event.id}
+      onClick={()=> navigate("/dashboard/eventmanagement/single/" + event.id)}
       className="shadow-lg rounded-lg flex flex-col justify-center items-center text-center py-5 px-5 cursor-pointer"
     >
       <img

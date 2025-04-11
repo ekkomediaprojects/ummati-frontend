@@ -9,7 +9,7 @@ const AddEventSection = ({
 }) => {
   const [isLoading, setIsLoading] = useState(false);
   return (
-    <div className=" text-themeblack w-3/4">
+    <div className="text-themeblack w-full md:w-3/4 p-1">
       {/* <PageLoader isLoading={isLoading} /> */}
       <div className="flex justify-between">
         <div className="text-base font-medium">Add Event</div>

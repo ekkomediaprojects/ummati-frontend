@@ -10,7 +10,7 @@ const EditEventSection = ({
   states,
 }) => {
   return (
-    <div className=" text-themeblack w-3/4">
+    <div className=" text-themeblack w-full md:w-3/4 p-1">
       <div className="flex justify-between">
         <div className="text-base font-medium">{event ? "Edit Event" : "Add Event"}</div>
       </div>
