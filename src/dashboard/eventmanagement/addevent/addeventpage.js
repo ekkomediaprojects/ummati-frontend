@@ -1,4 +1,4 @@
-import AddEventSection from "../../../Dashboard/EventManagement/AddEventSection/AddEventSection";
+import AddEventSection from "../../../DashboardComponents/EventManagement/AddEventSection/AddEventSection";
 // import { authOptions } from "@/components/Helper/nextAuthConst";
 // import { getAllCities } from "@/prisma/city";
 // import { getAllEventLocations } from "@/prisma/eventlocation";

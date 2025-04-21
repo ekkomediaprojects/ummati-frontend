@@ -1,5 +1,5 @@
 import React from "react";
-import UserSelectList from "../../Dashboard/AdminSupport/UserSelectList";
+import UserSelectList from "../../DashboardComponents/AdminSupport/UserSelectList";
 
 // Mock roles
 const Role = {

@@ -1,9 +1,4 @@
-import UserListSection from "../../Dashboard/UserList/UserListSection";
-// import { UserwithMembership } from "@/components/Dashboard/globalTypes";
-// import { authOptions } from "@/components/Helper/nextAuthConst";
-// import { getAllUsers } from "@/prisma/user";
-// import { Role, User } from "@prisma/client";
-// import { getServerSession } from "next-auth";
+import UserListSection from "../../DashboardComponents/UserList/UserListSection";
 
 // async function getData() {
 //   const session = await getServerSession(authOptions);

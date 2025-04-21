@@ -1,4 +1,4 @@
-import EditEventSection from "../../../../Dashboard/EventManagement/EditEventSection/EditEventSection";
+import EditEventSection from "../../../../DashboardComponents/EventManagement/EditEventSection/EditEventSection";
 // import { authOptions } from "@/components/Helper/nextAuthConst";
 // import NotFoundPage from "@/components/NotFoundPage";
 // import { getAllCities } from "@/prisma/city";

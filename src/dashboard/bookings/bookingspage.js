@@ -1,5 +1,5 @@
 import React from "react";
-import BookingsSection from "../../Dashboard/Bookings/BookingsSection";
+import BookingsSection from "../../DashboardComponents/Bookings/BookingsSection";
 
 const session = {
   user: {

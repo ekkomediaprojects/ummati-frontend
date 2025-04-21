@@ -1,5 +1,5 @@
 import React from "react";
-import ChatList from "../../Dashboard/AdminSupport/ChatList";
+import ChatList from "../../DashboardMain/AdminSupport/ChatList";
 import { Divider, Box, Typography } from "@mui/material";
 
 // Mock session
