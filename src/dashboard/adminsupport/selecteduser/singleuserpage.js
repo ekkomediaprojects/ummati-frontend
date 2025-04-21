@@ -1,5 +1,5 @@
 import React from "react";
-import ChatBlock from "../../../Dashboard/AdminSupport/ChatBlock";
+import ChatBlock from "../../../DashboardComponents/AdminSupport/ChatBlock";
 
 // Mock session (ADMIN)
 const session = {

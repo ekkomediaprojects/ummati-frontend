@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import MembershipManagementSection from "../../Dashboard/Memberships/Membership Management/MembershipManagementSection";
+import MembershipManagementSection from "../../DashboardComponents/Memberships/Membership Management/MembershipManagementSection";
 
 import { Button, Typography, Container } from "@mui/material";
 

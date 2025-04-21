@@ -1,4 +1,4 @@
-import AccountDetailsForm from "../../Dashboard/AccountDetails/AccountDetailsForm";
+import AccountDetailsForm from "../../DashboardComponents/AccountDetails/AccountDetailsForm";
 // import { authOptions } from "@/components/Helper/nextAuthConst";
 // import { getServerSession } from "next-auth";
 import React,{ FormEvent } from "react";

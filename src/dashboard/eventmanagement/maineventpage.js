@@ -1,5 +1,5 @@
 
-import EventMangementSection from "../../Dashboard/EventManagement/EventMangementSection";
+import EventMangementSection from "../../DashboardComponents/EventManagement/EventMangementSection";
 
  function getData() {
   const session = {

@@ -1,4 +1,4 @@
-import AccountSecurityForm from "../../Dashboard/AccountSecurity/AccountSecurityForm";
+import AccountSecurityForm from "../../DashboardComponents/AccountSecurity/AccountSecurityForm";
 // import { authOptions } from "@/components/Helper/nextAuthConst";
 // import { getServerSession } from "next-auth";
 

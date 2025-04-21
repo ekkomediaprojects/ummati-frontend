@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, Outlet } from "react-router-dom";
-import DashboardNavBar from "../Dashboard/Nav/DashboardNavBar";
-import DashboardNavMobile from "../Dashboard/Nav/DashboardNavMobile";
+import DashboardNavBar from "../DashboardComponents/Nav/DashboardNavBar";
+import DashboardNavMobile from "../DashboardComponents/Nav/DashboardNavMobile";
 
 const DashboardLayout = () => {
   const [session, setSession] = useState(true);

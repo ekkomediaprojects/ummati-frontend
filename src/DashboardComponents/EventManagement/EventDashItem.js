@@ -3,7 +3,7 @@ import React from "react";
 import {Link} from "@mui/material";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import EditEvent from "../../dashboard/eventmanagement/editevent/single/page";
+import EditEvent from "../../dashboard/eventmanagement/editevent/single/editeventpage";
 
 const EventDashItem = ({ event }) => {
   const [date, setDate] = useState("");
