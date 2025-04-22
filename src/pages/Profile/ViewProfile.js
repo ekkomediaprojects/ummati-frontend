@@ -14,11 +14,11 @@ import RequestHandler from "../../utils/RequestHandler";
 import toast, { Toaster } from "react-hot-toast";
 
 const ProfileView = ({ userData, updateUserState }) => {
-  const [profilePicture, setProfilePicture] = useState("");
+  const [profilePicture, setProfilePicture] = useState(userData.profilePicture);
   const {setUserDetails} = useAuth();
   const [isLoading, setIsLoading] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
-  const [errors, setErrors] = useState({}); // Track errors for each field
+  const [errors, setErrors] = useState({}); 
 
   const user_data = {
     firstName: "",
@@ -87,15 +87,25 @@ const ProfileView = ({ userData, updateUserState }) => {
     const file = e.target.files[0];
     if (file) {
       const formData = new FormData();
-      formData.append("image", file);
-      const url = `${process.env.REACT_APP_API_URL}auth/upload-image`;
+      formData.append("profilePicture", file);
+      const url = `${process.env.REACT_APP_API_URL}auth/profile-picture`;
       // const url = `http://localhost:5002/auth/upload-image`;
       try {
-        const res = await RequestHandler(url,"POST",formData,{ Authorization: `Bearer ${token}` },"multipart/form-data");
+        const res = await RequestHandler(url,"PUT",formData,{ Authorization: `Bearer ${token}` },"multipart/form-data");
         if (res?.success) {
           let data = res?.data;
           toast.success(data?.message);
-          if (data?.fileUrl) setProfilePicture(data?.fileUrl);
+          if (data?.profilePicture) {
+            const  picture = data?.profilePicture || ""
+            const storedUser = localStorage.getItem("userData");
+            const parsedUser = JSON.parse(storedUser);
+            localStorage.setItem("userData", JSON.stringify({...parsedUser ,profilePicture : picture}))
+            setUserDetails({...parsedUser ,profilePicture : picture});
+            setProfilePicture(picture);
+            // setIsEditing(false);
+            updateUserState({...userData ,profilePicture : picture });
+            return;
+          }
         } else if (!res?.success) toast.error(`${res?.message}`);
       } catch (error) {
         toast.error("An unexpected error occurred");
@@ -145,33 +155,33 @@ const ProfileView = ({ userData, updateUserState }) => {
   };
 
 
-  const handleSaveImage = async (e) => {
-    e.preventDefault();
-    try {
-      const url = `${process.env.REACT_APP_API_URL}auth/profile-picture`;
-      // const url = `http://localhost:5002/auth/profile-picture`;
-      const body = { profilePicture};
-      const res = await RequestHandler(url, "PUT", body, {
-        Authorization: `Bearer ${token}`,
-      });
-      if (res?.success) {
-        let data = res?.data;
-        toast.success(`${data?.message}`);
-        if (data?.profilePicture) {
-          const  picture = data?.profilePicture || ""
-          const storedUser = localStorage.getItem("userData");
-          const parsedUser = JSON.parse(storedUser);
-          localStorage.setItem("userData", JSON.stringify({...parsedUser ,profilePicture : picture}))
-          setUserDetails({...parsedUser ,profilePicture : picture});
-          setIsEditing(false);
-          updateUserState({...userData ,profilePicture : picture });
-          return;
-        }
-      } else if (!res?.success) toast.error(`${res?.message}`);
-    } catch (error) {
-      toast.error("An unexpected error occurred");
-    } 
-  };
+  // const handleSaveImage = async (e) => {
+  //   e.preventDefault();
+  //   try {
+  //     const url = `${process.env.REACT_APP_API_URL}auth/profile-picture`;
+  //     // const url = `http://localhost:5002/auth/profile-picture`;
+  //     const body = {profilePicture};
+  //     const res = await RequestHandler(url, "PUT", body, {
+  //       Authorization: `Bearer ${token}`,
+  //     });
+  //     if (res?.success) {
+  //       let data = res?.data;
+  //       toast.success(`${data?.message}`);
+  //       if (data?.profilePicture) {
+  //         const  picture = data?.profilePicture || ""
+  //         const storedUser = localStorage.getItem("userData");
+  //         const parsedUser = JSON.parse(storedUser);
+  //         localStorage.setItem("userData", JSON.stringify({...parsedUser ,profilePicture : picture}))
+  //         setUserDetails({...parsedUser ,profilePicture : picture});
+  //         setIsEditing(false);
+  //         updateUserState({...userData ,profilePicture : picture });
+  //         return;
+  //       }
+  //     } else if (!res?.success) toast.error(`${res?.message}`);
+  //   } catch (error) {
+  //     toast.error("An unexpected error occurred");
+  //   } 
+  // };
   const ButtonStyling = {
     backgroundColor: "#78B27B",
     color: "white",
@@ -343,8 +353,8 @@ const ProfileView = ({ userData, updateUserState }) => {
             <Box>
               {" "}
               <img
-                src={userDetails?.profilePicture}
-                alt="Uploaded"
+                src={profilePicture || ""}
+                alt="profile"
                 style={{
                   width: "199px",
                   height: "199px",
@@ -354,13 +364,13 @@ const ProfileView = ({ userData, updateUserState }) => {
             </Box>
           )}
         </label>
-        {isEditing && (
+        {/* {isEditing && (
           <Box sx ={{ mt : 2}}>
             <Button sx={ButtonStyling} onClick={handleSaveImage}>
               Save Image
             </Button>
           </Box>
-        )}
+        )} */}
       </Box>
 
       {/* Profile Form */}
