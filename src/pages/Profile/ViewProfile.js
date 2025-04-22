@@ -14,7 +14,7 @@ import RequestHandler from "../../utils/RequestHandler";
 import toast, { Toaster } from "react-hot-toast";
 
 const ProfileView = ({ userData, updateUserState }) => {
-  const [profilePicture, setProfilePicture] = useState(userData.profilePicture);
+  const [profilePicture, setProfilePicture] = useState("");
   const {setUserDetails} = useAuth();
   const [isLoading, setIsLoading] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
@@ -74,6 +74,8 @@ const ProfileView = ({ userData, updateUserState }) => {
   };
   useEffect(() => {
     if (userData) {
+      let userprofile = userData?.profilePicture || ""
+      setProfilePicture(userprofile)
       setUserMain();
     }
   }, [userData]);
@@ -350,17 +352,16 @@ const ProfileView = ({ userData, updateUserState }) => {
               />
             </Box>
           ) : (
-            <Box>
-              {" "}
-              <img
-                src={profilePicture || ""}
-                alt="profile"
-                style={{
-                  width: "199px",
-                  height: "199px",
-                  objectFit: "cover",
-                }}
-              />{" "}
+            <Box
+              sx={{
+                width: "199px",
+                height: "199px",
+                backgroundImage: `url(${profilePicture})`, // Set background image
+                backgroundSize: "cover", // Ensure the image covers the div
+                backgroundPosition: "center", // Center the image
+                position: "relative", // For absolute positioning inside Box
+              }}
+            >
             </Box>
           )}
         </label>
