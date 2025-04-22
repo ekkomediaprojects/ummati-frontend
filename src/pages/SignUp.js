@@ -112,30 +112,98 @@ const SignUp = () => {
             }
           );
           
-          // Use the existing signup endpoint with Google user info
-          const url = `${process.env.REACT_APP_API_URL}auth/google-signup`;
-          const body = {
+          // First, sign up the user with Google
+          const signupUrl = `${process.env.REACT_APP_API_URL}auth/google-signup`;
+          const signupBody = {
             email: userInfo.data.email,
             firstName: userInfo.data.given_name,
             lastName: userInfo.data.family_name,
-            googleId: userInfo.data.sub
+            googleId: userInfo.data.sub,
+            profilePicture: userInfo.data.picture // Store Google URL initially
           };
           
-          const res = await RequestHandler(url, "POST", body);
+          const signupRes = await RequestHandler(signupUrl, "POST", signupBody);
           
-          if (res?.success) {
-            let data = res?.data;
-            toast.success(data?.message);
-            if(data?.user && data?.token){
-              localStorage.setItem("userToken", data?.token);
-              setIsLoggedIn(true);
-              setUserDetails(data?.user);
-              localStorage.setItem("userData", JSON.stringify(data?.user));
-              setTimeout(() => {navigate("/")}, 1000);
-            }
-          } else if(!res?.success) {
-            toast.error(`${res?.message}`);
+          if (!signupRes?.success) {
+            toast.error(`${signupRes?.message}`);
+            return;
           }
+
+          // Get the JWT token from signup response
+          const jwtToken = signupRes.data.token;
+
+          // Try to upload the profile picture if available
+          if (userInfo.data.picture) {
+            try {
+              // Download the Google profile picture
+              const imageResponse = await axios.get(userInfo.data.picture, {
+                responseType: 'blob'
+              });
+
+              // Create a File object from the blob
+              const file = new File([imageResponse.data], 'profile-picture.jpg', {
+                type: 'image/jpeg'
+              });
+              
+              // Create FormData and append the file
+              const formData = new FormData();
+              formData.append('profilePicture', file);
+              
+              // Upload the profile picture
+              const uploadUrl = `${process.env.REACT_APP_API_URL}auth/profile-picture`;
+              const uploadRes = await RequestHandler(
+                uploadUrl,
+                "PUT",
+                formData,
+                { Authorization: `Bearer ${jwtToken}` },
+                "multipart/form-data"
+              );
+
+              if (uploadRes?.success) {
+                // Update local storage and state with the S3 URL
+                const updatedUser = {
+                  ...signupRes.data.user,
+                  profilePicture: uploadRes.data.profilePicture
+                };
+                
+                localStorage.setItem("userToken", signupRes.data.token);
+                setIsLoggedIn(true);
+                setUserDetails(updatedUser);
+                localStorage.setItem("userData", JSON.stringify(updatedUser));
+              } else {
+                // If upload fails, use the original Google URL
+                const updatedUser = {
+                  ...signupRes.data.user,
+                  profilePicture: userInfo.data.picture
+                };
+                
+                localStorage.setItem("userToken", signupRes.data.token);
+                setIsLoggedIn(true);
+                setUserDetails(updatedUser);
+                localStorage.setItem("userData", JSON.stringify(updatedUser));
+              }
+            } catch (error) {
+              console.error("Profile picture upload error:", error);
+              // If upload fails, use the original Google URL
+              const updatedUser = {
+                ...signupRes.data.user,
+                profilePicture: userInfo.data.picture
+              };
+              
+              localStorage.setItem("userToken", signupRes.data.token);
+              setIsLoggedIn(true);
+              setUserDetails(updatedUser);
+              localStorage.setItem("userData", JSON.stringify(updatedUser));
+            }
+          } else {
+            // No profile picture available, proceed with signup
+            localStorage.setItem("userToken", signupRes.data.token);
+            setIsLoggedIn(true);
+            setUserDetails(signupRes.data.user);
+            localStorage.setItem("userData", JSON.stringify(signupRes.data.user));
+          }
+
+          setTimeout(() => {navigate("/")}, 1000);
         } catch (error) {
           toast.error("An error occurred during Google signup");
           console.error("Google signup error:", error);

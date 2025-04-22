@@ -89,28 +89,52 @@ const ProfileView = ({ userData, updateUserState }) => {
     const file = e.target.files[0];
     if (file) {
       const formData = new FormData();
-      formData.append("profilePicture", file);
-      const url = `${process.env.REACT_APP_API_URL}auth/profile-picture`;
-      // const url = `http://localhost:5002/auth/upload-image`;
+      formData.append("image", file);  // Changed from 'profilePicture' to 'image' to match backend
+      
       try {
-        const res = await RequestHandler(url,"PUT",formData,{ Authorization: `Bearer ${token}` },"multipart/form-data");
-        if (res?.success) {
-          let data = res?.data;
-          toast.success(data?.message);
-          if (data?.profilePicture) {
-            const  picture = data?.profilePicture || ""
-            const storedUser = localStorage.getItem("userData");
-            const parsedUser = JSON.parse(storedUser);
-            localStorage.setItem("userData", JSON.stringify({...parsedUser ,profilePicture : picture}))
-            setUserDetails({...parsedUser ,profilePicture : picture});
-            setProfilePicture(picture);
-            // setIsEditing(false);
-            updateUserState({...userData ,profilePicture : picture });
-            return;
-          }
-        } else if (!res?.success) toast.error(`${res?.message}`);
+        // Step 1: Upload the image to S3
+        const uploadUrl = `${process.env.REACT_APP_API_URL}auth/upload-image`;
+        const uploadRes = await RequestHandler(
+          uploadUrl,
+          "POST",
+          formData,
+          { Authorization: `Bearer ${token}` },
+          "multipart/form-data"
+        );
+
+        if (!uploadRes?.success) {
+          toast.error(uploadRes?.message || "Failed to upload image");
+          return;
+        }
+
+        // Step 2: Update user's profile picture URL
+        const fileUrl = uploadRes.data.fileUrl;
+        const updateUrl = `${process.env.REACT_APP_API_URL}auth/profile-picture`;
+        const updateRes = await RequestHandler(
+          updateUrl,
+          "PUT",
+          { profilePicture: fileUrl },
+          { Authorization: `Bearer ${token}` }
+        );
+
+        if (updateRes?.success) {
+          const picture = updateRes.data?.profilePicture || "";
+          const storedUser = localStorage.getItem("userData");
+          const parsedUser = JSON.parse(storedUser);
+          localStorage.setItem(
+            "userData",
+            JSON.stringify({ ...parsedUser, profilePicture: picture })
+          );
+          setUserDetails({ ...parsedUser, profilePicture: picture });
+          setProfilePicture(picture);
+          updateUserState({ ...userData, profilePicture: picture });
+          toast.success(updateRes.data?.message || "Profile picture updated successfully");
+        } else {
+          toast.error(updateRes?.message || "Failed to update profile picture");
+        }
       } catch (error) {
         toast.error("An unexpected error occurred");
+        console.error("Profile picture update error:", error);
       }
     }
   };
@@ -120,36 +144,62 @@ const ProfileView = ({ userData, updateUserState }) => {
 
     if (validateFields()) {
       toast.error("Please change something to update!");
-      return
+      return;
     }
 
     setIsLoading(true);
 
     try {
       const url = `${process.env.REACT_APP_API_URL}auth/update-profile`;
-      // const url = `http://localhost:5002/auth/update-profile`;
-      const body = userDetails;
+      const body = {
+        firstName: userDetails.firstName,
+        lastName: userDetails.lastName,
+        phoneNumber: userDetails.phoneNumber,
+        instagram: userDetails.instagram,
+        linkedin: userDetails.linkedin,
+        streetAddress: userDetails.streetAddress,
+        city: userDetails.city,
+        state: userDetails.state,
+        postalCode: userDetails.postalCode
+      };
+
       const res = await RequestHandler(url, "PUT", body, {
         Authorization: `Bearer ${token}`,
       });
+
       if (res?.success) {
         let data = res?.data;
-        toast.success(`${data?.message}`);
+        toast.success(data?.message);
         if (data?.user) {
+          // Update local storage
           const storedUser = localStorage.getItem("userData");
           const parsedUser = JSON.parse(storedUser);
-          parsedUser['lastName'] = data?.user?.lastName 
-          parsedUser['firstName'] = data?.user?.firstName
-          localStorage.setItem("userData", JSON.stringify(parsedUser))
-          setUserDetails(parsedUser)
-          updateUserState(data?.user);
-          setUserMain(data?.user);
+          const updatedUser = {
+            ...parsedUser,
+            firstName: data.user.firstName,
+            lastName: data.user.lastName,
+            phoneNumber: data.user.phoneNumber,
+            instagram: data.user.instagram,
+            linkedin: data.user.linkedin,
+            streetAddress: data.user.streetAddress,
+            city: data.user.city,
+            state: data.user.state,
+            postalCode: data.user.postalCode,
+            profilePicture: data.user.profilePicture
+          };
+          
+          localStorage.setItem("userData", JSON.stringify(updatedUser));
+          setUserDetails(updatedUser);
+          updateUserState(data.user);
+          setUserMain(data.user);
           setIsEditing(false);
-          return;
         }
-      } else if (!res?.success) toast.error(`${res?.message}`);
+      } else if (!res?.success) {
+        toast.error(`${res?.message}`);
+      }
     } catch (error) {
       toast.error("An unexpected error occurred");
+      console.error("Profile update error:", error);
     } finally {
       setIsLoading(false);
       setIsEditing(false);
