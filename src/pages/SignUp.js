@@ -103,14 +103,43 @@ const SignUp = () => {
 
     const handleGoogleSignUp = useGoogleLogin({
       onSuccess: async (tokenResponse) => {
-        const userInfo = await axios.get(
-          'https://www.googleapis.com/oauth2/v3/userinfo',{
-            headers: {
-              Authorization: `Bearer ${tokenResponse.access_token}`,
-            },
+        try {
+          const userInfo = await axios.get(
+            'https://www.googleapis.com/oauth2/v3/userinfo',{
+              headers: {
+                Authorization: `Bearer ${tokenResponse.access_token}`,
+              },
+            }
+          );
+          
+          // Use the existing signup endpoint with Google user info
+          const url = `${process.env.REACT_APP_API_URL}auth/google-signup`;
+          const body = {
+            email: userInfo.data.email,
+            firstName: userInfo.data.given_name,
+            lastName: userInfo.data.family_name,
+            googleId: userInfo.data.sub
+          };
+          
+          const res = await RequestHandler(url, "POST", body);
+          
+          if (res?.success) {
+            let data = res?.data;
+            toast.success(data?.message);
+            if(data?.user && data?.token){
+              localStorage.setItem("userToken", data?.token);
+              setIsLoggedIn(true);
+              setUserDetails(data?.user);
+              localStorage.setItem("userData", JSON.stringify(data?.user));
+              setTimeout(() => {navigate("/")}, 1000);
+            }
+          } else if(!res?.success) {
+            toast.error(`${res?.message}`);
           }
-        );
-        console.log(userInfo.data);
+        } catch (error) {
+          toast.error("An error occurred during Google signup");
+          console.error("Google signup error:", error);
+        }
       },
       scope: 'openid profile email',
       flow: "implicit",
