@@ -404,13 +404,13 @@ const ProfileView = ({ userData, updateUserState }) => {
           ) : (
             <Box
               sx={{
-                width: "199px",
-                height: "199px",
+                  width: "199px",
+                  height: "199px",
                 backgroundImage: `url(${profilePicture})`, // Set background image
                 backgroundSize: "cover", // Ensure the image covers the div
                 backgroundPosition: "center", // Center the image
                 position: "relative", // For absolute positioning inside Box
-              }}
+                }}
             >
             </Box>
           )}

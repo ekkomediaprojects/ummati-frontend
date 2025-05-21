@@ -1,77 +1,123 @@
 "use client"
 
-import { useState } from "react"
-import {
-  Accordion,
-  AccordionDetails,
-  AccordionSummary,
-  Typography,
-} from "@mui/material"
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore"
+import React from "react"
+import { useLocation } from "react-router-dom"
 import DashboardNavItem from "./DashboardNavItem"
+import { Box, Typography, Divider } from "@mui/material"
 
-const DashboardNavMobile = ({ session }) => {
-  const [expanded, setExpanded] = useState(false)
+const DashboardNavMobile = ({ isAdmin }) => {
+  const location = useLocation()
 
-  // Close the accordion
-  const handleClose = () => setExpanded(false)
+  const isActive = (path) => {
+    return location.pathname === path
+  }
 
   return (
-    <div className="md:hidden mb-4">
-      <Accordion
-        expanded={expanded}
-        onChange={() => setExpanded(!expanded)}
-        className="bg-themeblack rounded-xl shadow-lg transition-all duration-300"
-        sx={{
-          "&.MuiPaper-root": {
-            borderRadius: "12px",
-            backgroundColor: "#1f1f1f",
-          },
-        }}
-      >
-        <AccordionSummary
-          expandIcon={<ExpandMoreIcon className="text-white" />}
-          aria-controls="panel1bh-content"
-          id="panel1bh-header"
-          className="!bg-themeblack"
-          sx={{
-            px: 2,
-            py: 1,
-            "&.Mui-expanded": {
-              borderBottom: "1px solid rgba(255, 255, 255, 0.1)",
-            },
-          }}
-        >
-          <Typography sx={{ fontWeight: 600 }} className="text-white text-base">
-            Account
-          </Typography>
-        </AccordionSummary>
+    <Box
+      sx={{
+        display: { xs: "flex", md: "none" },
+        flexDirection: "column",
+        gap: 2,
+        p: 2,
+        bgcolor: "background.paper",
+        borderRadius: 2,
+        boxShadow: 1,
+        width: "100%",
+        mb: 3,
+      }}
+    >
+      <Typography variant="h6" sx={{ mb: 2, fontWeight: "bold" }}>
+        Admin Dashboard
+      </Typography>
 
-        <AccordionDetails
-          sx={{
-            px: 2,
-            py: 1.5,
-            backgroundColor: "#1f1f1f",
-          }}
-        >
-          <div className="flex flex-col space-y-2 border-l border-gray-700 pl-3 ml-1">
-            <DashboardNavItem text="Account Details" href="/dashboard/accountdetails" onClick={handleClose} />
+      {/* Account Management */}
+      <Box sx={{ mb: 2 }}>
+        <Typography variant="subtitle2" color="text.secondary" sx={{ mb: 1 }}>
+          Account Management
+        </Typography>
+        <DashboardNavItem
+          to="/dashboard/account-details"
+          icon="account_circle"
+          label="Account Details"
+          active={isActive("/dashboard/account-details")}
+        />
+        <DashboardNavItem
+          to="/dashboard/account-security"
+          icon="security"
+          label="Security"
+          active={isActive("/dashboard/account-security")}
+        />
+      </Box>
 
-            {true && (
-              <>
-                <DashboardNavItem text="Event Management" href="/dashboard/eventmanagement" onClick={handleClose} />
-                <DashboardNavItem text="Event Categories" href="/dashboard/eventcategories" onClick={handleClose} />
-                <DashboardNavItem text="Event Locations" href="/dashboard/eventlocations" onClick={handleClose} />
-                <DashboardNavItem text="User List" href="/dashboard/userlist" onClick={handleClose} />
-                <DashboardNavItem text="Bookings" href="/dashboard/bookings" onClick={handleClose} />
-                <DashboardNavItem text="Membership Management" href="/dashboard/membershipmanagement" onClick={handleClose} />
-                <DashboardNavItem text="Support Chat" href="/dashboard/adminsupport" onClick={handleClose} />
-              </>
-            )}
-          </div>
-        </AccordionDetails>
-      </Accordion>
-    </div>
+      <Divider />
+
+      {/* Event Management */}
+      <Box sx={{ mb: 2 }}>
+        <Typography variant="subtitle2" color="text.secondary" sx={{ mb: 1 }}>
+          Event Management
+        </Typography>
+        <DashboardNavItem
+          to="/dashboard/event-management"
+          icon="event"
+          label="Events"
+          active={isActive("/dashboard/event-management")}
+        />
+        <DashboardNavItem
+          to="/dashboard/event-categories"
+          icon="category"
+          label="Categories"
+          active={isActive("/dashboard/event-categories")}
+        />
+        <DashboardNavItem
+          to="/dashboard/event-locations"
+          icon="location_on"
+          label="Locations"
+          active={isActive("/dashboard/event-locations")}
+        />
+      </Box>
+
+      <Divider />
+
+      {/* User Management */}
+      <Box sx={{ mb: 2 }}>
+        <Typography variant="subtitle2" color="text.secondary" sx={{ mb: 1 }}>
+          User Management
+        </Typography>
+        <DashboardNavItem
+          to="/dashboard/user-list"
+          icon="people"
+          label="User List"
+          active={isActive("/dashboard/user-list")}
+        />
+        <DashboardNavItem
+          to="/dashboard/bookings"
+          icon="book_online"
+          label="Bookings"
+          active={isActive("/dashboard/bookings")}
+        />
+        <DashboardNavItem
+          to="/dashboard/membership-management"
+          icon="card_membership"
+          label="Memberships"
+          active={isActive("/dashboard/membership-management")}
+        />
+      </Box>
+
+      <Divider />
+
+      {/* Support */}
+      <Box>
+        <Typography variant="subtitle2" color="text.secondary" sx={{ mb: 1 }}>
+          Support
+        </Typography>
+        <DashboardNavItem
+          to="/dashboard/admin-support"
+          icon="support_agent"
+          label="Support Chat"
+          active={isActive("/dashboard/admin-support")}
+        />
+      </Box>
+    </Box>
   )
 }
 

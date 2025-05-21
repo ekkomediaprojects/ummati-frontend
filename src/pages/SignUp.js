@@ -104,13 +104,13 @@ const SignUp = () => {
     const handleGoogleSignUp = useGoogleLogin({
       onSuccess: async (tokenResponse) => {
         try {
-          const userInfo = await axios.get(
-            'https://www.googleapis.com/oauth2/v3/userinfo',{
-              headers: {
-                Authorization: `Bearer ${tokenResponse.access_token}`,
-              },
-            }
-          );
+        const userInfo = await axios.get(
+          'https://www.googleapis.com/oauth2/v3/userinfo',{
+            headers: {
+              Authorization: `Bearer ${tokenResponse.access_token}`,
+            },
+          }
+        );
           
           // First, sign up the user with Google
           const signupUrl = `${process.env.REACT_APP_API_URL}auth/google-signup`;

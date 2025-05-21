@@ -84,13 +84,13 @@ const Login = () => {
   const handleGoogleLogin = useGoogleLogin({
     onSuccess: async (tokenResponse) => {
       try {
-        const userInfo = await axios.get(
-          'https://www.googleapis.com/oauth2/v3/userinfo',{
-            headers: {
-              Authorization: `Bearer ${tokenResponse.access_token}`,
-            },
-          }
-        );
+      const userInfo = await axios.get(
+        'https://www.googleapis.com/oauth2/v3/userinfo',{
+          headers: {
+            Authorization: `Bearer ${tokenResponse.access_token}`,
+          },
+        }
+      );
         
         // Use the existing login endpoint with Google user info
         const url = `${process.env.REACT_APP_API_URL}auth/google-login`;

@@ -14,7 +14,7 @@ import PaymentHistoryComponent from "./PaymentHistory";
 import noProfile from "../../assets/images/no-profile-picture-15257.png";
 import RequestHandler from "../../utils/RequestHandler";
 import toast, { Toaster} from 'react-hot-toast';
-import RandomQRGenerator from './RandomQRGenerator'
+import QRCodeGenerator from './QRCodeGenerator';
 
 const Profile = () => {
   const [userData, setUserData] = useState(null);
@@ -208,7 +208,7 @@ const Profile = () => {
               }}
             ></Box>
             <Box>
-              <RandomQRGenerator/>
+              <QRCodeGenerator/>
             </Box>
             <Box>
               <Typography
