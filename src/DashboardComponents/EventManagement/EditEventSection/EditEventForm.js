@@ -35,7 +35,7 @@ import {
   Code
 } from "@mui/icons-material";
 
-const API_URL = "http://api.ummaticommunity.com/";
+const API_URL = process.env.REACT_APP_API_URL?.replace(/\/$/, '') || 'https://api.ummaticommunity.com';
 
 const EditEventForm = () => {
   const { id } = useParams();
@@ -67,25 +67,61 @@ const EditEventForm = () => {
   });
 
   useEffect(() => {
+    console.log('=== EditEventForm Debug ===');
+    console.log('1. Component mounted with ID:', id);
+    console.log('2. API URL:', API_URL);
     fetchEventDetails();
   }, [id]);
 
   const fetchEventDetails = async () => {
+    console.log('3. Fetching event details for ID:', id);
     try {
       const token = localStorage.getItem('userToken');
       if (!token) {
         throw new Error('Please log in to edit event');
       }
 
+      const requestUrl = `${API_URL}/admin/events/${id}`;
+      console.log('4. Request details:', {
+        url: requestUrl,
+        method: 'GET',
+        headers: {
+          Authorization: 'Bearer [REDACTED]'
+        }
+      });
+
       const response = await RequestHandler(
-        `${API_URL}admin/events/${id}`,
+        requestUrl,
         'GET',
         {},
         { Authorization: `Bearer ${token}` }
       );
 
-      if (response?.success) {
+      console.log('5. Raw API Response:', {
+        type: typeof response,
+        isObject: typeof response === 'object',
+        keys: response ? Object.keys(response) : [],
+        success: response?.success,
+        hasData: !!response?.data,
+        dataType: response?.data ? typeof response?.data : 'undefined',
+        fullResponse: response
+      });
+
+      if (!response) {
+        console.error('6. No response received');
+        throw new Error('No response received from server');
+      }
+
+      if (response.success) {
         const event = response.data;
+        console.log('7. Event data received:', {
+          eventId: event.eventId,
+          name: event.name,
+          hasVenue: !!event.venue,
+          hasExternalUrls: !!event.externalUrls,
+          fullEvent: event
+        });
+
         setFormData({
           eventId: event.eventId || "",
           name: event.name || "",
@@ -94,10 +130,10 @@ const EditEventForm = () => {
           end: event.end ? dayjs(event.end) : dayjs().add(2, 'hour'),
           imageUrl: event.imageUrl || "",
           venue: {
-            name: event.venue?.name || "",
+            name: event.venue?.name || event.location || "",
             addressLine1: event.venue?.addressLine1 || "",
             addressLine2: event.venue?.addressLine2 || "",
-            city: event.venue?.city || "",
+            city: event.venue?.city || event.city || "",
             state: event.venue?.state || "",
             postalCode: event.venue?.postalCode || ""
           },
@@ -108,15 +144,35 @@ const EditEventForm = () => {
             other: event.externalUrls?.other || ""
           }
         });
+
+        console.log('8. Form data set:', {
+          eventId: event.eventId,
+          name: event.name,
+          hasVenue: !!event.venue,
+          hasExternalUrls: !!event.externalUrls,
+          venueName: event.venue?.name,
+          city: event.venue?.city || event.city,
+          start: event.start
+        });
       } else {
+        console.error('9. Error response:', {
+          message: response.message,
+          success: response.success
+        });
         throw new Error(response?.message || 'Error fetching event details');
       }
     } catch (error) {
-      console.error('Error fetching event details:', error);
+      console.error('10. Error caught:', {
+        message: error.message,
+        stack: error.stack,
+        response: error.response,
+        name: error.name
+      });
       setError(error.message || 'Error fetching event details');
       toast.error(error.message || 'Error fetching event details');
     } finally {
       setLoading(false);
+      console.log('11. Request completed');
     }
   };
 
@@ -157,21 +213,55 @@ const EditEventForm = () => {
         throw new Error('Please log in to update event');
       }
 
+      // Create a clean data object without the additional fields
+      const cleanFormData = {
+        eventId: formData.eventId,
+        name: formData.name,
+        description: formData.description,
+        start: formData.start,
+        end: formData.end,
+        imageUrl: formData.imageUrl,
+        venue: formData.venue,
+        externalUrls: formData.externalUrls
+      };
+
+      const requestUrl = `${API_URL}/admin/events/${id}`;
+      console.log('=== Update Event Debug ===');
+      console.log('1. Update request details:', {
+        url: requestUrl,
+        method: 'PUT',
+        headers: {
+          Authorization: 'Bearer [REDACTED]'
+        },
+        data: cleanFormData
+      });
+
       const response = await RequestHandler(
-        `${API_URL}admin/events/${id}`,
+        requestUrl,
         'PUT',
-        formData,
+        cleanFormData,
         { Authorization: `Bearer ${token}` }
       );
+
+      console.log('2. Update response:', {
+        success: response?.success,
+        message: response?.message,
+        data: response?.data
+      });
 
       if (response?.success) {
         toast.success('Event updated successfully');
         navigate('/dashboard/event-management');
-    } else {
+      } else {
         throw new Error(response?.message || 'Failed to update event');
-    }
+      }
     } catch (error) {
-      console.error('Error updating event:', error);
+      console.error('3. Update error:', {
+        message: error.message,
+        stack: error.stack,
+        response: error.response,
+        name: error.name
+      });
       setError(error.message || 'Error updating event');
       toast.error(error.message || 'Error updating event');
     } finally {
@@ -221,7 +311,7 @@ const EditEventForm = () => {
                     <Code />
                   </InputAdornment>
                 ),
-      }}
+              }}
             />
           </Grid>
 
@@ -304,7 +394,7 @@ const EditEventForm = () => {
                           <CalendarMonth />
                         </InputAdornment>
                       ),
-                }}
+                    }}
                   />
                 )}
               />
@@ -341,6 +431,7 @@ const EditEventForm = () => {
               name="venue.name"
               value={formData.venue.name}
               onChange={handleChange}
+              required
               InputProps={{
                 startAdornment: (
                   <InputAdornment position="start">
@@ -392,6 +483,7 @@ const EditEventForm = () => {
               name="venue.city"
               value={formData.venue.city}
               onChange={handleChange}
+              required
               InputProps={{
                 startAdornment: (
                   <InputAdornment position="start">
@@ -490,7 +582,7 @@ const EditEventForm = () => {
                   </InputAdornment>
                 ),
               }}
-                />
+            />
           </Grid>
 
           <Grid item xs={12} sm={6}>
@@ -510,12 +602,12 @@ const EditEventForm = () => {
             />
           </Grid>
 
-            <Grid item xs={12}>
+          <Grid item xs={12}>
             <Box sx={{ display: 'flex', gap: 2, justifyContent: 'flex-end' }}>
               <Button
                 variant="outlined"
                 onClick={() => navigate('/dashboard/event-management')}
-            >
+              >
                 Cancel
               </Button>
               <Button

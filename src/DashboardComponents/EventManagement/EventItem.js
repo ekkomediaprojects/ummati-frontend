@@ -46,13 +46,17 @@ const EventItem = ({ event }) => {
           <div className="flex flex-col">
             <div className="font-bold">{event.name}</div>
             <div className="mt-1 text-sm text-gray-600">
-              {formatDate(event.eventDate)}
+              {formatDate(event.start)}
             </div>
           </div>
         </div>
         <div className="flex flex-col">
           <div className="font-bold">Location</div>
-          <div className="mt-1">{event.location || 'TBD'}</div>
+          <div className="mt-1">{event.venue?.name || event.location || 'TBD'}</div>
+        </div>
+        <div className="flex flex-col">
+          <div className="font-bold">City</div>
+          <div className="mt-1">{event.venue?.city || event.city || 'Not specified'}</div>
         </div>
         <div className="flex flex-col">
           <div className="font-bold">Price</div>
@@ -89,11 +93,23 @@ const EventItem = ({ event }) => {
           </div>
           <div>
             <div className="mt-4 font-bold">Event Type</div>
-            <div className="mt-1">{event.eventTypeId || 'Not specified'}</div>
+            <div className="mt-1">{event.eventType || 'Not specified'}</div>
           </div>
           <div>
-            <div className="mt-4 font-bold">City</div>
-            <div className="mt-1">{event.cityId || 'Not specified'}</div>
+            <div className="mt-4 font-bold">Address</div>
+            <div className="mt-1">
+              {event.venue?.addressLine1 ? (
+                <>
+                  {event.venue.addressLine1}
+                  {event.venue.addressLine2 && <br />}
+                  {event.venue.addressLine2}
+                  <br />
+                  {event.venue.city}, {event.venue.state} {event.venue.postalCode}
+                </>
+              ) : (
+                'No address available'
+              )}
+            </div>
           </div>
           {event.imageUrl && (
             <div className="col-span-2">

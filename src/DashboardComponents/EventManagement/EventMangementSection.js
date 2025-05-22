@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import { Box, Button } from "@mui/material";
+import { Box, Button, Pagination } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import RequestHandler from "../../utils/RequestHandler";
 import toast from "react-hot-toast";
@@ -9,9 +9,12 @@ import EventList from "./EventList";
 const EventMangementSection = () => {
   const [events, setEvents] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const [totalEvents, setTotalEvents] = useState(0);
   const navigate = useNavigate();
 
-  const refreshEventList = async () => {
+  const refreshEventList = async (page = 1) => {
     console.log('=== refreshEventList Debug ===');
     console.log('1. Function started');
     
@@ -28,7 +31,7 @@ const EventMangementSection = () => {
         throw new Error('Please log in to access events');
       }
 
-      const requestUrl = `${process.env.REACT_APP_API_URL}admin/events`;
+      const requestUrl = `${process.env.REACT_APP_API_URL}admin/events?page=${page}&limit=10`;
       console.log('3. Request details:', {
         url: requestUrl,
         method: 'GET',
@@ -71,12 +74,14 @@ const EventMangementSection = () => {
 
         // Handle nested data structure
         const actualData = response.data?.data || response.data;
+        const pagination = response.data?.pagination;
         
         console.log('7. Processed data:', {
           actualData,
           isArray: Array.isArray(actualData),
           length: actualData?.length,
-          firstItem: actualData?.[0]
+          firstItem: actualData?.[0],
+          pagination
         });
 
         if (!actualData || !Array.isArray(actualData)) {
@@ -90,10 +95,15 @@ const EventMangementSection = () => {
 
         console.log('9. Setting state with:', {
           eventsLength: actualData.length,
-          firstEvent: actualData[0]
+          firstEvent: actualData[0],
+          pagination
         });
 
         setEvents(actualData);
+        if (pagination) {
+          setTotalPages(pagination.totalPages);
+          setTotalEvents(pagination.total);
+        }
       } else {
         console.error('10. Error response:', {
           message: response.message,
@@ -119,23 +129,31 @@ const EventMangementSection = () => {
     navigate("/dashboard/event-management/add");
   };
 
+  const handlePageChange = (event, value) => {
+    setCurrentPage(value);
+    refreshEventList(value);
+  };
+
   useEffect(() => {
     console.log('=== useEffect Debug ===');
     console.log('1. Effect triggered');
-    refreshEventList();
+    refreshEventList(currentPage);
   }, []);
 
   console.log('=== Render Debug ===');
   console.log('Current state:', {
     isLoading,
     eventsLength: events.length,
-    firstEvent: events[0]
+    firstEvent: events[0],
+    currentPage,
+    totalPages,
+    totalEvents
   });
 
   return (
     <Box className="text-themeblack md:w-3/4 mb-5">
       <div className="flex justify-between items-center">
-        <div className="text-base font-medium">Events</div>
+        <div className="text-base font-medium">Events ({totalEvents})</div>
         <div className="flex gap-1">
           <button
             onClick={handleNavigation}
@@ -162,7 +180,19 @@ const EventMangementSection = () => {
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-gray-900"></div>
         </div>
       ) : events.length > 0 ? (
-        <EventList eventList={events} refreshEventList={refreshEventList} />
+        <>
+          <EventList eventList={events} refreshEventList={refreshEventList} />
+          <div className="flex justify-center mt-4">
+            <Pagination 
+              count={totalPages} 
+              page={currentPage} 
+              onChange={handlePageChange}
+              color="primary"
+              showFirstButton
+              showLastButton
+            />
+          </div>
+        </>
       ) : (
         <div className="text-center py-8">No events found</div>
       )}
