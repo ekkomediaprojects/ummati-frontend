@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import { Box, Button, Typography, CircularProgress } from "@mui/material";
+import { Box, Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import RequestHandler from "../../utils/RequestHandler";
 import toast from "react-hot-toast";
@@ -51,7 +51,6 @@ const EventMangementSection = () => {
         success: response?.success,
         hasData: !!response?.data,
         dataType: response?.data ? typeof response?.data : 'undefined',
-        isObject: typeof response?.data === 'object',
         fullResponse: response
       });
 
