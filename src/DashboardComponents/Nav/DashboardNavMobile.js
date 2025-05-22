@@ -14,7 +14,7 @@ const DashboardNavMobile = ({ isAdmin }) => {
 
   return (
     <Box
-      sx={{
+        sx={{
         display: { xs: "flex", md: "none" },
         flexDirection: "column",
         gap: 2,
@@ -24,8 +24,8 @@ const DashboardNavMobile = ({ isAdmin }) => {
         boxShadow: 1,
         width: "100%",
         mb: 3,
-      }}
-    >
+        }}
+      >
       <Typography variant="h6" sx={{ mb: 2, fontWeight: "bold" }}>
         Admin Dashboard
       </Typography>
@@ -82,7 +82,7 @@ const DashboardNavMobile = ({ isAdmin }) => {
       <Box sx={{ mb: 2 }}>
         <Typography variant="subtitle2" color="text.secondary" sx={{ mb: 1 }}>
           User Management
-        </Typography>
+          </Typography>
         <DashboardNavItem
           to="/dashboard/user-list"
           icon="people"

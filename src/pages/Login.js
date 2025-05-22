@@ -4,7 +4,7 @@ import { Button,Link, Typography, Box, IconButton, CircularProgress } from "@mui
 import { useAuth } from '../authProviders/AuthContext'; // Import the useAuth hook to access the context
 import RequestHandler from "../utils/RequestHandler";
 import toast, { Toaster } from 'react-hot-toast';
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import googleIcon from "../assets/icons/icons8-google.svg";
@@ -16,6 +16,7 @@ import group2 from "../assets/images/login/Clippathgroup.png";
 
 const Login = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -53,29 +54,45 @@ const Login = () => {
 
     try {
       const url = `${process.env.REACT_APP_API_URL}auth/login`;
-      // const url = `http://localhost:5002/auth/login`;
       const body = { email, password };
       const res = await RequestHandler(url, "POST", body);
+      
       if (res?.success) {
-        let data = res?.data
-        toast.success(data?.message);
-       if(data?.user && data?.token){
-          localStorage.setItem("userToken", data?.token)
+        const data = res?.data;
+        if (data?.user && data?.token) {
+          // Store user data and token
+          localStorage.setItem("userToken", data.token);
+          localStorage.setItem("userData", JSON.stringify(data.user));
+          
+          // Update auth context
           setIsLoggedIn(true);
-          setUserDetails(data?.user);
-          localStorage.setItem("userData", JSON.stringify(data?.user))
-          setTimeout(() => {navigate("/")}, 1000);
-          return;
+          setUserDetails(data.user);
+          
+          // Check if user is admin
+          const adminCheck = await RequestHandler(
+            `${process.env.REACT_APP_API_URL}auth/check-admin`,
+            'GET',
+            {},
+            { Authorization: `Bearer ${data.token}` }
+          );
+
+          if (adminCheck?.success && adminCheck?.data?.isAdmin) {
+            toast.success("Login successful!");
+            navigate("/dashboard");
+          } else {
+            toast.error("Access denied. Admin privileges required.");
+            navigate("/");
+          }
+        } else {
+          throw new Error("Invalid response format from server");
         }
-      } else if(!res?.success) {
-        toast.error(`${res?.message}`);
-        console.error("Request error:", res, "Status:", res?.message);
+      } else {
+        throw new Error(res?.message || "Login failed");
       }
     } catch (error) {
-      toast.error("An unexpected error occurred");
-      console.error("Unexpected error occurred:", error);
-
-      // setApiError("An error occurred. Please try again.");
+      console.error("Login error:", error);
+      toast.error(error.message || "An error occurred during login");
+      setApiError(error.message || "An error occurred during login");
     } finally {
       setIsLoading(false);
     }

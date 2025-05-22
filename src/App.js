@@ -42,15 +42,18 @@ import EditEvent from "./dashboard/eventmanagement/editevent/single/editeventpag
 import DashboardIndex from './dashboard/dashboardpage'
 import Header from "./components/Header";
 import Footer from "./components/Footer";
+import AdminLogin from "./pages/AdminLogin";
 
 function App() {
   const [loading, setLoading] = useState(true); 
+  
   useEffect(() => {
     const timer = setTimeout(() => {
       setLoading(false);
     }, 500);
     return () => clearTimeout(timer);
   }, []);
+
   if (loading) {
     return (
       <div style={{
@@ -65,8 +68,6 @@ function App() {
     );
   }
 
-
-  
   return (
     <AuthProvider>
       <GTMProvider>
@@ -74,11 +75,12 @@ function App() {
         <Router>
           <ScrollToTop />
           {!loading && <Header />}
-           <Routes>
+          <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/home" element={<HomePage />} />
             <Route path="/login" element={<LoginRoute />} />
             <Route path="/signup" element={<SignUp />} />
+            <Route path="/admin-login" element={<AdminLogin />} />
             <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
             <Route path="/paymenthistory" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
             <Route path="/settings" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
@@ -96,20 +98,20 @@ function App() {
             <Route path="/chapters/houston" element={<Houston />} />
             <Route path="/chapters/fort-worth" element={<FortWorth />} />
             <Route path="/events" element={<Events />} />
-            <Route path="/dashboard" element={<DashboardLayout />}>
+            <Route path="/dashboard/*" element={<DashboardLayout />}>
               <Route index element={<DashboardIndex />} />
-              <Route path="/dashboard/accountdetails" element={<AccountDetails />} />
-              <Route path="/dashboard/accountsecurity" element={<AccountSecurity />} />
-              <Route path="/dashboard/adminsupport" element={<AdminSupport />} />
-              <Route path="/dashboard/adminsupport/:userid" element={<DashboardLayout1 />} />
-              <Route path="/dashboard/bookings" element={<Bookings />} />
-              <Route path="/dashboard/membershipmanagement" element={<MembershipManagement/>} />
-              <Route path="/dashboard/userlist" element={<UserList/>} />
-              <Route path="/dashboard/eventcategories" element={<EventCategories/>} />
-              <Route path="/dashboard/eventlocations" element={<EventLocations/>} />
-              <Route path="/dashboard/eventmanagement" element={<EventMangement/>} />
-              <Route path="/dashboard/eventmanagement/addevent" element={<AddEvent/>} />
-              <Route path="/dashboard/eventmanagement/single/:id" element={<EditEvent/>} />
+              <Route path="account-details" element={<AccountDetails />} />
+              <Route path="account-security" element={<AccountSecurity />} />
+              <Route path="admin-support" element={<AdminSupport />} />
+              <Route path="admin-support/:userid" element={<DashboardLayout1 />} />
+              <Route path="bookings" element={<Bookings />} />
+              <Route path="membership-management" element={<MembershipManagement/>} />
+              <Route path="user-list" element={<UserList/>} />
+              <Route path="event-categories" element={<EventCategories/>} />
+              <Route path="event-locations" element={<EventLocations/>} />
+              <Route path="event-management" element={<EventMangement/>} />
+              <Route path="event-management/add-event" element={<AddEvent/>} />
+              <Route path="event-management/edit/:id" element={<EditEvent/>} />
             </Route>
             <Route path="/forgot-password" element={<ForgotPassword />} />
             <Route path="/auth/reset-password/:token" element={<ResetPassword />} />

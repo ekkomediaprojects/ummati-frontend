@@ -54,24 +54,24 @@ const DashboardNavBar = ({ isAdmin }) => {
         <Typography variant="subtitle2" color="text.secondary" sx={{ mb: 1 }}>
           Event Management
         </Typography>
-        <DashboardNavItem
+             <DashboardNavItem
           to="/dashboard/event-management"
           icon="event"
           label="Events"
           active={isActive("/dashboard/event-management")}
-        />
-        <DashboardNavItem
+                  />
+                  <DashboardNavItem
           to="/dashboard/event-categories"
           icon="category"
           label="Categories"
           active={isActive("/dashboard/event-categories")}
-        />
-        <DashboardNavItem
+                  />
+                  <DashboardNavItem
           to="/dashboard/event-locations"
           icon="location_on"
           label="Locations"
           active={isActive("/dashboard/event-locations")}
-        />
+                  />
       </Box>
 
       <Divider />
@@ -81,24 +81,24 @@ const DashboardNavBar = ({ isAdmin }) => {
         <Typography variant="subtitle2" color="text.secondary" sx={{ mb: 1 }}>
           User Management
         </Typography>
-        <DashboardNavItem
+                  <DashboardNavItem
           to="/dashboard/user-list"
           icon="people"
           label="User List"
           active={isActive("/dashboard/user-list")}
-        />
-        <DashboardNavItem
+                  />
+                  <DashboardNavItem
           to="/dashboard/bookings"
           icon="book_online"
           label="Bookings"
           active={isActive("/dashboard/bookings")}
-        />
-        <DashboardNavItem
+                  />
+                  <DashboardNavItem
           to="/dashboard/membership-management"
           icon="card_membership"
           label="Memberships"
           active={isActive("/dashboard/membership-management")}
-        />
+                  />
       </Box>
 
       <Divider />
@@ -108,12 +108,12 @@ const DashboardNavBar = ({ isAdmin }) => {
         <Typography variant="subtitle2" color="text.secondary" sx={{ mb: 1 }}>
           Support
         </Typography>
-        <DashboardNavItem
+                  <DashboardNavItem
           to="/dashboard/admin-support"
           icon="support_agent"
           label="Support Chat"
           active={isActive("/dashboard/admin-support")}
-        />
+                  />
       </Box>
     </Box>
   );

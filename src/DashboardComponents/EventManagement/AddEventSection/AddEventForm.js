@@ -1,116 +1,95 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import React, { useState } from "react"
 import { useNavigate } from "react-router-dom"
 import dayjs from "dayjs"
 import RequestHandler from "../../../utils/RequestHandler"
 import toast from "react-hot-toast"
 
 // Material UI components
-import {TextField,Button,Grid,Typography,MenuItem,FormControlLabel,Switch,Paper,Box,InputAdornment,Divider,CircularProgress} from "@mui/material"
+import {TextField,Button,Grid,Typography,Paper,Box,InputAdornment,CircularProgress,Alert,Divider} from "@mui/material"
 import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker"
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider"
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs"
-import {CalendarMonth,Title,Link as LinkIcon,LocationOn,Description,Numbers,AttachMoney,Category,LocationCity,Public,Image as ImageIcon} from "@mui/icons-material"
+import { CalendarMonth, Title, Link as LinkIcon, LocationOn, Description, Image as ImageIcon, Home, Map, Public, Code } from "@mui/icons-material"
 
-const AddEventForm = ({ cities, states, eventTypes, setIsLoading }) => {
+const API_URL = "http://api.ummaticommunity.com/"
+
+const AddEventForm = () => {
   const navigate = useNavigate()
-  const [dateTime, setDateTime] = useState(dayjs(new Date()))
-  const [name, setName] = useState("")
-  const [eventLink, setEventLink] = useState("")
-  const [mapLink, setMapLink] = useState("")
-  const [description, setDescription] = useState("")
-  const [quantity, setQuantity] = useState(1)
-  const [price, setPrice] = useState(1)
-  const [eventType, setEventType] = useState(eventTypes[0]?.id || "")
-  const [active, setActive] = useState(true)
-  const [image, setImage] = useState(null)
-  const [city, setCity] = useState("")
-  const [stateSelector, setStateSelector] = useState(cities[0]?.state?.id || "")
-  const [cityList, setCityList] = useState(cities)
-  const [stateList, setStateList] = useState(states)
-  const [loading, setLoading] = useState(false)
+  const [submitting, setSubmitting] = useState(false)
   const [error, setError] = useState("")
-  const inputProps = {
-    placeholder: "Date and time of event",
-  };
-  function replaceSpecialCharsAndSpaces(inputString) {
-    // Replace special characters with blanks
-    const stringWithoutSpecialChars = inputString.replace(/[^\w\s-]/g, " ");
+  const [formData, setFormData] = useState({
+    eventId: "",
+    name: "",
+    description: "",
+    start: dayjs(),
+    end: dayjs().add(2, 'hour'),
+    imageUrl: "",
+    venue: {
+      name: "",
+      addressLine1: "",
+      addressLine2: "",
+      city: "",
+      state: "",
+      postalCode: ""
+    },
+    externalUrls: {
+      eventbrite: "",
+      meetup: "",
+      zeffy: "",
+      other: ""
+    }
+  })
 
-    // Replace spaces with hyphens
-    const stringWithHyphens = stringWithoutSpecialChars.replace(/\s+/g, "-");
+  const handleChange = (e) => {
+    const { name, value } = e.target
+    if (name.includes('.')) {
+      const [parent, child] = name.split('.')
+      setFormData(prev => ({
+        ...prev,
+        [parent]: {
+          ...prev[parent],
+          [child]: value
+        }
+      }))
+    } else {
+      setFormData(prev => ({
+        ...prev,
+        [name]: value
+      }))
+    }
+  }
 
-    return stringWithHyphens.toLowerCase();
+  const handleDateChange = (field) => (newValue) => {
+    setFormData(prev => ({
+      ...prev,
+      [field]: newValue
+    }))
   }
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-    setLoading(true)
+    setSubmitting(true)
     setError("")
 
     try {
-      if (!dateTime) {
-        setError("Please select a date and time")
-        return
-      }
-
       const token = localStorage.getItem('userToken')
       if (!token) {
-        toast.error('Please log in to create an event')
-        return
-      }
-
-      // First upload the image if one is selected
-      let imageUrl = ""
-      if (image) {
-        const formData = new FormData()
-        formData.append('file', image)
-        
-        const uploadResponse = await RequestHandler(
-          `${process.env.REACT_APP_API_URL}upload`,
-          'POST',
-          formData,
-          { 
-            Authorization: `Bearer ${token}`,
-            'Content-Type': 'multipart/form-data'
-          }
-        )
-
-        if (uploadResponse?.success) {
-          imageUrl = uploadResponse.data.fileUrl
-        } else {
-          throw new Error('Failed to upload image')
-        }
-      }
-
-      // Create the event
-      const eventData = {
-        name,
-        description,
-        quantity: parseInt(quantity),
-        price: parseFloat(price),
-        imageUrl,
-        eventDate: dateTime.toISOString(),
-        eventTypeId: eventType,
-        locationId: city,
-        cityId: city,
-        isActive: active,
-        eventLink,
-        mapLink
+        throw new Error('Please log in to create event')
       }
 
       const response = await RequestHandler(
-        `${process.env.REACT_APP_API_URL}events`,
+        `${API_URL}admin/events`,
         'POST',
-        eventData,
+        formData,
         { Authorization: `Bearer ${token}` }
       )
 
       if (response?.success) {
         toast.success('Event created successfully')
         navigate('/dashboard/event-management')
-      } else {
+    } else {
         throw new Error(response?.message || 'Failed to create event')
       }
     } catch (error) {
@@ -118,84 +97,56 @@ const AddEventForm = ({ cities, states, eventTypes, setIsLoading }) => {
       setError(error.message || 'Error creating event')
       toast.error(error.message || 'Error creating event')
     } finally {
-      setLoading(false)
-      setIsLoading(false)
+      setSubmitting(false)
     }
-  };
-
-  useEffect(() => {
-    const newStateList = [];
-    cities.forEach((cityItem) => {
-      if (!newStateList.some(state => state.id === cityItem.state.id)) {
-        newStateList.push(cityItem.state);
-      }
-    });
-    setStateList(newStateList);
-  }, [cities]);
-
-  useEffect(() => {
-    if (!stateSelector) {
-      setCityList(cities);
-    } else {
-      const newCityList = cities.filter(city => city.stateId === stateSelector);
-      if (newCityList.length === 0) {
-        setCity("");
-      }
-      setCityList(newCityList);
-    }
-  }, [stateSelector, cities]);
+  }
 
   return (
-    <Paper
-      elevation={3}
-      sx={{
-        p: { xs: 2, sm: 3, md: 4 },
-        mt: 1,
-        borderRadius: 2,
-        width: "100%",
-        maxWidth: "100%",
-        overflow: "hidden",
-      }}
-    >
-      <form
-        onSubmit={handleSubmit}
-      >
+    <Box className="text-themeblack md:w-3/4 mb-5">
+      <div className="flex justify-between items-center">
+        <Typography variant="h6">Add New Event</Typography>
+      </div>
+      <hr className="my-2" />
 
-        <Grid container spacing={{ xs: 2, sm: 2, md: 3 }}>
-          <Grid item xs={12} md={6}>
-            <LocalizationProvider dateAdapter={AdapterDayjs}>
-              <DateTimePicker
-                value={dateTime}
-                label="Date Time"
-                onChange={(value) => setDateTime(value)}
-                slotProps={{
-                  textField: {
-                    fullWidth: true,
-                    variant: "outlined",
-                    size: "small",
-                    InputProps: {
-                      startAdornment: (
-                        <InputAdornment position="start">
-                          <CalendarMonth />
-                        </InputAdornment>
-                      ),
-                    },
-                  },
-                }}
-              />
-            </LocalizationProvider>
+      {error && (
+        <Alert severity="error" sx={{ mb: 2 }}>
+          {error}
+        </Alert>
+      )}
+
+      <form onSubmit={handleSubmit}>
+        <Grid container spacing={3}>
+          {/* Basic Event Information */}
+          <Grid item xs={12}>
+            <Typography variant="subtitle1" sx={{ mb: 2 }}>Basic Information</Typography>
+          </Grid>
           
+          <Grid item xs={12} sm={6}>
+            <TextField
+              fullWidth
+              label="Event ID"
+              name="eventId"
+              value={formData.eventId}
+              onChange={handleChange}
+              required
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <Code />
+                  </InputAdornment>
+                ),
+      }}
+            />
           </Grid>
 
-          <Grid item xs={12} md={6}>
-             <TextField
+          <Grid item xs={12} sm={6}>
+            <TextField
               fullWidth
-              required
               label="Event Name"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              variant="outlined"
-              size="small"
+              name="name"
+              value={formData.name}
+              onChange={handleChange}
+              required
               InputProps={{
                 startAdornment: (
                   <InputAdornment position="start">
@@ -209,14 +160,13 @@ const AddEventForm = ({ cities, states, eventTypes, setIsLoading }) => {
           <Grid item xs={12}>
             <TextField
               fullWidth
-              required
               label="Description"
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-              variant="outlined"
-              size="small"
+              name="description"
+              value={formData.description}
+              onChange={handleChange}
               multiline
               rows={4}
+              required
               InputProps={{
                 startAdornment: (
                   <InputAdornment position="start">
@@ -227,34 +177,101 @@ const AddEventForm = ({ cities, states, eventTypes, setIsLoading }) => {
             />
           </Grid>
 
-          <Grid item xs={12} md={6}>
-            <TextField
+          <Grid item xs={12} sm={6}>
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
+              <DateTimePicker
+                label="Start Date & Time"
+                value={formData.start}
+                onChange={handleDateChange('start')}
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    fullWidth
+                    required
+                    InputProps={{
+                      startAdornment: (
+                        <InputAdornment position="start">
+                          <CalendarMonth />
+                        </InputAdornment>
+                      ),
+                }}
+                  />
+                )}
+              />
+            </LocalizationProvider>
+          </Grid>
+
+          <Grid item xs={12} sm={6}>
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
+              <DateTimePicker
+                label="End Date & Time"
+                value={formData.end}
+                onChange={handleDateChange('end')}
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    fullWidth
+                    required
+                    InputProps={{
+                      startAdornment: (
+                        <InputAdornment position="start">
+                          <CalendarMonth />
+                        </InputAdornment>
+                      ),
+                    }}
+                  />
+                )}
+              />
+            </LocalizationProvider>
+          </Grid>
+
+          <Grid item xs={12}>
+             <TextField
               fullWidth
-              required
-              label="Event Link"
-              value={eventLink}
-              onChange={(e) => setEventLink(e.target.value)}
-              variant="outlined"
-              size="small"
+              label="Image URL"
+              name="imageUrl"
+              value={formData.imageUrl}
+              onChange={handleChange}
               InputProps={{
                 startAdornment: (
                   <InputAdornment position="start">
-                    <LinkIcon />
+                    <ImageIcon />
                   </InputAdornment>
                 ),
               }}
             />
           </Grid>
 
-          <Grid item xs={12} md={6}>
+          {/* Venue Information */}
+          <Grid item xs={12}>
+            <Divider sx={{ my: 2 }} />
+            <Typography variant="subtitle1" sx={{ mb: 2 }}>Venue Information</Typography>
+          </Grid>
+
+          <Grid item xs={12}>
             <TextField
               fullWidth
-              required
-              label="Map Link"
-              value={mapLink}
-              onChange={(e) => setMapLink(e.target.value)}
-              variant="outlined"
-              size="small"
+              label="Venue Name"
+              name="venue.name"
+              value={formData.venue.name}
+              onChange={handleChange}
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <Home />
+                  </InputAdornment>
+                ),
+              }}
+            />
+          </Grid>
+
+          <Grid item xs={12}>
+            <TextField
+              fullWidth
+              label="Address Line 1"
+              name="venue.addressLine1"
+              value={formData.venue.addressLine1}
+              onChange={handleChange}
               InputProps={{
                 startAdornment: (
                   <InputAdornment position="start">
@@ -265,82 +282,47 @@ const AddEventForm = ({ cities, states, eventTypes, setIsLoading }) => {
             />
           </Grid>
 
-          <Grid item xs={12} md={6}>
+          <Grid item xs={12}>
             <TextField
               fullWidth
-              required
-              label="Quantity"
-              type="number"
-              value={quantity}
-              onChange={(e) => setQuantity(e.target.value)}
-              variant="outlined"
-              size="small"
+              label="Address Line 2"
+              name="venue.addressLine2"
+              value={formData.venue.addressLine2}
+              onChange={handleChange}
               InputProps={{
                 startAdornment: (
                   <InputAdornment position="start">
-                    <Numbers />
+                    <LocationOn />
                   </InputAdornment>
                 ),
               }}
             />
           </Grid>
 
-          <Grid item xs={12} md={6}>
+          <Grid item xs={12} sm={4}>
             <TextField
               fullWidth
-              required
-              label="Price"
-              type="number"
-              value={price}
-              onChange={(e) => setPrice(e.target.value)}
-              variant="outlined"
-              size="small"
+              label="City"
+              name="venue.city"
+              value={formData.venue.city}
+              onChange={handleChange}
               InputProps={{
                 startAdornment: (
                   <InputAdornment position="start">
-                    <AttachMoney />
+                    <Map />
                   </InputAdornment>
                 ),
               }}
             />
           </Grid>
 
-          <Grid item xs={12} md={6}>
+          <Grid item xs={12} sm={4}>
             <TextField
-              select
               fullWidth
-              required
-              label="Event Type"
-              value={eventType}
-              onChange={(e) => setEventType(e.target.value)}
-              variant="outlined"
-              size="small"
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <Category />
-                  </InputAdornment>
-                ),
-              }}
-            >
-              {eventTypes.map((type) => (
-                <MenuItem key={type.id} value={type.id}>
-                  {type.name}
-                </MenuItem>
-              ))}
-            </TextField>
-          </Grid>
-
-          <Grid item xs={12} md={6}>
-            <TextField
-              select
-              fullWidth
-              required
               label="State"
-              value={stateSelector}
-              onChange={(e) => setStateSelector(e.target.value)}
-              variant="outlined"
-              size="small"
+              name="venue.state"
+              value={formData.venue.state}
+              onChange={handleChange}
               InputProps={{
                 startAdornment: (
                   <InputAdornment position="start">
@@ -348,106 +330,121 @@ const AddEventForm = ({ cities, states, eventTypes, setIsLoading }) => {
                   </InputAdornment>
                 ),
               }}
-            >
-              {stateList.map((state) => (
-                <MenuItem key={state.id} value={state.id}>
-                  {state.name}
-                </MenuItem>
-              ))}
-            </TextField>
-          </Grid>
-
-          <Grid item xs={12} md={6}>
-            <TextField
-              select
-              fullWidth
-              required
-              label="City"
-              value={city}
-              onChange={(e) => setCity(e.target.value)}
-              variant="outlined"
-              size="small"
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <LocationCity />
-                  </InputAdornment>
-                ),
-              }}
-            >
-              {cityList.map((cityItem) => (
-                <MenuItem key={cityItem.id} value={cityItem.id}>
-                  {cityItem.name}
-                </MenuItem>
-              ))}
-            </TextField>
-          </Grid>
-
-          <Grid item xs={12}>
-            <Typography variant="subtitle1" gutterBottom>
-              Event Image
-            </Typography>
-            <Box
-              sx={{
-                border: "1px dashed #ccc",
-                p: { xs: 1, sm: 2 },
-                borderRadius: 1,
-                display: "flex",
-                flexDirection: { xs: "column", sm: "row" },
-                alignItems: { xs: "flex-start", sm: "center" },
-                gap: 2,
-              }}
-            >
-              <ImageIcon color="action" />
-              <input
-                type = "file"
-                id = "event-image"
-                accept="image/*"
-                required
-                onChange={(e) => setImage(e.target.files ? e.target.files[0] : null)}
-                style={{ width: "100%" }}
-              />
-            </Box>
-          </Grid>
-          <Grid item xs={12}>
-          <FormControlLabel
-              control={<Switch checked={active} onChange={(e) => setActive(e.target.checked)} color="primary" />}
-              label="Active"
             />
           </Grid>
 
-          {error && (
-            <Grid item xs={12}>
-              <Typography color="error">{error}</Typography>
-            </Grid>
-          )}
+          <Grid item xs={12} sm={4}>
+            <TextField
+              fullWidth
+              label="Postal Code"
+              name="venue.postalCode"
+              value={formData.venue.postalCode}
+              onChange={handleChange}
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <Code />
+                  </InputAdornment>
+                ),
+              }}
+            />
+          </Grid>
 
-          <Grid item xs={12} sx={{ mt: 2 }}>
+          {/* External URLs */}
+          <Grid item xs={12}>
+            <Divider sx={{ my: 2 }} />
+            <Typography variant="subtitle1" sx={{ mb: 2 }}>External URLs</Typography>
+          </Grid>
+
+          <Grid item xs={12} sm={6}>
+            <TextField
+              fullWidth
+              label="Eventbrite URL"
+              name="externalUrls.eventbrite"
+              value={formData.externalUrls.eventbrite}
+              onChange={handleChange}
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <LinkIcon />
+                  </InputAdornment>
+                ),
+              }}
+            />
+          </Grid>
+
+          <Grid item xs={12} sm={6}>
+            <TextField
+              fullWidth
+              label="Meetup URL"
+              name="externalUrls.meetup"
+              value={formData.externalUrls.meetup}
+              onChange={handleChange}
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <LinkIcon />
+                  </InputAdornment>
+                ),
+              }}
+            />
+          </Grid>
+
+          <Grid item xs={12} sm={6}>
+            <TextField
+              fullWidth
+              label="Zeffy URL"
+              name="externalUrls.zeffy"
+              value={formData.externalUrls.zeffy}
+              onChange={handleChange}
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <LinkIcon />
+                  </InputAdornment>
+                ),
+              }}
+              />
+          </Grid>
+
+          <Grid item xs={12} sm={6}>
+            <TextField
+              fullWidth
+              label="Other URL"
+              name="externalUrls.other"
+              value={formData.externalUrls.other}
+              onChange={handleChange}
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <LinkIcon />
+                  </InputAdornment>
+                ),
+              }}
+            />
+          </Grid>
+
+            <Grid item xs={12}>
+            <Box sx={{ display: 'flex', gap: 2, justifyContent: 'flex-end' }}>
+              <Button
+                variant="outlined"
+                onClick={() => navigate('/dashboard/event-management')}
+              >
+                Cancel
+              </Button>
             <Button
               type="submit"
               variant="contained"
-              color="primary"
-              size="large"
-              fullWidth
-              disabled={loading}
-              sx={{
-                borderRadius: 28,
-                px: { xs: 2, sm: 3, md: 4 },
-                py: { xs: 1, sm: 1.5 },
-                fontWeight: "bold",
-                maxWidth: { sm: "300px" },
-              }}
+                disabled={submitting}
+                startIcon={submitting ? <CircularProgress size={20} /> : null}
             >
-              {loading ? (
-                <CircularProgress size={24} color="inherit" />
-              ) : (
-                "Create Event"
-              )}
+                {submitting ? 'Creating...' : 'Create Event'}
             </Button>
+            </Box>
           </Grid>
         </Grid>
       </form>
-    </Paper>
+    </Box>
   )
 }
 

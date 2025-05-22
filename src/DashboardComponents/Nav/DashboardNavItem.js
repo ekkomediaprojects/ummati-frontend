@@ -21,7 +21,7 @@ const DashboardNavItem = ({ to, icon, label, active }) => {
             bgcolor: active ? "primary.dark" : "action.hover",
           },
         }}
-      >
+    >
         <Icon sx={{ fontSize: 20 }}>{icon}</Icon>
         <Typography variant="body2" sx={{ fontWeight: active ? 600 : 400 }}>
           {label}

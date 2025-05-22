@@ -83,9 +83,9 @@ const AccountDetailsForm = () => {
       );
 
       if (response?.success) {
-        setIsSubmitDone(true);
+    setIsSubmitDone(true);
         toast.success('Profile updated successfully');
-        setTimeout(() => setIsSubmitDone(false), 1500);
+    setTimeout(() => setIsSubmitDone(false), 1500);
       } else {
         toast.error(response?.message || 'Error updating profile');
       }

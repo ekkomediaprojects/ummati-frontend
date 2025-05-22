@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { useNavigate, Outlet } from "react-router-dom";
 import DashboardNavBar from "../DashboardComponents/Nav/DashboardNavBar";
 import DashboardNavMobile from "../DashboardComponents/Nav/DashboardNavMobile";
-import RequestHandler from "../utils/RequestHandler";
 import toast from "react-hot-toast";
 import { CircularProgress, Box, Typography } from "@mui/material";
 
@@ -12,39 +11,38 @@ const DashboardLayout = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const checkAdminStatus = async () => {
+    const checkAdminStatus = () => {
       try {
         const token = localStorage.getItem('userToken');
+        const userData = JSON.parse(localStorage.getItem('userData') || '{}');
+        
+        console.log('Checking admin status:', {
+          hasToken: !!token,
+          userData: userData
+        });
+
         if (!token) {
+          console.log('No token found, redirecting to login');
           toast.error('Please log in to access the dashboard');
-          navigate('/login');
+          navigate('/admin-login', { replace: true });
           return;
         }
 
-        const response = await RequestHandler(
-          `${process.env.REACT_APP_API_URL}auth/check-admin`,
-          'GET',
-          {},
-          { Authorization: `Bearer ${token}` }
-        );
-
-        if (response?.success) {
-          setIsAdmin(response.data.isAdmin);
-          if (!response.data.isAdmin) {
-            toast.error('Access denied. Admin privileges required.');
-            navigate('/');
-          }
-        } else {
-          toast.error(response?.message || 'Error verifying admin status');
-          navigate('/');
+        if (userData.role === 'admin') {
+          console.log('User is admin based on stored data');
+          setIsAdmin(true);
+    } else {
+          console.log('User is not an admin');
+          toast.error('Access denied. Admin privileges required.');
+          navigate('/admin-login', { replace: true });
         }
       } catch (error) {
         console.error('Error checking admin status:', error);
         toast.error('Error verifying admin status');
-        navigate('/');
+        navigate('/admin-login', { replace: true });
       } finally {
         setIsLoading(false);
-      }
+    }
     };
 
     checkAdminStatus();
@@ -71,25 +69,7 @@ const DashboardLayout = () => {
   }
 
   if (!isAdmin) {
-    return (
-      <Box 
-        sx={{ 
-          height: '100vh', 
-          display: 'flex', 
-          flexDirection: 'column',
-          alignItems: 'center', 
-          justifyContent: 'center',
-          gap: 2
-        }}
-      >
-        <Typography variant="h4" color="error" gutterBottom>
-          Access Denied
-        </Typography>
-        <Typography variant="body1" color="text.secondary">
-          You do not have permission to access this area.
-        </Typography>
-      </Box>
-    );
+    return null;
   }
 
   return (
