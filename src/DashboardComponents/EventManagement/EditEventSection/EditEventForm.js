@@ -17,7 +17,8 @@ import {
   InputAdornment,
   CircularProgress,
   Alert,
-  Divider
+  Divider,
+  IconButton
 } from "@mui/material";
 import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
@@ -32,7 +33,8 @@ import {
   Home,
   Map,
   Public,
-  Code
+  Code,
+  Close
 } from "@mui/icons-material";
 
 const API_URL = process.env.REACT_APP_API_URL?.replace(/\/$/, '') || 'https://api.ummaticommunity.com';
@@ -65,6 +67,8 @@ const EditEventForm = () => {
       other: ""
     }
   });
+  const [imagePreview, setImagePreview] = useState(null);
+  const [uploadingImage, setUploadingImage] = useState(false);
 
   useEffect(() => {
     console.log('=== EditEventForm Debug ===');
@@ -276,6 +280,109 @@ const EditEventForm = () => {
     }
   };
 
+  const handleImageChange = async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    // Validate file type
+    const validTypes = ['image/jpeg', 'image/png', 'image/gif'];
+    if (!validTypes.includes(file.type)) {
+      toast.error('Please upload a valid image file (JPEG, PNG, or GIF)');
+      return;
+    }
+
+    // Validate file size (5MB limit)
+    const maxSize = 5 * 1024 * 1024; // 5MB in bytes
+    if (file.size > maxSize) {
+      toast.error('Image size should be less than 5MB');
+      return;
+    }
+
+    // Preview the image
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      setImagePreview(reader.result);
+    };
+    reader.readAsDataURL(file);
+
+    // Upload the image
+    try {
+      setUploadingImage(true);
+      const token = localStorage.getItem('userToken');
+      if (!token) {
+        throw new Error('Please log in to upload image');
+      }
+
+      const formData = new FormData();
+      formData.append('image', file);
+
+      const response = await RequestHandler(
+        `${API_URL}/admin/events/${id}`,
+        'PUT',
+        formData,
+        { 
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'multipart/form-data'
+        }
+      );
+
+      console.log('Image upload response:', response);
+
+      if (response.success) {
+        // Extract imageUrl from the response data
+        const imageUrl = response.data?.data?.data?.imageUrl || response.data?.data?.imageUrl || response.data?.imageUrl;
+        
+        if (!imageUrl) {
+          throw new Error('No image URL received from server');
+        }
+
+        setFormData(prev => ({
+          ...prev,
+          imageUrl
+        }));
+        toast.success('Image uploaded successfully');
+      } else {
+        throw new Error(response.message || 'Failed to upload image');
+      }
+    } catch (error) {
+      console.error('Image upload error:', error);
+      toast.error(error.message || 'Error uploading image');
+      setImagePreview(null);
+    } finally {
+      setUploadingImage(false);
+    }
+  };
+
+  const removeImage = async () => {
+    try {
+      const token = localStorage.getItem('userToken');
+      if (!token) {
+        throw new Error('Please log in to remove image');
+      }
+
+      const response = await RequestHandler(
+        `${API_URL}/admin/events/${id}`,
+        'PUT',
+        { imageUrl: null },
+        { Authorization: `Bearer ${token}` }
+      );
+
+      if (response.success) {
+        setImagePreview(null);
+        setFormData(prev => ({
+          ...prev,
+          imageUrl: ""
+        }));
+        toast.success('Image removed successfully');
+      } else {
+        throw new Error(response.message || 'Failed to remove image');
+      }
+    } catch (error) {
+      console.error('Remove image error:', error);
+      toast.error(error.message || 'Error removing image');
+    }
+  };
+
   if (loading) {
     return (
       <div className="flex justify-center items-center h-64">
@@ -409,20 +516,58 @@ const EditEventForm = () => {
           </Grid>
 
           <Grid item xs={12}>
-            <TextField
-              fullWidth
-              label="Image URL"
-              name="imageUrl"
-              value={formData.imageUrl}
-              onChange={handleChange}
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <ImageIcon />
-                  </InputAdornment>
-                ),
-              }}
-            />
+            <div className="flex flex-col gap-2">
+              <div className="flex items-center gap-2">
+                <TextField
+                  fullWidth
+                  label="Image URL"
+                  name="imageUrl"
+                  value={formData.imageUrl}
+                  onChange={handleChange}
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment position="start">
+                        <ImageIcon />
+                      </InputAdornment>
+                    ),
+                  }}
+                />
+                <input
+                  accept="image/*"
+                  style={{ display: 'none' }}
+                  id="image-upload"
+                  type="file"
+                  onChange={handleImageChange}
+                />
+                <label htmlFor="image-upload">
+                  <Button
+                    variant="outlined"
+                    component="span"
+                    disabled={uploadingImage}
+                    startIcon={uploadingImage ? <CircularProgress size={20} /> : <ImageIcon />}
+                  >
+                    {uploadingImage ? 'Uploading...' : 'Upload'}
+                  </Button>
+                </label>
+              </div>
+              
+              {(imagePreview || formData.imageUrl) && (
+                <div className="relative w-full max-w-md">
+                  <img
+                    src={imagePreview || formData.imageUrl}
+                    alt="Event preview"
+                    className="w-full h-48 object-cover rounded-lg"
+                  />
+                  <IconButton
+                    onClick={removeImage}
+                    className="absolute top-2 right-2 bg-white/80 hover:bg-white"
+                    size="small"
+                  >
+                    <Close />
+                  </IconButton>
+                </div>
+              )}
+            </div>
           </Grid>
 
           {/* Venue Information */}
