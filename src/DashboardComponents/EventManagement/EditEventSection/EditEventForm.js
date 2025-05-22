@@ -113,17 +113,19 @@ const EditEventForm = () => {
       }
 
       if (response.success) {
-        const event = response.data;
+        // Extract event data from the nested response structure
+        const event = response.data?.data?.data || response.data?.data || response.data;
         console.log('7. Event data received:', {
-          eventId: event.eventId,
+          eventId: event._id || event.eventId,
           name: event.name,
           hasVenue: !!event.venue,
           hasExternalUrls: !!event.externalUrls,
           fullEvent: event
         });
 
+        // Map the event data to match the form structure
         setFormData({
-          eventId: event.eventId || "",
+          eventId: event._id || event.eventId || "",
           name: event.name || "",
           description: event.description || "",
           start: event.start ? dayjs(event.start) : dayjs(),
@@ -146,13 +148,18 @@ const EditEventForm = () => {
         });
 
         console.log('8. Form data set:', {
-          eventId: event.eventId,
+          eventId: event._id || event.eventId,
           name: event.name,
           hasVenue: !!event.venue,
           hasExternalUrls: !!event.externalUrls,
           venueName: event.venue?.name,
           city: event.venue?.city || event.city,
-          start: event.start
+          start: event.start,
+          end: event.end,
+          description: event.description,
+          imageUrl: event.imageUrl,
+          venue: event.venue,
+          externalUrls: event.externalUrls
         });
       } else {
         console.error('9. Error response:', {
