@@ -35,11 +35,31 @@ const RequestHandler = async (url, method, data, headers = {}) => {
     const response = await axios({
       method,
       url,
-      data,
+      // Only include data for non-DELETE requests
+      ...(method !== 'DELETE' ? { data } : {}),
       headers: {
-        "Content-Type": "application/json",
-        ...headers,
+        // Only include Authorization header for DELETE requests
+        ...(method === 'DELETE' ? { 'Authorization': headers.Authorization } : {
+          // For non-DELETE requests, include all headers
+          'Accept': 'application/json, text/plain, */*',
+          'Accept-Encoding': 'gzip, deflate, br',
+          'Accept-Language': 'en-US,en;q=0.5',
+          'Connection': 'keep-alive',
+          'DNT': '1',
+          'Host': new URL(url).host,
+          'Origin': window.location.origin,
+          'Referer': window.location.href,
+          'Sec-Fetch-Dest': 'empty',
+          'Sec-Fetch-Mode': 'cors',
+          'Sec-Fetch-Site': 'cross-site',
+          'TE': 'trailers',
+          'User-Agent': navigator.userAgent,
+          ...(headers.Authorization ? { 'Authorization': headers.Authorization } : {}),
+        }),
       },
+      // Add configuration for large file uploads
+      maxContentLength: Infinity,
+      maxBodyLength: Infinity,
       validateStatus: function (status) {
         return status >= 200 && status < 500; // Accept all responses to handle them in the code
       }
@@ -90,8 +110,8 @@ const RequestHandler = async (url, method, data, headers = {}) => {
     
     // Handle other responses
     if (response.status >= 200 && response.status < 300) {
-    return {
-      success: true,  
+      return {
+        success: true,  
         data: response.data
       };
     } else if (response.status === 401) {
@@ -108,6 +128,11 @@ const RequestHandler = async (url, method, data, headers = {}) => {
       return {
         success: false,
         message: 'Not Found: The requested resource does not exist'
+      };
+    } else if (response.status === 413) {
+      return {
+        success: false,
+        message: 'File too large: Please upload a smaller image (max 5MB)'
       };
     } else {
       return {
@@ -141,9 +166,19 @@ const RequestHandler = async (url, method, data, headers = {}) => {
     
     // Handle server errors
     if (error.response.status >= 500) {
+      console.error('Server error details:', {
+        status: error.response.status,
+        data: error.response.data,
+        message: error.response.data?.message,
+        fullResponse: error.response,
+        headers: error.response.headers,
+        rawData: JSON.stringify(error.response.data, null, 2)
+      });
       return {
         success: false,
-        message: 'Server error: Please try again later'
+        message: error.response.data?.message || 'Server error: Please try again later',
+        data: error.response.data,
+        fullResponse: error.response
       };
     }
 
