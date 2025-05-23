@@ -400,17 +400,17 @@ const AddEventForm = ({ eventTypes, cities: propCities, states }) => {
               onChange={handleChange}
               required
               InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start">
+                      startAdornment: (
+                        <InputAdornment position="start">
                     <Code />
-                  </InputAdornment>
-                ),
-              }}
-            />
+                        </InputAdornment>
+                      ),
+                }}
+              />
           </Grid>
 
           <Grid item xs={12} sm={6}>
-            <TextField
+             <TextField
               fullWidth
               label="Event Name"
               name="name"
@@ -521,7 +521,7 @@ const AddEventForm = ({ eventTypes, cities: propCities, states }) => {
                 />
                 <label htmlFor="image-upload">
                   <Button
-                    variant="outlined"
+              variant="outlined"
                     component="span"
                     disabled={uploadingImage}
                     startIcon={uploadingImage ? <CircularProgress size={20} /> : <ImageIcon />}
@@ -541,7 +541,7 @@ const AddEventForm = ({ eventTypes, cities: propCities, states }) => {
                   <IconButton
                     onClick={removeImage}
                     className="absolute top-2 right-2 bg-white/80 hover:bg-white"
-                    size="small"
+              size="small"
                   >
                     <Close />
                   </IconButton>
@@ -807,14 +807,14 @@ const AddEventForm = ({ eventTypes, cities: propCities, states }) => {
               >
                 Cancel
               </Button>
-              <Button
-                type="submit"
-                variant="contained"
+            <Button
+              type="submit"
+              variant="contained"
                 disabled={submitting}
                 startIcon={submitting ? <CircularProgress size={20} /> : null}
-              >
+            >
                 {submitting ? 'Creating...' : 'Create Event'}
-              </Button>
+            </Button>
             </Box>
           </Grid>
         </Grid>

@@ -148,8 +148,8 @@ const EditEventForm = () => {
             meetup: event.externalUrls?.meetup || "",
             zeffy: event.externalUrls?.zeffy || "",
             other: event.externalUrls?.other || ""
-          }
-        });
+      }
+    });
 
         console.log('8. Form data set:', {
           eventId: event._id || event.eventId,
@@ -222,7 +222,7 @@ const EditEventForm = () => {
       const token = localStorage.getItem('userToken');
       if (!token) {
         throw new Error('Please log in to update event');
-      }
+        }
 
       // Create a clean data object without the additional fields
       const cleanFormData = {
@@ -341,7 +341,7 @@ const EditEventForm = () => {
           imageUrl
         }));
         toast.success('Image uploaded successfully');
-      } else {
+    } else {
         throw new Error(response.message || 'Failed to upload image');
       }
     } catch (error) {
@@ -420,13 +420,13 @@ const EditEventForm = () => {
               onChange={handleChange}
               required
               InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start">
+                      startAdornment: (
+                        <InputAdornment position="start">
                     <Code />
-                  </InputAdornment>
-                ),
-              }}
-            />
+                        </InputAdornment>
+                      ),
+                }}
+              />
           </Grid>
 
           <Grid item xs={12} sm={6}>
@@ -734,7 +734,7 @@ const EditEventForm = () => {
                   </InputAdornment>
                 ),
               }}
-            />
+                />
           </Grid>
 
           <Grid item xs={12} sm={6}>
@@ -754,12 +754,12 @@ const EditEventForm = () => {
             />
           </Grid>
 
-          <Grid item xs={12}>
+            <Grid item xs={12}>
             <Box sx={{ display: 'flex', gap: 2, justifyContent: 'flex-end' }}>
               <Button
                 variant="outlined"
                 onClick={() => navigate('/dashboard/event-management')}
-              >
+            >
                 Cancel
               </Button>
               <Button

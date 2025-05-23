@@ -8,6 +8,7 @@ import bannerImage from "../../assets/images/Events/banner.png";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 import MyCalender from "./MyCalender";
+import EventPopup from "./EventPopup";
 import FiltersAndSort from "./FilterAndSort";
 import {
   Box,
@@ -25,6 +26,7 @@ const EventsParent = () => {
   const [events, setEvents] = useState([]);
   const [allEvents, setAllEvents] = useState([]); // Store all events for filtering/sorting
   const [listView, setListView] = useState(false);
+  const [selectedEvent, setSelectedEvent] = useState(null);
   const isMobile = useMediaQuery("(max-width:600px)"); // Check if screen size is less than 600px
   useEffect(() => {
     const fetchEvents = async () => {
@@ -99,6 +101,14 @@ const EventsParent = () => {
     }
   
     setEvents(sortedData);
+  };  
+
+  const handleEventClick = (event) => {
+    setSelectedEvent(event);
+  };
+
+  const handleClosePopup = () => {
+    setSelectedEvent(null);
   };  
 
   return (
@@ -405,7 +415,9 @@ const EventsParent = () => {
                       marginBottom: "10px" ,
                       padding: "20px",
                       position: "relative",
+                      cursor: "pointer",
                     }}
+                    onClick={() => handleEventClick(event)}
                   >
                     {/* "Event Passed" Text */}
                     {isEventPassed && (
@@ -524,7 +536,7 @@ const EventsParent = () => {
               }}
             >
               {/* {Events Map} */}
-              {events.map((event, index) => {
+              {[...events].reverse().map((event, index) => {
                 const isEventPassed = moment(event.start).isBefore(moment()); // Check if event has passed
 
                 return (
@@ -541,7 +553,9 @@ const EventsParent = () => {
                       flexDirection: { xs: "column", lg: "row" },
                       alignItems: "stretch",
                       position: "relative", // Needed to position the "Event Passed" message
+                      cursor: "pointer",
                     }}
+                    onClick={() => handleEventClick(event)}
                   >
                     {/* Left side - Text */}
                     <Grid2
@@ -701,12 +715,21 @@ const EventsParent = () => {
                 boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
               }}
             >
-              <MyCalender events={events} />
+              <MyCalender 
+                events={events} 
+                onEventClick={handleEventClick}
+              />
             </Box>
           )}
         </Box>
       </Box>
       
+      {/* Event Popup */}
+      <EventPopup
+        event={selectedEvent}
+        open={!!selectedEvent}
+        onClose={handleClosePopup}
+      />
     </Box>
   );
 };

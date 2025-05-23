@@ -60,20 +60,20 @@ const EventDashItem = ({ event, onEventDeleted }) => {
   return (
     <>
       <div className="relative shadow-lg rounded-lg flex flex-col justify-center items-center text-center py-5 px-5">
-        <Link
+    <Link
           onClick={() => navigate("/dashboard/eventmanagement/single/" + event.id)}
           className="w-full h-full"
-        >
-          <img
-            className="rounded-lg"
-            alt="Event Image"
-            width={300}
-            height={300}
-            src={event.imageUrl}
-          />
-          <div>{event.name}</div>
-          <div>{date}</div>
-        </Link>
+    >
+      <img
+        className="rounded-lg"
+        alt="Event Image"
+        width={300}
+        height={300}
+        src={event.imageUrl}
+      />
+      <div>{event.name}</div>
+      <div>{date}</div>
+    </Link>
         <IconButton
           onClick={handleDeleteClick}
           className="absolute top-2 right-2 bg-white/80 hover:bg-white"

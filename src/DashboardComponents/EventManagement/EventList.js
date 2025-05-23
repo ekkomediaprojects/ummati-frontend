@@ -23,7 +23,7 @@ const EventList = ({ eventList, refreshEventList }) => {
             event={event} 
             onEventDeleted={refreshEventList}
           />
-        ))}
+      ))}
       </div>
     </div>
   );
