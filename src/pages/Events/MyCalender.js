@@ -9,6 +9,16 @@ const localizer = momentLocalizer(moment);
 const MyCalendar = ({ events }) => {
   const [view, setView] = useState("week");
 
+  // Validate and format events
+  const validEvents = events.filter(event => {
+    return event && 
+           event.start && 
+           event.end && 
+           (event.title || event.name) && 
+           !isNaN(new Date(event.start).getTime()) && 
+           !isNaN(new Date(event.end).getTime());
+  });
+
   // Custom Event component
   const EventComponent = ({ event }) => {
     // Styles for different views
@@ -56,24 +66,32 @@ const MyCalendar = ({ events }) => {
     // Event Title Component
     const EventTitle = () => (
       <Typography variant="body2" sx={{ fontWeight: "bold" }}>
-        {event.title}
+        {event.title || event.name || "Untitled Event"}
       </Typography>
     );
 
     // Event Time Component
-    const EventTime = () => (
-      <Typography
-        variant="body2"
-        sx={{
-          marginTop: "8px",
-          fontFamily: "Inter",
-          color: "#444",
-        }}
-      >
-        {moment(event.start).format("h:mm a")} -{" "}
-        {moment(event.end).format("h:mm a")}
-      </Typography>
-    );
+    const EventTime = () => {
+      try {
+        const startTime = moment(event.start).format("h:mm a");
+        const endTime = moment(event.end).format("h:mm a");
+        return (
+          <Typography
+            variant="body2"
+            sx={{
+              marginTop: "8px",
+              fontFamily: "Inter",
+              color: "#444",
+            }}
+          >
+            {startTime} - {endTime}
+          </Typography>
+        );
+      } catch (error) {
+        console.error("Error formatting event time:", error);
+        return null;
+      }
+    };
 
     // Render Event based on view type
     return (
@@ -83,7 +101,7 @@ const MyCalendar = ({ events }) => {
           <Box sx={{ marginTop: "8px" }}>
             <img
               src={event.image}
-              alt={event.title}
+              alt={event.title || event.name || "Event"}
               style={{
                 width: "100%",
                 height: "auto",
@@ -117,26 +135,42 @@ const MyCalendar = ({ events }) => {
 
   return (
     <Box sx={{ padding: "16px" }}>
-      <Calendar
-        localizer={localizer}
-        events={events}
-        defaultView={view}
-        views={["day", "week", "month"]}
-        startAccessor="start"
-        endAccessor="end"
-        style={{ height: 600 }}
-        onView={(newView) => setView(newView)}
-        eventPropGetter={() => ({
-          style: {
-            backgroundColor: "#D9F4DA",
-            color: "black",
-            borderRadius: "5px",
-          },
-        })}
-        components={{
-          event: EventComponent,
-        }}
-      />
+      {validEvents.length > 0 ? (
+        <Calendar
+          localizer={localizer}
+          events={validEvents}
+          defaultView={view}
+          views={["day", "week", "month"]}
+          startAccessor="start"
+          endAccessor="end"
+          style={{ height: 600 }}
+          onView={(newView) => setView(newView)}
+          eventPropGetter={() => ({
+            style: {
+              backgroundColor: "#D9F4DA",
+              color: "black",
+              borderRadius: "5px",
+            },
+          })}
+          components={{
+            event: EventComponent,
+          }}
+        />
+      ) : (
+        <Box sx={{ 
+          display: "flex", 
+          justifyContent: "center", 
+          alignItems: "center", 
+          height: 600,
+          backgroundColor: "#fff",
+          borderRadius: "8px",
+          boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)"
+        }}>
+          <Typography variant="h6" color="text.secondary">
+            No events to display
+          </Typography>
+        </Box>
+      )}
     </Box>
   );
 };

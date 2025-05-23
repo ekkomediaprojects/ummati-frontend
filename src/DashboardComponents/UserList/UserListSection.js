@@ -204,7 +204,7 @@ const UserListSection = () => {
         </div>
       ) : (
         <>
-          <UserList userList={userList} />
+      <UserList userList={userList} />
           
           {/* Pagination */}
           {pagination.totalPages > 1 && (

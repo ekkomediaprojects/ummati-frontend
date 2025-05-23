@@ -126,7 +126,7 @@ const EventMangementSection = () => {
   };
 
   const handleNavigation = () => {
-    navigate("/dashboard/event-management/add");
+    navigate("/dashboard/event-management/add-event");
   };
 
   const handlePageChange = (event, value) => {

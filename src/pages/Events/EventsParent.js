@@ -32,11 +32,11 @@ const EventsParent = () => {
         const response = await axios.get("https://api.ummaticommunity.com/events");
         const fetchedEvents = response.data.map((event) => ({
           ...event,
-          title: event.title,
+          title: event.name || event.title, // Use name if title is not available
           description: event.description,
           start: new Date(event.start), // Convert dates to JS Date objects
           end: new Date(event.end),
-          chapter: `${event.venue.city.toLowerCase()}-${event.venue.state.toLowerCase()}`, // Create chapter for filtering
+          chapter: `${event.venue?.city?.toLowerCase() || 'unknown'}-${event.venue?.state?.toLowerCase() || 'unknown'}`, // Create chapter for filtering with fallback
           image: event.imageUrl || "default-placeholder.png", // Use imageUrl or a fallback image
         }));
         setEvents(fetchedEvents); // Set events for rendering

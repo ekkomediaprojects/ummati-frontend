@@ -2,7 +2,7 @@
 import React from "react";
 import EventItem from "./EventItem";
 
-const EventList = ({ eventList }) => {
+const EventList = ({ eventList, refreshEventList }) => {
   if (!eventList || eventList.length === 0) {
     return (
       <div className="text-center py-8 text-gray-500">
@@ -18,8 +18,12 @@ const EventList = ({ eventList }) => {
       </div>
       <div className="flex flex-col gap-2">
         {eventList.map((event) => (
-          <EventItem key={event._id} event={event} />
-      ))}
+          <EventItem 
+            key={event._id} 
+            event={event} 
+            onEventDeleted={refreshEventList}
+          />
+        ))}
       </div>
     </div>
   );
