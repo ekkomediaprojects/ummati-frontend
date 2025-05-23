@@ -2,7 +2,7 @@
 import React from "react";
 import UserItem from "./UserItem";
 
-const UserList = ({ userList }) => {
+const UserList = ({ userList, onDeleteUser }) => {
   if (!userList || userList.length === 0) {
     return (
       <div className="text-center py-8 text-gray-500">
@@ -18,7 +18,7 @@ const UserList = ({ userList }) => {
       </div>
       <div className="flex flex-col gap-2">
         {userList.map((user) => (
-          <UserItem key={user.id} user={user} />
+          <UserItem key={user.id} user={user} onDeleteUser={onDeleteUser} />
         ))}
       </div>
     </div>

@@ -1,8 +1,10 @@
 "use client";
 import React, { useState } from "react";
 import { format } from "date-fns";
+import DeleteIcon from "@mui/icons-material/Delete";
+import { IconButton } from "@mui/material";
 
-const UserItem = ({ user }) => {
+const UserItem = ({ user, onDeleteUser }) => {
   const [showDetails, setShowDetails] = useState(false);
 
   const formatDate = (dateString) => {
@@ -13,12 +15,19 @@ const UserItem = ({ user }) => {
     }
   };
 
+  const handleDelete = (e) => {
+    e.stopPropagation(); // Prevent the click from triggering the details toggle
+    if (window.confirm(`Are you sure you want to delete ${user.firstName} ${user.lastName}?`)) {
+      onDeleteUser(user.id);
+    }
+  };
+
   return (
     <>
       <div
         className={`flex w-full gap-6 ${
           showDetails ? "rounded-t-lg" : "rounded-lg"
-        } border px-3 py-3 cursor-pointer hover:shadow-md transition-all duration-300 ease-in-out`}
+        } border px-3 py-3 cursor-pointer hover:shadow-md transition-all duration-300 ease-in-out relative`}
         onClick={() => setShowDetails(!showDetails)}
       >
         <div className="flex items-center gap-4">
@@ -35,11 +44,11 @@ const UserItem = ({ user }) => {
               </div>
             )}
           </div>
-        <div className="flex flex-col">
-          <div className="font-bold">Name</div>
-          <div className="mt-1">
-            {user.firstName} {user.lastName}
-          </div>
+          <div className="flex flex-col">
+            <div className="font-bold">Name</div>
+            <div className="mt-1">
+              {user.firstName} {user.lastName}
+            </div>
             <div className="text-sm text-gray-500 mt-1">
               Joined {formatDate(user.createdAt)}
             </div>
@@ -61,6 +70,13 @@ const UserItem = ({ user }) => {
             </span>
           </div>
         </div>
+        <IconButton
+          onClick={handleDelete}
+          className="absolute right-2 top-2 !text-red-600 hover:!bg-red-50"
+          size="small"
+        >
+          <DeleteIcon />
+        </IconButton>
       </div>
       <div
         className={`transition-all duration-300 ease-in-out overflow-hidden rounded-b-lg mb-1 ${

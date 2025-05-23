@@ -140,6 +140,33 @@ const UserListSection = () => {
     }
   };
 
+  const handleDeleteUser = async (userId) => {
+    try {
+      const token = localStorage.getItem('userToken');
+      if (!token) {
+        throw new Error('Please log in to delete users');
+      }
+
+      const response = await RequestHandler(
+        `${API_URL}/admin/users/${userId}`,
+        'DELETE',
+        {},
+        { Authorization: `Bearer ${token}` }
+      );
+
+      if (response.success) {
+        toast.success('User deleted successfully');
+        // Refresh the user list
+        fetchUsers(pagination.page, searchQuery);
+      } else {
+        throw new Error(response.message || 'Failed to delete user');
+      }
+    } catch (error) {
+      console.error('Error deleting user:', error);
+      toast.error(error.message || 'Error deleting user');
+    }
+  };
+
   useEffect(() => {
     console.log('=== useEffect Debug ===');
     console.log('1. Effect triggered with:', {
@@ -204,7 +231,7 @@ const UserListSection = () => {
         </div>
       ) : (
         <>
-      <UserList userList={userList} />
+      <UserList userList={userList} onDeleteUser={handleDeleteUser} />
           
           {/* Pagination */}
           {pagination.totalPages > 1 && (
