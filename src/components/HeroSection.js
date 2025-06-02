@@ -153,9 +153,21 @@ const HeroSection = () => {
       >
         
         {[
-          { title: "Explore Our Calendar", image: calendarImage },
-          { title: "Become A Member", image: memberImage },
-          { title: "Listen To Our Podcast", image: podcastImage },
+          { 
+            title: "Explore Our Calendar", 
+            image: calendarImage,
+            path: "/events"
+          },
+          { 
+            title: "Become A Member", 
+            image: memberImage,
+            path: "/signup"
+          },
+          { 
+            title: "Listen To Our Podcast", 
+            image: podcastImage,
+            path: "/podcast"
+          },
         ].map((item, index) => (
           <React.Fragment key={index}>
             <Box
@@ -166,7 +178,9 @@ const HeroSection = () => {
               justifyContent: "center",
               textAlign: "center",
               width: { xs: "100%", sm: "calc(33.33% - 20px)" },
+              cursor: "pointer",
             }}
+            onClick={() => handleNavigate(item.path)}
           >
             <Typography
               variant="h6"
@@ -177,6 +191,10 @@ const HeroSection = () => {
                 fontSize: { xs: "14px",  lg: "32px" },
                 lineHeight: { xs: "2px", lg: "40px" },
                 color: "black",
+                cursor: "pointer",
+                "&:hover": {
+                  color: "#78B27B",
+                },
               }}
             >
               {item.title}
@@ -190,6 +208,11 @@ const HeroSection = () => {
                 maxWidth: { xs: "89px", sm: "150px", md: "180px" },
                 height: { xs: "89px", sm: "150px", md: "180px" },
                 objectFit: "contain",
+                cursor: "pointer",
+                transition: "transform 0.2s",
+                "&:hover": {
+                  transform: "scale(1.05)",
+                },
               }}
             />
           </Box>
