@@ -3,7 +3,12 @@ import { Grid2, Typography, Box } from "@mui/material";
 import Header from "../../components/Header";
 import Footer from "../../components/Footer";
 import banner from "../../assets/images/chapters/Dallas/banner.png";
-import teamPhotoPlaceholder from "../../assets/images/chapters/teamPhotoPlaceholder.png";
+import rabiaFatima from "../../assets/images/chapters/Dallas/Rabia Fatima - Co-Founder and President.jpeg";
+import khadeejaZulqarnain from "../../assets/images/chapters/Dallas/Khadeeja Zulqarnain - Vice President.jpeg";
+import zarinKhan from "../../assets/images/chapters/Dallas/Zarin Khan - Events Coordinator.jpeg";
+import sidrahAhmed from "../../assets/images/chapters/Dallas/Sidrah Ahmed - Events Coordinator.jpeg";
+import mareeaAbdusSaboor from "../../assets/images/chapters/Dallas/Mareea Abdus Saboor - Events Coordinator.jpeg";
+import mahnoorShahid from "../../assets/images/chapters/Dallas/Mahnoor Shahid - Event Coordinator.jpeg";
 import instagramIcon from "../../assets/images/chapters/instagramIcon.svg";
 import whatsAppIcon from "../../assets/images/chapters/whatsAppIcon.svg";
 import linkTreeIcon from "../../assets/images/chapters/LinktreeIcon.svg";
@@ -98,7 +103,38 @@ const Dallas = () => (
       </Typography>
 
       <Grid2 container spacing={4} justifyContent="center" alignItems="center">
-        {[...Array(5)].map((_, index) => (
+        {[
+          {
+            image: rabiaFatima,
+            name: "Rabia Fatima",
+            title: "Co-Founder and President"
+          },
+          {
+            image: khadeejaZulqarnain,
+            name: "Khadeeja Zulqarnain",
+            title: "Vice President"
+          },
+          {
+            image: zarinKhan,
+            name: "Zarin Khan",
+            title: "Events Coordinator"
+          },
+          {
+            image: sidrahAhmed,
+            name: "Sidrah Ahmed",
+            title: "Events Coordinator"
+          },
+          {
+            image: mareeaAbdusSaboor,
+            name: "Mareea Abdus Saboor",
+            title: "Events Coordinator"
+          },
+          {
+            image: mahnoorShahid,
+            name: "Mahnoor Shahid",
+            title: "Event Coordinator"
+          }
+        ].map((member, index) => (
           <Grid2
             item
             xs={12}
@@ -121,37 +157,39 @@ const Dallas = () => (
               }}
             >
               <img
-                src={teamPhotoPlaceholder}
-                alt="Team Placeholder"
+                src={member.image}
+                alt={member.name}
                 style={{
                   width: "100%",
-                  maxWidth: "150px", // Set max width for small screens
+                  maxWidth: "150px",
                   height: "auto",
                   borderRadius: "50%",
                   objectFit: "cover",
                   marginBottom: "10px",
+                  aspectRatio: "1/1",
+                  objectPosition: "center"
                 }}
               />
               <Typography
                 sx={{
                   color: "#222222",
-                  fontSize: { xs: "16px", md: "20px" }, // Responsive font size
+                  fontSize: { xs: "16px", md: "20px" },
                   fontFamily: "Quicksand",
                   fontWeight: 700,
                   marginBottom: "5px",
                 }}
               >
-                Name
+                {member.name}
               </Typography>
               <Typography
                 sx={{
                   color: "black",
-                  fontSize: { xs: "14px", md: "16px" }, // Responsive font size
+                  fontSize: { xs: "14px", md: "16px" },
                   fontFamily: "Poppins",
                   fontWeight: 400,
                 }}
               >
-                Title
+                {member.title}
               </Typography>
             </Box>
           </Grid2>
