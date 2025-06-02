@@ -195,10 +195,8 @@ const Footer = () => {
               "Chapters",
               "FAQs",
               "Podcast",
-              "Volunteer",
               "About",
               "Membership",
-              "Collaborate",
               "Contact",
             ].map((link, index) => (
               <Link
