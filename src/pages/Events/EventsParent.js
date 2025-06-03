@@ -27,22 +27,54 @@ const EventsParent = () => {
   const [allEvents, setAllEvents] = useState([]); // Store all events for filtering/sorting
   const [listView, setListView] = useState(false);
   const [selectedEvent, setSelectedEvent] = useState(null);
-  const isMobile = useMediaQuery("(max-width:600px)"); // Check if screen size is less than 600px
+  const [selectedStates, setSelectedStates] = useState([]);
+  const [selectedCities, setSelectedCities] = useState([]);
+  const isMobile = useMediaQuery("(max-width:600px)");
+
+  // Extract unique states and cities from events
+  const getUniqueLocations = (events) => {
+    const states = new Set();
+    const cities = new Map(); // Map of state -> Set of cities
+
+    events.forEach(event => {
+      if (event.venue?.state) {
+        states.add(event.venue.state);
+        
+        if (event.venue.city) {
+          if (!cities.has(event.venue.state)) {
+            cities.set(event.venue.state, new Set());
+          }
+          cities.get(event.venue.state).add(event.venue.city);
+        }
+      }
+    });
+
+    return {
+      states: Array.from(states),
+      cities: Object.fromEntries(
+        Array.from(cities.entries()).map(([state, citySet]) => [
+          state,
+          Array.from(citySet)
+        ])
+      )
+    };
+  };
+
   useEffect(() => {
     const fetchEvents = async () => {
       try {
         const response = await axios.get("https://api.ummaticommunity.com/events");
         const fetchedEvents = response.data.map((event) => ({
           ...event,
-          title: event.name || event.title, // Use name if title is not available
+          title: event.name || event.title,
           description: event.description,
-          start: new Date(event.start), // Convert dates to JS Date objects
+          start: new Date(event.start),
           end: new Date(event.end),
-          chapter: `${event.venue?.city?.toLowerCase() || 'unknown'}-${event.venue?.state?.toLowerCase() || 'unknown'}`, // Create chapter for filtering with fallback
-          image: event.imageUrl || "default-placeholder.png", // Use imageUrl or a fallback image
+          chapter: `${event.venue?.city?.toLowerCase() || 'unknown'}-${event.venue?.state?.toLowerCase() || 'unknown'}`,
+          image: event.imageUrl || "default-placeholder.png",
         }));
-        setEvents(fetchedEvents); // Set events for rendering
-        setAllEvents(fetchedEvents); // Keep all events for filtering/sorting
+        setEvents(fetchedEvents);
+        setAllEvents(fetchedEvents);
       } catch (error) {
         console.error("Error fetching events:", error);
       }
@@ -50,18 +82,51 @@ const EventsParent = () => {
   
     fetchEvents();
   }, []);  
-  
-  const handleFilterChange = (selectedFilters) => {
-    if (selectedFilters.length === 0) {
-      setEvents(allEvents); // Use all events from API
-      return;
-    }
-    const filteredRecords = allEvents.filter((event) =>
-      selectedFilters.includes(event.chapter)
-    );
-    setEvents(filteredRecords);
+
+  const handleStateChange = (state) => {
+    setSelectedStates(prev => {
+      const newStates = prev.includes(state)
+        ? prev.filter(s => s !== state)
+        : [...prev, state];
+      
+      // Filter cities based on selected states
+      const availableCities = getUniqueLocations(allEvents).cities;
+      const newCities = selectedCities.filter(city => 
+        newStates.some(state => availableCities[state]?.includes(city))
+      );
+      setSelectedCities(newCities);
+      
+      return newStates;
+    });
   };
-  
+
+  const handleCityChange = (city) => {
+    setSelectedCities(prev => {
+      const newCities = prev.includes(city)
+        ? prev.filter(c => c !== city)
+        : [...prev, city];
+      return newCities;
+    });
+  };
+
+  // Apply filters whenever selections change
+  useEffect(() => {
+    let filteredEvents = allEvents;
+
+    if (selectedStates.length > 0) {
+      filteredEvents = filteredEvents.filter(event => 
+        selectedStates.includes(event.venue?.state)
+      );
+    }
+
+    if (selectedCities.length > 0) {
+      filteredEvents = filteredEvents.filter(event => 
+        selectedCities.includes(event.venue?.city)
+      );
+    }
+
+    setEvents(filteredEvents);
+  }, [selectedStates, selectedCities, allEvents]);
 
   const handleSortingChange = (selectedSorting) => {
     const now = moment();
@@ -93,7 +158,7 @@ const EventsParent = () => {
         break;
   
       case "all-events":
-        sortedData = allEvents; // No filter, return all events
+        sortedData = allEvents;
         break;
   
       default:
@@ -109,7 +174,9 @@ const EventsParent = () => {
 
   const handleClosePopup = () => {
     setSelectedEvent(null);
-  };  
+  };
+
+  const { states, cities } = getUniqueLocations(allEvents);
 
   return (
     <Box sx={{ backgroundColor: "#F7F5EF", minHeight: "100vh" }}>
@@ -271,40 +338,28 @@ const EventsParent = () => {
               >
                 State
               </Typography>
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    sx={{
-                      color: "white",
-                      "&.Mui-checked": {
+              {states.map((state) => (
+                <FormControlLabel
+                  key={state}
+                  control={
+                    <Checkbox
+                      checked={selectedStates.includes(state)}
+                      onChange={() => handleStateChange(state)}
+                      sx={{
                         color: "white",
-                      },
-                    }}
-                  />
-                }
-                label="Texas"
-                sx={{
-                  fontFamily: "Poppins",
-                  color: "#FFFFFF",
-                }}
-              />
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    sx={{
-                      color: "white",
-                      "&.Mui-checked": {
-                        color: "white",
-                      },
-                    }}
-                  />
-                }
-                label="Arkansas"
-                sx={{
-                  fontFamily: "Poppins",
-                  color: "#FFFFFF",
-                }}
-              />
+                        "&.Mui-checked": {
+                          color: "white",
+                        },
+                      }}
+                    />
+                  }
+                  label={state}
+                  sx={{
+                    fontFamily: "Poppins",
+                    color: "#FFFFFF",
+                  }}
+                />
+              ))}
             </Box>
 
             {/* City Section */}
@@ -324,7 +379,7 @@ const EventsParent = () => {
                 center
                 justifyContent="space-between"
                 alignItems="center"
-                onClick={() => setShowCities((prev) => !prev)} // Toggle visibility
+                onClick={() => setShowCities((prev) => !prev)}
                 sx={{ cursor: "pointer" }}
               >
                 <Typography
@@ -341,43 +396,32 @@ const EventsParent = () => {
                 </IconButton>
               </Box>
 
-              {/* Conditionally Render City Checkboxes */}
               {showCities && (
                 <Box mt={2}>
-                  <FormControlLabel
-                    control={
-                      <Checkbox
+                  {selectedStates.map(state => 
+                    cities[state]?.map(city => (
+                      <FormControlLabel
+                        key={`${state}-${city}`}
+                        control={
+                          <Checkbox
+                            checked={selectedCities.includes(city)}
+                            onChange={() => handleCityChange(city)}
+                            sx={{
+                              color: "white",
+                              "&.Mui-checked": {
+                                color: "white",
+                              },
+                            }}
+                          />
+                        }
+                        label={city}
                         sx={{
-                          color: "white",
-                          "&.Mui-checked": {
-                            color: "white",
-                          },
+                          fontFamily: "Poppins",
+                          color: "#FFFFFF",
                         }}
                       />
-                    }
-                    label="Dallas"
-                    sx={{
-                      fontFamily: "Poppins",
-                      color: "#FFFFFF",
-                    }}
-                  />
-                  <FormControlLabel
-                    control={
-                      <Checkbox
-                        sx={{
-                          color: "white",
-                          "&.Mui-checked": {
-                            color: "white",
-                          },
-                        }}
-                      />
-                    }
-                    label="Houston"
-                    sx={{
-                      fontFamily: "Poppins",
-                      color: "#FFFFFF",
-                    }}
-                  />
+                    ))
+                  )}
                 </Box>
               )}
             </Box>
@@ -399,7 +443,6 @@ const EventsParent = () => {
           {isMobile ? (
             <Box>
               <FiltersAndSort
-                onFilterChange={handleFilterChange}
                 onSortingChange={handleSortingChange}
               />
               {events.map((event, index) => {
