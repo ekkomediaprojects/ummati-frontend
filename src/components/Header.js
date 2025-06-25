@@ -42,6 +42,7 @@ const Header = () => {
     { name: "Podcast", path: "/podcast" },
     { name: "Membership", path: "/membership" },
     { name: "Chapters", path: "/chapters" },
+    { name: "Shop", path: "https://shop.ummaticommunity.com/", external: true },
     { name: "About", path: "/about" },
     { name: "Contact", path: "/contact" },
   ];
@@ -195,24 +196,47 @@ const Header = () => {
                 key={item.name}
                 className="w-full lg:w-auto h-[40px] flex items-center px-2"
               >
-                <Link
-                  to={item.path}
-                  style={{
-                    width: "100%",
-                    textAlign: "left",
-                    color: "#5A4283",
-                    fontSize: "16px",
-                    fontFamily: "Quicksand, sans-serif",
-                    lineHeight: "20px",
-                    fontWeight: isActive(item.path) ? 900 : 400,
-                    textDecoration: "none",
-                    textUnderlineOffset: "auto",
-                    textDecorationSkipInk: "none",
-                    textTransform: "none",
-                  }}
-                >
-                  {item.name}
-                </Link>
+                {item.external ? (
+                  <a
+                    href={item.path}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    style={{
+                      width: "100%",
+                      textAlign: "left",
+                      color: "#5A4283",
+                      fontSize: "16px",
+                      fontFamily: "Quicksand, sans-serif",
+                      lineHeight: "20px",
+                      fontWeight: 400,
+                      textDecoration: "none",
+                      textUnderlineOffset: "auto",
+                      textDecorationSkipInk: "none",
+                      textTransform: "none",
+                    }}
+                  >
+                    {item.name}
+                  </a>
+                ) : (
+                  <Link
+                    to={item.path}
+                    style={{
+                      width: "100%",
+                      textAlign: "left",
+                      color: "#5A4283",
+                      fontSize: "16px",
+                      fontFamily: "Quicksand, sans-serif",
+                      lineHeight: "20px",
+                      fontWeight: isActive(item.path) ? 900 : 400,
+                      textDecoration: "none",
+                      textUnderlineOffset: "auto",
+                      textDecorationSkipInk: "none",
+                      textTransform: "none",
+                    }}
+                  >
+                    {item.name}
+                  </Link>
+                )}
               </div>
             );
           })}
