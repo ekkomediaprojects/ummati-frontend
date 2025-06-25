@@ -191,30 +191,48 @@ const Footer = () => {
             }}
           >
             {[
-              "Events",
-              "Chapters",
-              "FAQs",
-              "Podcast",
-              "About",
-              "Membership",
-              "Contact",
-            ].map((link, index) => (
-              <Link
-                to={`/${link.toLowerCase()}`}
-                key={index}
-                className={` font-['Poppins'] ${
-                  isActive(`/${link.toLowerCase()}`)
-                    ? "font-bold"
-                    : "font-normal"
-                } text-black`}
-                style={{
-                  textDecoration: "none",
-                  color: "black",
-                  fontSize: "12px",
-                }}
-              >
-                {link}
-              </Link>
+              { name: "Events", path: "/events", external: false },
+              { name: "Chapters", path: "/chapters", external: false },
+              { name: "FAQs", path: "/faqs", external: false },
+              { name: "Podcast", path: "/podcast", external: false },
+              { name: "Store", path: "https://shop.ummaticommunity.com/", external: true },
+              { name: "About", path: "/about", external: false },
+              { name: "Membership", path: "/membership", external: false },
+              { name: "Contact", path: "/contact", external: false },
+            ].map((item, index) => (
+              item.external ? (
+                <a
+                  href={item.path}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  key={index}
+                  className={` font-['Poppins'] font-normal text-black`}
+                  style={{
+                    textDecoration: "none",
+                    color: "black",
+                    fontSize: "12px",
+                  }}
+                >
+                  {item.name}
+                </a>
+              ) : (
+                <Link
+                  to={item.path}
+                  key={index}
+                  className={` font-['Poppins'] ${
+                    isActive(item.path)
+                      ? "font-bold"
+                      : "font-normal"
+                  } text-black`}
+                  style={{
+                    textDecoration: "none",
+                    color: "black",
+                    fontSize: "12px",
+                  }}
+                >
+                  {item.name}
+                </Link>
+              )
             ))}
           </Box>
         </Box>

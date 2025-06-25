@@ -42,7 +42,7 @@ const Header = () => {
     { name: "Podcast", path: "/podcast" },
     { name: "Membership", path: "/membership" },
     { name: "Chapters", path: "/chapters" },
-    { name: "Shop", path: "https://shop.ummaticommunity.com/", external: true },
+    { name: "Store", path: "https://shop.ummaticommunity.com/", external: true },
     { name: "About", path: "/about" },
     { name: "Contact", path: "/contact" },
   ];
