@@ -9,6 +9,7 @@ import React,{ FormEvent } from "react";
 //     session: session,
 //   };
 // }
+
 export default function AccountDetails() {
   const session = true
   // await getData();
