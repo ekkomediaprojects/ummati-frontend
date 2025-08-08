@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import {
   Box,
   Typography,
@@ -33,15 +33,13 @@ const getTimeLeftText = (endDate) => {
 };
 
 const Subscription = () => {
-  const navigate = useNavigate();
-  const [membership, setMembership] = useState(false); // now supports null
   const [memTier, setMemTier] = useState([]);
-  const [currMemberShip, setCurrMemberShip] = useState(null); // null for loading
-  const [loading, setLoading] = useState(true); // loader
+  const [currMemberShip, setCurrMemberShip] = useState(null);
+  const [loading, setLoading] = useState(true);
   const [dialogOpen, setDialogOpen] = useState(false);
   const [selectedTier, setSelectedTier] = useState(null);
   const [confirmDialog, setConfirmDialog] = useState(false);
-  const [downgradeTierId, setDowngradeTierId] = useState(null); // track tier
+  const [downgradeTierId, setDowngradeTierId] = useState(null);
 
   const token = localStorage.getItem("userToken");
 
@@ -58,8 +56,6 @@ const Subscription = () => {
     );
     if (res.success) {
       setMemTier(res.data);
-    } else {
-      console.error("Failed to fetch membership tiers");
     }
   };
 
@@ -77,20 +73,16 @@ const Subscription = () => {
     );
     if (res.success) {
       setCurrMemberShip(res.data);
-      setMembership(res.data?.isPaidMember ?? false);
-    } else {
-      console.error("Failed to fetch membership status");
     }
     setLoading(false);
   };
 
   useEffect(() => {
-    getMemberTierShips();
     currentMemberShip();
+    getMemberTierShips();
   }, []);
 
   const handleUpgrade = (tierId) => {
-    console.log("tierId", tierId);
     setSelectedTier(tierId);
     setDialogOpen(true);
   };
@@ -106,11 +98,16 @@ const Subscription = () => {
     );
     if (res.success) {
       toast.success("Subscription downgraded successfully.");
-      currentMemberShip(); // refresh data
+      await currentMemberShip(); // refresh data after downgrade
     } else {
       toast.error("Failed to downgrade subscription.");
     }
   };
+
+  // derive directly so always fresh
+  const memEndFlag = currMemberShip?.membership?.cancelAtPeriodEnd || false;
+  const membership = currMemberShip?.isPaidMember || false;
+
   return (
     <Box
       sx={{
@@ -151,23 +148,22 @@ const Subscription = () => {
                 Current Membership Status
               </Typography>
 
-              <Typography sx={{}}>
-                <strong>Type:</strong>{" "}
-                {currMemberShip?.isPaidMember ? "Premium" : "Free"}
+              <Typography>
+                <strong>Type:</strong> {membership ? "Premium" : "Free"}
               </Typography>
 
-              <Typography sx={{}}>
+              <Typography>
                 <strong>Status:</strong>{" "}
                 {currMemberShip?.membership?.status || "No Status"}
               </Typography>
 
-              <Typography sx={{}}>
+              <Typography>
                 <strong>Last Payment Status:</strong>{" "}
                 {currMemberShip?.membership?.lastPaymentStatus || "No Status"}
               </Typography>
 
               {currMemberShip?.currentPeriodEnd && (
-                <Typography sx={{}}>
+                <Typography>
                   <strong>Valid Until:</strong>{" "}
                   {new Date(
                     currMemberShip?.currentPeriodEnd
@@ -175,16 +171,23 @@ const Subscription = () => {
                 </Typography>
               )}
 
-              {/* {currMemberShip?.benefits?.length > 0 && (
-                <Box>
-                  <Typography sx={{ fontWeight: "600" }}>Benefits:</Typography>
-                  <ul style={{ margin: 0, paddingLeft: "20px" }}>
-                    {currMemberShip.benefits.map((benefit, idx) => (
-                      <li key={idx}>{benefit}</li>
-                    ))}
-                  </ul>
-                </Box>
-              )} */}
+              {memEndFlag && (
+                <Typography
+                  variant="body2"
+                  sx={{
+                    mt: 2,
+                    color: "#ef4444",
+                    fontWeight: 600,
+                  }}
+                >
+                  Your subscription will remain active until{" "}
+                  {new Date(
+                    currMemberShip?.currentPeriodEnd
+                  ).toLocaleDateString()}
+                  .<br />
+                  {getTimeLeftText(currMemberShip?.currentPeriodEnd)}
+                </Typography>
+              )}
             </Box>
           )}
 
@@ -249,7 +252,8 @@ const Subscription = () => {
                 variant="contained"
                 disabled={loading}
                 sx={{
-                  backgroundColor: membership === false ? "#D9F4DA" : "#78B27B",
+                  backgroundColor:
+                    membership === memEndFlag  ? "#D9F4DA" : "#78B27B",
                   width: { xs: "100%", sm: "312px" },
                   height: "51px",
                   borderRadius: "8px",
@@ -263,22 +267,26 @@ const Subscription = () => {
                   alignSelf: { xs: "center", sm: "flex-start" },
                 }}
                 onClick={() => {
-                  if (membership === true && memTier.length > 0) {
+                  if (membership && !memEndFlag && memTier.length > 0) {
                     setDowngradeTierId(memTier[0]._id);
-                    setConfirmDialog(true); // open confirm dialog
-                    // setMembership(false)
+                    setConfirmDialog(true);
                   }
                 }}
               >
                 <Typography
                   sx={{
-                    color: membership === false ? "#78B27B" : "#FFFFFF",
+                    color:
+                       membership === memEndFlag  ? "#78B27B" : "#FFFFFF",
                     fontSize: "18px",
                     fontFamily: "Poppins",
                     fontWeight: "600",
                   }}
                 >
-                  {membership === false ? "Selected" : "Downgrade"}
+                  {membership && !memEndFlag
+                    ? "Downgrade"
+                    : !memEndFlag 
+                    ? "Selected"
+                    : "Downgraded"}
                 </Typography>
               </Button>
             </Box>
@@ -347,7 +355,8 @@ const Subscription = () => {
                 variant="contained"
                 disabled={loading}
                 sx={{
-                  backgroundColor: membership === true ? "#D9F4DA" : "#78B27B",
+                  backgroundColor:
+                    membership && !memEndFlag ? "#D9F4DA" : "#78B27B",
                   width: { xs: "100%", sm: "312px" },
                   height: "51px",
                   borderRadius: "8px",
@@ -355,20 +364,25 @@ const Subscription = () => {
                   alignSelf: { xs: "center", sm: "flex-start" },
                 }}
                 onClick={() => {
-                  if (membership === false && memTier.length > 0) {
+                  if (!membership || memEndFlag) {
                     handleUpgrade(memTier[1]._id);
                   }
                 }}
               >
                 <Typography
                   sx={{
-                    color: membership === true ? "#78B27B" : "#FFFFFF",
+                    color:
+                      membership && !memEndFlag ? "#78B27B" : "#FFFFFF",
                     fontSize: "18px",
                     fontFamily: "Poppins",
                     fontWeight: "600",
                   }}
                 >
-                  {membership === true ? "Selected" : "Upgrade"}
+                  {membership && !memEndFlag
+                    ? "Selected"
+                    : memEndFlag
+                    ? "Upgrade Again"
+                    : "Upgrade"}
                 </Typography>
               </Button>
             </Box>
@@ -377,7 +391,6 @@ const Subscription = () => {
               open={dialogOpen}
               onClose={() => {
                 setDialogOpen(false);
-                getMemberTierShips();
                 currentMemberShip();
               }}
               tierId={selectedTier}
@@ -394,13 +407,12 @@ const Subscription = () => {
                   gap: 1.5,
                   fontWeight: 700,
                   fontSize: "1.25rem",
-                  color: "#1f2937", // Gray-800
+                  color: "#1f2937",
                   pb: 0,
                 }}
               >
-                <WarningAmberRoundedIcon sx={{ color: "#f59e0b" }} />{" "}
-                {/* Amber-500 */}
-                Confirm Downgrade
+                <WarningAmberRoundedIcon sx={{ color: "#f59e0b" }} /> Confirm
+                Downgrade
               </DialogTitle>
 
               <DialogContent sx={{ pt: 1 }}>
@@ -408,19 +420,19 @@ const Subscription = () => {
                   variant="body1"
                   sx={{
                     fontSize: "1rem",
-                    color: "#374151", // Gray-700
+                    color: "#374151",
                     mt: 1,
                   }}
                 >
                   Are you sure you want to downgrade your subscription? This
                   action may limit access to certain features.
                 </Typography>
-                {currMemberShip?.membership?.cancelAtPeriodEnd && (
+                {memEndFlag && (
                   <Typography
                     variant="body2"
                     sx={{
                       mt: 2,
-                      color: "#ef4444", // red
+                      color: "#ef4444",
                       fontWeight: 600,
                     }}
                   >
@@ -445,10 +457,10 @@ const Subscription = () => {
                     fontWeight: 500,
                     fontSize: "0.95rem",
                     textTransform: "none",
-                    color: "#000000ff", // Gray-600
+                    color: "#000",
                     "&:hover": {
-                      backgroundColor: "#27329aff", // subtle hover
-                      color: "#ffffffff", // Gray-800
+                      backgroundColor: "#27329a",
+                      color: "#fff",
                     },
                   }}
                 >
@@ -464,12 +476,12 @@ const Subscription = () => {
                     fontSize: "0.95rem",
                     textTransform: "none",
                     borderRadius: 2,
-                    color: "#8e0f16ff", // Indigo-600
-                    borderColor: "#8e0f16ff",
+                    color: "#8e0f16",
+                    borderColor: "#8e0f16",
                     "&:hover": {
-                      backgroundColor: "#8e0f16ff", // Indigo-50
-                      borderColor: "#8e0f16ff", // Indigo-700
-                      color: "#f9f9fbff",
+                      backgroundColor: "#8e0f16",
+                      borderColor: "#8e0f16",
+                      color: "#f9f9fb",
                     },
                   }}
                 >

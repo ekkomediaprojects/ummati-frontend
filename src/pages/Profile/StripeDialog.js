@@ -1,4 +1,4 @@
-import React, { useState ,useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import {
   Dialog,
   DialogTitle,
@@ -51,16 +51,19 @@ const StripeDialog = ({ open, onClose, tierId  }) => {
         { Authorization: `Bearer ${token}` }
       );
 
-      const { clientSecret } = res.data;
-
-        const { error, paymentIntent } = await stripe.confirmCardPayment(clientSecret);
-
+      const { clientSecret, resumed } = res.data;
+      if(resumed) {
+        setSuccess(true);
+      } else {
+        const { error, paymentIntent } = await stripe.confirmCardPayment(
+          clientSecret
+        );
         if (error) {
-            setError(error.message);
+          setError(error.message);
         } else if (paymentIntent.status === "succeeded") {
-            setSuccess(true);
-            
+          setSuccess(true);
         }
+      }
     } catch (err) {
       setError("An unexpected error occurred.");
     } finally {
