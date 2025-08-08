@@ -58,7 +58,7 @@ const Login = () => {
       const res = await RequestHandler(url, "POST", body);
       
       if (res?.success) {
-        const data = res?.data;
+        const data = res;
         if (data?.user && data?.token) {
           // Store user data and token
           localStorage.setItem("userToken", data.token);

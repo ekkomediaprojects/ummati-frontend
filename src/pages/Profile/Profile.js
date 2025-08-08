@@ -13,42 +13,53 @@ import ViewProfileComponent from "./ViewProfile";
 import PaymentHistoryComponent from "./PaymentHistory";
 import noProfile from "../../assets/images/no-profile-picture-15257.png";
 import RequestHandler from "../../utils/RequestHandler";
-import toast, { Toaster} from 'react-hot-toast';
-import QRCodeGenerator from './QRCodeGenerator';
+import toast, { Toaster } from "react-hot-toast";
+import QRCodeGenerator from "./QRCodeGenerator";
 
 const Profile = () => {
   const [userData, setUserData] = useState(null);
   const navigate = useNavigate();
   const [selectedButton, setSelectedButton] = useState("profile");
   const handleButtonClick = (page) => {
-    console.log("page", page);
     setSelectedButton(page);
-    navigate(`/${page.toLowerCase().replace(" ", "-")}`); 
+    navigate(`/${page.toLowerCase().replace(" ", "-")}`);
   };
+  const location = useLocation();
+
+  useEffect(() => {
+    const path = location.pathname.split("/")[1]; // get part after "/"
+    if (path) {
+      setSelectedButton(path);
+    }
+  }, [location]);
   useEffect(() => {
     const fetchUserInfo = async () => {
-      let token = localStorage.getItem('userToken')
-      if(token){
-      const url = `${process.env.REACT_APP_API_URL}auth/profile`;
-      // const url = `http://localhost:5002/auth/profile`;
-      try {
-          const res = await RequestHandler(url, "GET",{}, {'Authorization': `Bearer ${token}`});
+      let token = localStorage.getItem("userToken");
+      if (token) {
+        const url = `${process.env.REACT_APP_API_URL}auth/profile`;
+        // const url = `http://localhost:5002/auth/profile`;
+        try {
+          const res = await RequestHandler(
+            url,
+            "GET",
+            {},
+            { Authorization: `Bearer ${token}` }
+          );
           if (res?.success) {
-            if(res?.data?.user){
-              console.log("res?.data?.user" , res?.data?.user)
-              setUserData(res?.data?.user)
+            if (res?.data?.user) {
+              console.log("res?.data?.user", res?.data?.user);
+              setUserData(res?.data?.user);
               return;
             }
-          } else if(!res?.success) {
+          } else if (!res?.success) {
             toast.error(`${res?.message}`);
-          } 
+          }
         } catch (err) {
-            toast.error("An unexpected error occurred");
+          toast.error("An unexpected error occurred");
         }
       }
-  
     };
-    
+
     fetchUserInfo();
   }, []);
   const updateUserState = (updated) => {
@@ -57,8 +68,8 @@ const Profile = () => {
   let infoStyle = {
     fontFamily: "Poppins",
     fontWeight: 500,
-    fontSize: { xs: "16px",xl: "20px" },
-    lineHeight: { xs: "24px",  xl: "30px" },
+    fontSize: { xs: "16px", xl: "20px" },
+    lineHeight: { xs: "24px", xl: "30px" },
     textAlign: { xs: "center", md: "left" },
     color: "#FFFFFF99",
   };
@@ -100,7 +111,6 @@ const Profile = () => {
         flexDirection: "column",
       }}
     >
-      
       <Box
         sx={{
           width: "100%",
@@ -148,9 +158,7 @@ const Profile = () => {
             >
               <Avatar
                 alt="Profile Image"
-                src={
-                  userData?.profilePicture || noProfile
-                }
+                src={userData?.profilePicture || noProfile}
                 sx={{ width: 135, height: 135 }}
               />
             </Box>
@@ -165,7 +173,7 @@ const Profile = () => {
                   lineHeight: "100%",
                   textAlign: { xs: "center", md: "left" },
                   color: "white",
-                  mb: 2
+                  mb: 2,
                 }}
               >
                 {userData?.firstName} {userData?.lastName}
@@ -174,10 +182,10 @@ const Profile = () => {
                 variant="body2"
                 sx={{ ...infoStyle, textDecoration: "underline", gap: "10px" }}
               >
-               {userData?.email}
+                {userData?.email}
               </Typography>
             </Box>
-            {userData?.streetAddress && ( 
+            {userData?.streetAddress && (
               <Box
                 sx={{
                   display: "flex",
@@ -197,7 +205,7 @@ const Profile = () => {
                 </Typography>
               </Box>
             )}
-            
+
             <Box
               sx={{
                 display: "flex",
@@ -208,24 +216,24 @@ const Profile = () => {
               }}
             ></Box>
             <Box>
-              <QRCodeGenerator/>
+              <QRCodeGenerator />
             </Box>
             <Box>
               <Typography
-                  variant="body2"
-                  sx={{  
-                      marginTop: "10px" ,
-                      fontFamily: "Poppins",
-                      fontWeight: 500,
-                      fontSize: { xs: "16px",xl: "20px" },
-                      lineHeight: { xs: "24px",  xl: "30px" },
-                      textAlign: "center",
-                      color: "#FFFFFF99",}}
-                >
-                  Member ID : {userData?.memberId || '12345678910'}
-                </Typography>
+                variant="body2"
+                sx={{
+                  marginTop: "10px",
+                  fontFamily: "Poppins",
+                  fontWeight: 500,
+                  fontSize: { xs: "16px", xl: "20px" },
+                  lineHeight: { xs: "24px", xl: "30px" },
+                  textAlign: "center",
+                  color: "#FFFFFF99",
+                }}
+              >
+                Member ID : {userData?.memberId || "12345678910"}
+              </Typography>
             </Box>
-          
           </Box>
 
           <Box
@@ -253,9 +261,9 @@ const Profile = () => {
                 <Button
                   variant="outlined"
                   sx={{
-                    fontSize: { xs: "10px", sm: "12px", md: "16px" }, 
+                    fontSize: { xs: "10px", sm: "12px", md: "16px" },
                     padding: {
-                      xs: "1px 1px", 
+                      xs: "1px 1px",
                       sm: "6px 12px",
                       md: "10px 20px",
                     },
@@ -270,9 +278,9 @@ const Profile = () => {
                 <Button
                   variant="outlined"
                   sx={{
-                    fontSize: { xs: "10px", sm: "12px", md: "16px" }, 
+                    fontSize: { xs: "10px", sm: "12px", md: "16px" },
                     padding: {
-                      xs: "1px 1px", 
+                      xs: "1px 1px",
                       sm: "6px 12px",
                       md: "10px 20px",
                     },
@@ -333,7 +341,12 @@ const Profile = () => {
                 borderRadius: "8px",
               }}
             >
-              {selectedButton === "profile" && <ViewProfileComponent  userData={userData} updateUserState={updateUserState}/>}
+              {selectedButton === "profile" && (
+                <ViewProfileComponent
+                  userData={userData}
+                  updateUserState={updateUserState}
+                />
+              )}
               {selectedButton === "subscription" && <Subscription />}
               {selectedButton === "paymenthistory" && (
                 <PaymentHistoryComponent />
@@ -341,23 +354,24 @@ const Profile = () => {
               {selectedButton === "settings" && <SettingsComponent />}
             </Box>
           </Box>
-          <Toaster
-              position="bottom-right"
-              reverseOrder={true}
-           />
+          <Toaster position="bottom-right" reverseOrder={true} />
         </Box>
       </Box>
       <Box
         sx={{
           padding: "20px",
           height: {
-            xs: selectedButton === "profile" || selectedButton === "subscription" ? "2000px" : selectedButton === "settings" ? "1250px" :   "1450px",
+            xs:
+              selectedButton === "profile" || selectedButton === "subscription"
+                ? "2300px"
+                : selectedButton === "settings"
+                ? "1250px"
+                : "1450px",
             md: "1400px",
             lg: "900px",
           },
         }}
       ></Box>
-      
     </Box>
   );
 };
