@@ -14,7 +14,7 @@ const AdminLogin = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [errors, setErrors] = useState({ email: "", password: "" });
   const [isLoading, setIsLoading] = useState(false);
-  const { setIsLoggedIn, setUserDetails } = useAuth();
+  const { login } = useAuth();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -75,14 +75,7 @@ const AdminLogin = () => {
         }
 
         console.log('9. Admin role verified, proceeding with login...');
-        localStorage.setItem("userToken", res.token);
-        localStorage.setItem("userData", JSON.stringify(res.user));
-        sessionStorage.setItem("userToken", res.token);
-        sessionStorage.setItem("userData", JSON.stringify(res.user));
-        sessionStorage.setItem("role", "admin")
-        
-        setIsLoggedIn(true);
-        setUserDetails(res.user);
+        login(res.token , res.user, "admin")
         toast.success("Admin login successful!");
         navigate("/dashboard");
       } else {

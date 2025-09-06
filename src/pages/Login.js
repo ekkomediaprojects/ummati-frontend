@@ -23,7 +23,7 @@ const Login = () => {
   const [errors, setErrors] = useState({ email: "", password: "" });
   const [isLoading, setIsLoading] = useState(false);
   const [apiError, setApiError] = useState(""); // API error message
-  const { setIsLoggedIn ,setUserDetails} = useAuth(); 
+  const { setIsLoggedIn ,setUserDetails , login} = useAuth(); 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -60,15 +60,7 @@ const Login = () => {
       if (res?.success) {
         const data = res;
         if (data?.user && data?.token) {
-          // Store user data and token
-          localStorage.setItem("userToken", data.token);
-          localStorage.setItem("userData", JSON.stringify(data.user));
-          sessionStorage.setItem("userToken", res.token);
-          sessionStorage.setItem("userData", JSON.stringify(res.user));
-          sessionStorage.setItem("role", "user")
-          // Update auth context
-          setIsLoggedIn(true);
-          setUserDetails(data.user);
+         login(data?.token , data?.user , "user")
           
           // Check if user is admin
           const adminCheck = await RequestHandler(
@@ -126,10 +118,11 @@ const Login = () => {
           let data = res?.data;
           toast.success(data?.message);
           if(data?.user && data?.token){
-            localStorage.setItem("userToken", data?.token);
-            setIsLoggedIn(true);
-            setUserDetails(data?.user);
-            localStorage.setItem("userData", JSON.stringify(data?.user));
+            // localStorage.setItem("userToken", data?.token);
+            // setIsLoggedIn(true);
+            // setUserDetails(data?.user);
+            // localStorage.setItem("userData", JSON.stringify(data?.user));
+            login(data?.token , data?.user , "user")
             setTimeout(() => {navigate("/")}, 1000);
           }
         } else if(!res?.success) {
