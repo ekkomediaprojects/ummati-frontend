@@ -57,7 +57,7 @@ export const AuthProvider = ({ children }) => {
     localStorage.removeItem("userToken");
     sessionStorage.removeItem("userData");
     sessionStorage.removeItem("userToken");
-
+    sessionStorage.removeItem("role", "user")
     setUserDetails(null);
     setIsLoggedIn(false);
 
