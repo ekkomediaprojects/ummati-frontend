@@ -1,7 +1,7 @@
-import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
-import  GTMProvider  from './hooks/GTMProvider';
-import React, { useState, useEffect } from "react";
-import { AuthProvider } from "./authProviders/AuthContext";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import GTMProvider from "./hooks/GTMProvider";
+import React from "react";
+import { AuthProvider, useAuth } from "./authProviders/AuthContext";
 import SpotifyTokenHandler from "./authProviders/SpotifyTokenHandler";
 import ProtectedRoute from "./authProviders/ProtectedRoute";
 import LoginRoute from "./authProviders/LoginContext";
@@ -45,21 +45,24 @@ import Footer from "./components/Footer";
 import AdminLogin from "./pages/AdminLogin";
 import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
+
 const stripePromise = loadStripe(
-  process.env.REACT_APP_STRIPE_PUBLIC_KEY || "pk_test_51O3KOrJDsyGovB7Mf6aHgJC1lMF5PNvILars5NKLIszFEGVcDkc3juj1Q4XLowJatePwuEJKqH74eETiMcbbUTOt00H5XmVKMI"
+  process.env.REACT_APP_STRIPE_PUBLIC_KEY ||
+    "pk_test_51O3KOrJDsyGovB7Mf6aHgJC1lMF5PNvILars5NKLIszFEGVcDkc3juj1Q4XLowJatePwuEJKqH74eETiMcbbUTOt00H5XmVKMI"
 );
 
 function App() {
-  const [loading, setLoading] = useState(true);
+  return (
+    <AuthProvider>
+      <MainApp />
+    </AuthProvider>
+  );
+}
 
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setLoading(false);
-    }, 500);
-    return () => clearTimeout(timer);
-  }, []);
+function MainApp() {
+  const { authLoading } = useAuth();
 
-  if (loading) {
+  if (authLoading) {
     return (
       <div
         style={{
@@ -76,97 +79,101 @@ function App() {
   }
 
   return (
-    <AuthProvider>
-      <GTMProvider>
-        <SpotifyTokenHandler />
-        <Router>
-          <ScrollToTop />
-          {!loading && <Header />}
-          <Routes>
-            <Route path="/" element={<HomePage />} />
-            <Route path="/home" element={<HomePage />} />
-            <Route path="/login" element={<LoginRoute />} />
-            <Route path="/signup" element={<SignUp />} />
-            <Route path="/admin-login" element={<AdminLogin />} />
-            <Route
-              path="/profile"
-              element={
-                <ProtectedRoute>
+    <GTMProvider>
+      <SpotifyTokenHandler />
+      <Router>
+        <ScrollToTop />
+        <Header />
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/home" element={<HomePage />} />
+          <Route path="/login" element={<LoginRoute />} />
+          <Route path="/signup" element={<SignUp />} />
+          <Route path="/admin-login" element={<AdminLogin />} />
+
+          {/* Protected routes */}
+          <Route
+            path="/profile"
+            element={
+              <ProtectedRoute>
+                <Profile />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/paymenthistory"
+            element={
+              <ProtectedRoute>
+                <Profile />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/settings"
+            element={
+              <ProtectedRoute>
+                <Profile />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/subscription"
+            element={
+              <ProtectedRoute>
+                <Elements stripe={stripePromise}>
                   <Profile />
-                </ProtectedRoute>
-              }
-            />
+                </Elements>
+              </ProtectedRoute>
+            }
+          />
+
+          {/* Public routes */}
+          <Route path="/podcast" element={<Podcast />} />
+          <Route path="/chapters" element={<Chapters />} />
+          <Route path="/terms" element={<Terms />} />
+          <Route path="/faqs" element={<FAQ />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/privacy" element={<Privacy />} />
+          <Route path="/membership" element={<Membership />} />
+          <Route path="/contact" element={<Contact />} />
+          <Route path="/chapters/dallas" element={<Dallas />} />
+          <Route path="/chapters/little-rock" element={<LittleRock />} />
+          <Route path="/chapters/houston" element={<Houston />} />
+          <Route path="/chapters/fort-worth" element={<FortWorth />} />
+          <Route path="/events" element={<Events />} />
+
+          {/* Dashboard routes */}
+          <Route path="/dashboard/*" element={<DashboardLayout />}>
+            <Route index element={<DashboardIndex />} />
+            <Route path="account-details" element={<AccountDetails />} />
+            <Route path="account-security" element={<AccountSecurity />} />
+            <Route path="admin-support" element={<AdminSupport />} />
+            <Route path="admin-support/:userid" element={<DashboardLayout1 />} />
+            <Route path="bookings" element={<Bookings />} />
             <Route
-              path="/paymenthistory"
-              element={
-                <ProtectedRoute>
-                  <Profile />
-                </ProtectedRoute>
-              }
+              path="membership-management"
+              element={<MembershipManagement />}
             />
-            <Route
-              path="/settings"
-              element={
-                <ProtectedRoute>
-                  <Profile />
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/subscription"
-              element={
-                <ProtectedRoute>
-                  <Elements stripe={stripePromise}>
-                    <Profile />
-                  </Elements>
-                </ProtectedRoute>
-              }
-            />
-            <Route path="/podcast" element={<Podcast />} />
-            <Route path="/chapters" element={<Chapters />} />
-            <Route path="/terms" element={<Terms />} />
-            <Route path="/faqs" element={<FAQ />} />
-            <Route path="/about" element={<About />} />
-            <Route path="/privacy" element={<Privacy />} />
-            <Route path="/membership" element={<Membership />} />
-            <Route path="/contact" element={<Contact />} />
-            <Route path="/chapters/dallas" element={<Dallas />} />
-            <Route path="/chapters/little-rock" element={<LittleRock />} />
-            <Route path="/chapters/houston" element={<Houston />} />
-            <Route path="/chapters/fort-worth" element={<FortWorth />} />
-            <Route path="/events" element={<Events />} />
-            <Route path="/dashboard/*" element={<DashboardLayout />}>
-              <Route index element={<DashboardIndex />} />
-              <Route path="account-details" element={<AccountDetails />} />
-              <Route path="account-security" element={<AccountSecurity />} />
-              <Route path="admin-support" element={<AdminSupport />} />
-              <Route
-                path="admin-support/:userid"
-                element={<DashboardLayout1 />}
-              />
-              <Route path="bookings" element={<Bookings />} />
-              <Route
-                path="membership-management"
-                element={<MembershipManagement />}
-              />
-              <Route path="user-list" element={<UserList />} />
-              <Route path="event-categories" element={<EventCategories />} />
-              <Route path="event-locations" element={<EventLocations />} />
-              <Route path="event-management" element={<EventMangement />} />
-              <Route path="event-management/add-event" element={<AddEvent />} />
-              <Route path="event-management/edit/:id" element={<EditEvent />} />
-            </Route>
-            <Route path="/forgot-password" element={<ForgotPassword />} />
-            <Route
-              path="/auth/reset-password/:token"
-              element={<ResetPassword />}
-            />
-            <Route path="*" element={<Error404Page />} />
-          </Routes>
-          {!loading && <Footer />}
-        </Router>
-      </GTMProvider>
-    </AuthProvider>
+            <Route path="user-list" element={<UserList />} />
+            <Route path="event-categories" element={<EventCategories />} />
+            <Route path="event-locations" element={<EventLocations />} />
+            <Route path="event-management" element={<EventMangement />} />
+            <Route path="event-management/add-event" element={<AddEvent />} />
+            <Route path="event-management/edit/:id" element={<EditEvent />} />
+          </Route>
+
+          <Route path="/forgot-password" element={<ForgotPassword />} />
+          <Route
+            path="/auth/reset-password/:token"
+            element={<ResetPassword />}
+          />
+
+          {/* 404 */}
+          <Route path="*" element={<Error404Page />} />
+        </Routes>
+        <Footer />
+      </Router>
+    </GTMProvider>
   );
 }
 

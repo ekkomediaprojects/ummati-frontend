@@ -77,6 +77,10 @@ const AdminLogin = () => {
         console.log('9. Admin role verified, proceeding with login...');
         localStorage.setItem("userToken", res.token);
         localStorage.setItem("userData", JSON.stringify(res.user));
+        sessionStorage.setItem("userToken", res.token);
+        sessionStorage.setItem("userData", JSON.stringify(res.user));
+        sessionStorage.setItem("role", "admin")
+        
         setIsLoggedIn(true);
         setUserDetails(res.user);
         toast.success("Admin login successful!");

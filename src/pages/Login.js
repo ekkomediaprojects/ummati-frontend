@@ -63,7 +63,9 @@ const Login = () => {
           // Store user data and token
           localStorage.setItem("userToken", data.token);
           localStorage.setItem("userData", JSON.stringify(data.user));
-          
+          sessionStorage.setItem("userToken", res.token);
+          sessionStorage.setItem("userData", JSON.stringify(res.user));
+          sessionStorage.setItem("role", "user")
           // Update auth context
           setIsLoggedIn(true);
           setUserDetails(data.user);
