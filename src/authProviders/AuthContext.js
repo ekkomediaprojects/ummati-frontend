@@ -5,63 +5,48 @@ const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userDetails, setUserDetails] = useState(null);
-  const [authLoading, setAuthLoading] = useState(true);
-
-  const isTokenExpired = (token) => {
-    try {
-      const payload = JSON.parse(atob(token.split(".")[1]));
-      return Date.now() >= payload.exp * 1000;
-    } catch {
-      return true;
-    }
-  };
-
-  const logout = (role) => {
-    sessionStorage.clear();
-    localStorage.clear();
-    setUserDetails(null);
-    setIsLoggedIn(false);
-    if (role === "admin") window.location.replace("/admin-login");
-    else window.location.replace("/login");
-  };
+  const [authLoading, setAuthLoading] = useState(true); // 👈 loader state
 
   useEffect(() => {
-    const token =
-      sessionStorage.getItem("userToken") ||
-      localStorage.getItem("userToken");
-    const storedUser =
-      sessionStorage.getItem("userData") ||
-      localStorage.getItem("userData");
+    const checkAuth = () => {
+      const token = localStorage.getItem("userToken") || sessionStorage.getItem("userToken");
+      const storedUser = localStorage.getItem("userData") || sessionStorage.getItem("userData");
 
-    if (storedUser && token) {
-      try {
-        const parsedUser = JSON.parse(storedUser);
-        if (isTokenExpired(token)) {
-          logout(parsedUser.role);
-        } else {
+      if (storedUser && token) {
+        try {
+          const parsedUser = JSON.parse(storedUser);
           setUserDetails(parsedUser);
           setIsLoggedIn(true);
-
-          // auto logout on expiry
-          const payload = JSON.parse(atob(token.split(".")[1]));
-          const expiryTime = payload.exp * 1000;
-          const timeout = expiryTime - Date.now();
-          const timer = setTimeout(() => logout(parsedUser.role), timeout);
-
-          return () => clearTimeout(timer);
+        } catch (error) {
+          console.error("Error parsing user data:", error);
+          logout();
         }
-      } catch (err) {
-        console.error("Error parsing user data:", err);
-        logout();
+      } else {
+        setIsLoggedIn(false);
       }
-    } else {
-      setIsLoggedIn(false);
-    }
-    setAuthLoading(false);
+
+      setAuthLoading(false); // ✅ finished checking
+    };
+
+    // simulate delay for smoother UX (2 sec minimum loader)
+    const timer = setTimeout(checkAuth, 2000);
+
+    return () => clearTimeout(timer);
   }, []);
 
+  const logout = () => {
+    localStorage.removeItem("userData");
+    localStorage.removeItem("userToken");
+    sessionStorage.removeItem("userData");
+    sessionStorage.removeItem("userToken");
+    setUserDetails(null);
+    setIsLoggedIn(false);
+  };
+
   return (
-     <AuthContext.Provider value={{isLoggedIn, setIsLoggedIn, userDetails, setUserDetails, logout, authLoading}}>
+    <AuthContext.Provider
+      value={{ isLoggedIn, userDetails, setUserDetails, setIsLoggedIn, logout, authLoading }}
+    >
       {children}
     </AuthContext.Provider>
   );

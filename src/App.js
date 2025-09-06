@@ -60,6 +60,23 @@ function App() {
 }
 
 function MainApp() {
+  const { authLoading } = useAuth();
+
+  if (authLoading) {
+    return (
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "100vh",
+          backgroundColor: "#f0f0f0",
+        }}
+      >
+        <CircularProgress size={60} color="primary" />
+      </div>
+    );
+  }
   return (
     <GTMProvider>
       <SpotifyTokenHandler />
