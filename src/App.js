@@ -54,7 +54,7 @@ function App() {
     <AuthProvider>
       <MainApp />
     </AuthProvider>
-  );
+);
 }
 
 function MainApp() {

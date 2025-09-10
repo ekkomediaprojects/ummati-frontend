@@ -21,7 +21,7 @@ const SignUp = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [agreedToTerms, setAgreedToTerms] = useState(false);
-  const { setIsLoggedIn ,setUserDetails} = useAuth(); 
+  const { login } = useAuth();
 
   // Error states
   const [errors, setErrors] = useState({
@@ -72,11 +72,12 @@ const SignUp = () => {
         console.log("User registered successfully:", res?.data, "Status:", res?.status);
         toast('Good Job!', {icon: '👏', });
         if(data?.user && data?.token){
-          setIsLoggedIn(true);
-          setUserDetails(data?.user);
-          localStorage.setItem("userToken", data?.token)
-          localStorage.setItem("userData", JSON.stringify(data?.user))
-          setTimeout(() => {navigate("/")} ,2000);
+          // setIsLoggedIn(true);
+          // setUserDetails(data?.user);
+          // localStorage.setItem("userToken", data?.token)
+          // localStorage.setItem("userData", JSON.stringify(data?.user))
+          login(data?.token , data?.user , "user")
+          setTimeout(() => {navigate("/")} ,1000);
           return;
         }
        
@@ -166,10 +167,11 @@ const SignUp = () => {
                   profilePicture: uploadRes.data.profilePicture
                 };
                 
-                localStorage.setItem("userToken", signupRes.data.token);
-                setIsLoggedIn(true);
-                setUserDetails(updatedUser);
-                localStorage.setItem("userData", JSON.stringify(updatedUser));
+                // localStorage.setItem("userToken", signupRes.data.token);
+                // setIsLoggedIn(true);
+                // setUserDetails(updatedUser);
+                // localStorage.setItem("userData", JSON.stringify(updatedUser));
+                login(signupRes.data.token, updatedUser, "user");
               } else {
                 // If upload fails, use the original Google URL
                 const updatedUser = {
@@ -177,10 +179,12 @@ const SignUp = () => {
                   profilePicture: userInfo.data.picture
                 };
                 
-                localStorage.setItem("userToken", signupRes.data.token);
-                setIsLoggedIn(true);
-                setUserDetails(updatedUser);
-                localStorage.setItem("userData", JSON.stringify(updatedUser));
+                // localStorage.setItem("userToken", signupRes.data.token);
+                // setIsLoggedIn(true);
+                // setUserDetails(updatedUser);
+                // localStorage.setItem("userData", JSON.stringify(updatedUser));
+               login(signupRes.data.token, updatedUser, "user");
+
               }
             } catch (error) {
               console.error("Profile picture upload error:", error);
@@ -190,17 +194,19 @@ const SignUp = () => {
                 profilePicture: userInfo.data.picture
               };
               
-              localStorage.setItem("userToken", signupRes.data.token);
-              setIsLoggedIn(true);
-              setUserDetails(updatedUser);
-              localStorage.setItem("userData", JSON.stringify(updatedUser));
+              // localStorage.setItem("userToken", signupRes.data.token);
+              // setIsLoggedIn(true);
+              // setUserDetails(updatedUser);
+              // localStorage.setItem("userData", JSON.stringify(updatedUser));
+              login(signupRes.data.token, updatedUser, "user");
             }
           } else {
             // No profile picture available, proceed with signup
-            localStorage.setItem("userToken", signupRes.data.token);
-            setIsLoggedIn(true);
-            setUserDetails(signupRes.data.user);
-            localStorage.setItem("userData", JSON.stringify(signupRes.data.user));
+            // localStorage.setItem("userToken", signupRes.data.token);
+            // setIsLoggedIn(true);
+            // setUserDetails(signupRes.data.user);
+            // localStorage.setItem("userData", JSON.stringify(signupRes.data.user));
+            login(signupRes.data.token, signupRes.data.user, "user");
           }
 
           setTimeout(() => {navigate("/")}, 1000);
