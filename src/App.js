@@ -46,10 +46,7 @@ import AdminLogin from "./pages/AdminLogin";
 import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 
-const stripePromise = loadStripe(
-  process.env.REACT_APP_STRIPE_PUBLIC_KEY ||
-    "pk_test_51O3KOrJDsyGovB7Mf6aHgJC1lMF5PNvILars5NKLIszFEGVcDkc3juj1Q4XLowJatePwuEJKqH74eETiMcbbUTOt00H5XmVKMI"
-);
+const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PUBLIC_KEY);
 
 function App() {
   return (
