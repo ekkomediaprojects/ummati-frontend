@@ -77,13 +77,12 @@ const Profile = () => {
   // Common button style
   const buttonsNav = {
     marginRight: "10px",
-    padding: { xs: "2px", md: "12px" },
-    gap: "2px",
+    padding: { xs: "4px", md: "12px" },
     borderRadius: "70px",
-    fontSize: { xs: "12px", md: "20px" },
-    width: { xm: "150px", md: "200px" },
+    fontSize: { xs: "12px", md: "16px" },
+    width: { xm: "150px", md: "170px" },
     fontFamily: "Poppins",
-    lineHeight: "30px",
+    lineHeight: "20px",
     fontWeight: 500,
     textTransform: "none",
     cursor: "pointer",
@@ -137,108 +136,100 @@ const Profile = () => {
           <Box
             sx={{
               width: { xs: "100%", md: "28%" },
-              height: "796px",
-              marginBottom: { xs: "16px", md: "0" },
+              height: "600px",
               backgroundColor: "#5A4283",
               borderRadius: "12px",
-              padding: "30px",
+              padding: "10px",
               display: "flex",
               flexDirection: "column",
-              gap: "24px",
+              gap: "8px",
               zIndex: 1,
             }}
           >
+            {/* Avatar */}
             <Box
               sx={{
                 display: "flex",
-                alignItems: "center",
-                gap: "30px",
-                justifyContent: { xs: "center", md: "left" },
+                justifyContent: { xs: "center", md: "center" },
               }}
             >
               <Avatar
                 alt="Profile Image"
                 src={userData?.profilePicture || noProfile}
-                sx={{ width: 135, height: 135 }}
+                sx={{ width: 120, height: 120 }}
               />
             </Box>
 
+            {/* Name and Email */}
             <Box>
               <Typography
                 variant="h6"
                 sx={{
-                  fontFamily: "Poppins",
                   fontWeight: 600,
-                  fontSize: "32px",
-                  lineHeight: "100%",
-                  textAlign: { xs: "center", md: "left" },
+                  fontSize: "24px",
+                  textAlign: { xs: "center", md: "center" },
                   color: "white",
-                  mb: 2,
+                  mb: 1,
                 }}
               >
                 {userData?.firstName} {userData?.lastName}
               </Typography>
               <Typography
                 variant="body2"
-                sx={{ ...infoStyle, textDecoration: "underline", gap: "10px" }}
+                sx={{
+                  color: "#FFFFFFCC",
+                  textAlign: { xs: "center", md: "center" },
+                  textDecoration: "underline",
+                }}
               >
                 {userData?.email}
               </Typography>
             </Box>
+
+            {/* Address */}
             {userData?.streetAddress && (
               <Box
                 sx={{
                   display: "flex",
-                  justifyContent: { xs: "center", md: "left" },
+                  justifyContent: { xs: "center", md: "center" },
                   alignItems: "center",
-                  gap: "8px",
+                  gap: "6px",
                 }}
               >
-                <LocationOnIcon
-                  sx={{
-                    color: "#FFFFFF99",
-                    textAlign: { sm: "center", md: "left" },
-                  }}
-                />
-                <Typography variant="body2" sx={infoStyle}>
+                <LocationOnIcon sx={{ color: "#FFFFFF99" }} />
+                <Typography variant="body2" sx={{ color: "#FFFFFFCC" }}>
                   {userData.streetAddress}
                 </Typography>
               </Box>
             )}
 
-            <Box
-              sx={{
-                display: "flex",
-                alignItems: "center",
-                marginTop: "30px",
-                marginBottom: "30px",
-                border: "1px solid #FFFFFF3D",
-              }}
-            ></Box>
+            {/* Divider */}
+            <Box sx={{ border: "1px solid #FFFFFF3D", my: 2 }} />
+
+            {/* QR Code */}
             <Box>
               <QRCodeGenerator />
             </Box>
+
+            {/* Member ID */}
             <Box>
               <Typography
                 variant="body2"
                 sx={{
-                  marginTop: "10px",
-                  fontFamily: "Poppins",
                   fontWeight: 500,
-                  fontSize: { xs: "16px", xl: "20px" },
-                  lineHeight: { xs: "24px", xl: "30px" },
+                  fontSize: "14px",
                   textAlign: "center",
                   color: "#FFFFFF99",
                 }}
               >
-                Member ID : {userData?.memberId || "12345678910"}
+                Member ID: {userData?.memberId || "N/A"}
               </Typography>
             </Box>
           </Box>
 
           <Box
             sx={{
-              width: { xs: "100%", md: "70%" },
+              width: { xs: "100%", md: "72%" },
               height: { xs: "auto", md: "820px" },
               marginBottom: { xs: "16px", md: "0" },
               borderRadius: "12px",
@@ -261,11 +252,10 @@ const Profile = () => {
                 <Button
                   variant="outlined"
                   sx={{
-                    fontSize: { xs: "10px", sm: "12px", md: "16px" },
+                    fontSize: { sm: "8px", md: "12px" },
                     padding: {
                       xs: "1px 1px",
                       sm: "6px 12px",
-                      md: "10px 20px",
                     },
                     ...(selectedButton === "profile"
                       ? selectedButtonStyle
@@ -278,11 +268,10 @@ const Profile = () => {
                 <Button
                   variant="outlined"
                   sx={{
-                    fontSize: { xs: "10px", sm: "12px", md: "16px" },
+                    fontSize: { sm: "8px", md: "12px" },
                     padding: {
                       xs: "1px 1px",
                       sm: "6px 12px",
-                      md: "10px 20px",
                     },
                     ...(selectedButton === "subscription"
                       ? selectedButtonStyle
@@ -295,11 +284,10 @@ const Profile = () => {
                 <Button
                   variant="outlined"
                   sx={{
-                    fontSize: { xs: "10px", sm: "12px", md: "16px" },
+                    fontSize: { sm: "8px", md: "12px" },
                     padding: {
                       xs: "4px 8px", // Smaller padding for mobile
                       sm: "6px 12px",
-                      md: "10px 20px",
                     },
                     ...(selectedButton === "paymenthistory"
                       ? selectedButtonStyle
@@ -312,7 +300,7 @@ const Profile = () => {
                 <Button
                   variant="outlined"
                   sx={{
-                    fontSize: { xs: "10px", sm: "12px", md: "16px" },
+                    fontSize: { sm: "8px", md: "12px" },
                     padding: {
                       xs: "4px 8px", // Smaller padding for mobile
                       sm: "6px 12px",

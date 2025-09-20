@@ -1,28 +1,45 @@
-"use client"
+"use client";
 
-import React, { useState, useEffect } from "react"
-import { useNavigate } from "react-router-dom"
-import dayjs from "dayjs"
-import RequestHandler from "../../../utils/RequestHandler"
-import toast from "react-hot-toast"
-import { State, City } from 'country-state-city'
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import dayjs from "dayjs";
+import RequestHandler from "../../../utils/RequestHandler";
+import toast from "react-hot-toast";
+import { State, City } from "country-state-city";
 
 // Material UI components
-import {TextField,Button,Grid,Typography,Paper,Box,InputAdornment,CircularProgress,Alert,Divider,IconButton,MenuItem,Autocomplete} from "@mui/material"
-import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker"
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider"
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs"
-import { CalendarMonth, Title, Link as LinkIcon, LocationOn, Description, Image as ImageIcon, Home, Map, Public, Code, Close } from "@mui/icons-material"
+import {
+  TextField,
+  Button,
+  Grid,
+  Typography,
+  Paper,
+  Box,
+  InputAdornment,
+  CircularProgress,
+  Alert,
+  Divider,
+  IconButton,
+  MenuItem,
+  Autocomplete,
+} from "@mui/material";
+import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import {CalendarMonth,Title,Link as LinkIcon,LocationOn,Description,Image as ImageIcon,Home,Map,Public,Code,Close } from "@mui/icons-material";
 
-const API_URL = process.env.REACT_APP_API_URL?.replace(/\/$/, '') || 'https://api.ummaticommunity.com';
+const API_URL =
+  process.env.REACT_APP_API_URL?.replace(/\/$/, "") || "https://api.ummaticommunity.com";
 
 // Helper function to generate event ID
 const generateEventId = () => {
   const date = new Date();
   const year = date.getFullYear();
-  const month = String(date.getMonth() + 1).padStart(2, '0');
-  const day = String(date.getDate()).padStart(2, '0');
-  const random = Math.floor(Math.random() * 1000).toString().padStart(3, '0');
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
+  const random = Math.floor(Math.random() * 1000)
+    .toString()
+    .padStart(3, "0");
   return `EVT-${year}${month}${day}-${random}`;
 };
 
@@ -131,6 +148,7 @@ const US_CITIES = {
 
 const AddEventForm = ({ eventTypes, cities: propCities, states }) => {
   const navigate = useNavigate()
+  const [uploadProgress, setUploadProgress] = useState(0)
   const [submitting, setSubmitting] = useState(false)
   const [error, setError] = useState("")
   const [imagePreview, setImagePreview] = useState(null)
@@ -192,7 +210,7 @@ const AddEventForm = ({ eventTypes, cities: propCities, states }) => {
   // Update eventType when eventTypes prop changes
   useEffect(() => {
     if (eventTypes?.length > 0 && !formData.eventType) {
-      setFormData(prev => ({
+      setFormData((prev) => ({
         ...prev,
         eventType: eventTypes[0].id
       }));
@@ -229,67 +247,55 @@ const AddEventForm = ({ eventTypes, cities: propCities, states }) => {
     const file = e.target.files[0];
     if (!file) return;
 
+    // Validate file type
+    const allowedTypes = ["image/jpeg", "image/jpg", "image/png"];
+    if (!allowedTypes.includes(file.type)) {
+      const msg = "Please upload a valid image file (JPG, JPEG, or PNG).";
+      setError(msg);
+      toast.error(msg, { duration: 5000, position: "top-center" });
+      e.target.value = "";
+      return;
+    }
+
+    // Validate file size (10MB limit)
+    const maxSize = 10 * 1024 * 1024; // 10MB
+    if (file.size > maxSize) {
+      const errorMessage = `Image size (${(file.size / (1024 * 1024)).toFixed(
+        1
+      )}MB) exceeds the 10MB limit. Please resize your image before uploading.`;
+      setError(errorMessage);
+      toast.error(errorMessage, { duration: 5000, position: "top-center" });
+      e.target.value = "";
+      return;
+    }
+
+    setError("");
     setUploadingImage(true);
 
-    try {
-      // Validate file type
-      const validTypes = ['image/jpeg', 'image/png', 'image/gif'];
-      if (!validTypes.includes(file.type)) {
-        toast.error('Please upload a valid image file (JPEG, PNG, or GIF)');
-        return;
+    // Simulate upload progress
+    const reader = new FileReader();
+    reader.onloadstart = () => setUploadProgress(0);
+    reader.onprogress = (event) => {
+      if (event.lengthComputable) {
+        const progress = Math.round((event.loaded / event.total) * 100);
+        setUploadProgress(progress);
       }
-
-      // Validate file size (2MB limit)
-      const maxSize = 2 * 1024 * 1024; // 2MB in bytes
-      if (file.size > maxSize) {
-        const errorMessage = `Image size (${(file.size / (1024 * 1024)).toFixed(1)}MB) exceeds the 2MB limit. Please resize your image before uploading.`;
-        // Show error in the form
-        setError(errorMessage);
-        // Show toast notification
-        toast.error(errorMessage, {
-          duration: 5000, // Show for 5 seconds
-          position: 'top-center',
-          style: {
-            background: '#ff4444',
-            color: '#fff',
-            fontSize: '16px',
-            padding: '16px',
-          },
-        });
-        // Clear the file input
-        e.target.value = '';
-        return;
-      }
-
-      // Clear any previous errors
-      setError("");
-      
-      // Show preview
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setImagePreview(reader.result);
-      };
-      reader.readAsDataURL(file);
-
-      // Store the original file
+    };
+    reader.onloadend = () => {
+      setImagePreview(reader.result);
       setSelectedImage(file);
-      toast.success('Image selected successfully');
-    } catch (error) {
-      console.error('Image processing error:', error);
-      toast.error('Error processing image');
-      setImagePreview(null);
-      setSelectedImage(null);
-    } finally {
       setUploadingImage(false);
-    }
+      setUploadProgress(100);
+    };
+    reader.readAsDataURL(file);
   };
 
   const removeImage = () => {
     setImagePreview(null);
     setSelectedImage(null);
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      imageUrl: ""
+      imageUrl: "",
     }));
   };
 
@@ -299,9 +305,10 @@ const AddEventForm = ({ eventTypes, cities: propCities, states }) => {
     setError("");
 
     try {
-      const token = localStorage.getItem('userToken');
+      const token = localStorage.getItem("userToken");
       if (!token) {
-        throw new Error('Please log in to create event');
+        setError("You must be logged in to create an event.");
+        return;
       }
 
       // Prepare the data
@@ -310,62 +317,86 @@ const AddEventForm = ({ eventTypes, cities: propCities, states }) => {
         start: formData.start.toISOString(),
         end: formData.end.toISOString(),
         venue: JSON.stringify(formData.venue),
-        externalUrls: JSON.stringify(formData.externalUrls)
+        externalUrls: JSON.stringify(formData.externalUrls),
       };
 
-      // If there's an image, create FormData
       let finalData = submitData;
-      let headers = { 
+      let headers = {
         Authorization: `Bearer ${token}`,
-        'Content-Type': 'application/json'
+        "Content-Type": "application/json",
       };
 
       if (selectedImage) {
-        const formData = new FormData();
-        // Add the image first
-        formData.append('image', selectedImage, selectedImage.name);
-        
-        // Then add all other fields
+        const formDataObj = new FormData();
+        formDataObj.append("image", selectedImage, selectedImage.name);
         Object.entries(submitData).forEach(([key, value]) => {
           if (value !== null && value !== undefined) {
-            formData.append(key, value);
+            formDataObj.append(key, value);
           }
         });
-
-        finalData = formData;
-        // Remove Content-Type header to let browser set it with boundary
-        headers = { 
-          Authorization: `Bearer ${token}`
-        };
+        finalData = formDataObj;
+        headers = { Authorization: `Bearer ${token}` }; // browser sets content-type with boundary
       }
-
-      console.log('Submitting event data:', {
-        data: finalData,
-        headers: {
-          ...headers,
-          Authorization: 'Bearer [REDACTED]'
-        }
-      });
 
       const response = await RequestHandler(
         `${API_URL}/admin/events`,
-        'POST',
+        "POST",
         finalData,
         headers
       );
 
-      console.log('Event creation response:', response);
-
       if (response?.success) {
-        toast.success('Event created successfully');
-        navigate('/dashboard/event-management');
+        toast.success("Event created successfully");
+        navigate("/dashboard/event-management");
+      } else if (response?.statusCode) {
+        // Display server error based on status code
+        switch (response.statusCode) {
+          case 400:
+            setError("Bad Request: Please check the data you entered.");
+            break;
+          case 401:
+            setError("Unauthorized: Please log in again.");
+            break;
+          case 403:
+            setError("Forbidden: You do not have permission to create events.");
+            break;
+          case 409:
+            setError(
+              "Conflict: Event with the same ID or name already exists."
+            );
+            break;
+          case 500:
+          default:
+            setError("Server error: Please try again later.");
+        }
       } else {
-        throw new Error(response?.message || 'Failed to create event');
+        setError(response?.message || "Failed to create event.");
       }
-    } catch (error) {
-      console.error('Error creating event:', error);
-      setError(error.message || 'Error creating event');
-      toast.error(error.message || 'Error creating event');
+    } catch (err) {
+      console.error("Error creating event:", err);
+      if (err.response?.status) {
+        switch (err.response.status) {
+          case 400:
+            setError("Bad Request: Please check the data you entered.");
+            break;
+          case 401:
+            setError("Unauthorized: Please log in again.");
+            break;
+          case 403:
+            setError("Forbidden: You do not have permission to create events.");
+            break;
+          case 409:
+            setError(
+              "Conflict: Event with the same ID or name already exists."
+            );
+            break;
+          case 500:
+          default:
+            setError("Server error: Please try again later.");
+        }
+      } else {
+        setError(err.message || "An unexpected error occurred.");
+      }
     } finally {
       setSubmitting(false);
     }
@@ -388,9 +419,11 @@ const AddEventForm = ({ eventTypes, cities: propCities, states }) => {
         <Grid container spacing={3}>
           {/* Basic Event Information */}
           <Grid item xs={12}>
-            <Typography variant="subtitle1" sx={{ mb: 2 }}>Basic Information</Typography>
+            <Typography variant="subtitle1" sx={{ mb: 2 }}>
+              Basic Information
+            </Typography>
           </Grid>
-          
+
           <Grid item xs={12} sm={6}>
             <TextField
               fullWidth
@@ -400,17 +433,17 @@ const AddEventForm = ({ eventTypes, cities: propCities, states }) => {
               onChange={handleChange}
               required
               InputProps={{
-                      startAdornment: (
-                        <InputAdornment position="start">
+                startAdornment: (
+                  <InputAdornment position="start">
                     <Code />
-                        </InputAdornment>
-                      ),
-                }}
-              />
+                  </InputAdornment>
+                ),
+              }}
+            />
           </Grid>
 
           <Grid item xs={12} sm={6}>
-             <TextField
+            <TextField
               fullWidth
               label="Event Name"
               name="name"
@@ -452,7 +485,7 @@ const AddEventForm = ({ eventTypes, cities: propCities, states }) => {
               <DateTimePicker
                 label="Start Date & Time"
                 value={formData.start}
-                onChange={handleDateChange('start')}
+                onChange={handleDateChange("start")}
                 renderInput={(params) => (
                   <TextField
                     {...params}
@@ -476,7 +509,7 @@ const AddEventForm = ({ eventTypes, cities: propCities, states }) => {
               <DateTimePicker
                 label="End Date & Time"
                 value={formData.end}
-                onChange={handleDateChange('end')}
+                onChange={handleDateChange("end")}
                 renderInput={(params) => (
                   <TextField
                     {...params}
@@ -514,23 +547,35 @@ const AddEventForm = ({ eventTypes, cities: propCities, states }) => {
                 />
                 <input
                   accept="image/jpeg,image/png,image/gif"
-                  style={{ display: 'none' }}
+                  style={{ display: "none" }}
                   id="image-upload"
                   type="file"
                   onChange={handleImageChange}
                 />
                 <label htmlFor="image-upload">
                   <Button
-              variant="outlined"
+                    variant="outlined"
                     component="span"
                     disabled={uploadingImage}
-                    startIcon={uploadingImage ? <CircularProgress size={20} /> : <ImageIcon />}
+                    startIcon={
+                      uploadingImage ? (
+                        <CircularProgress
+                          size={20}
+                          variant="determinate"
+                          value={uploadProgress}
+                        />
+                      ) : (
+                        <ImageIcon />
+                      )
+                    }
                   >
-                    {uploadingImage ? 'Uploading...' : 'Select Image'}
+                    {uploadingImage
+                      ? `Uploading ${uploadProgress}%`
+                      : "Select Image"}
                   </Button>
                 </label>
               </div>
-              
+
               {(imagePreview || formData.imageUrl) && (
                 <div className="relative w-full max-w-md">
                   <img
@@ -541,7 +586,7 @@ const AddEventForm = ({ eventTypes, cities: propCities, states }) => {
                   <IconButton
                     onClick={removeImage}
                     className="absolute top-2 right-2 bg-white/80 hover:bg-white"
-              size="small"
+                    size="small"
                   >
                     <Close />
                   </IconButton>
@@ -553,7 +598,9 @@ const AddEventForm = ({ eventTypes, cities: propCities, states }) => {
           {/* Venue Information */}
           <Grid item xs={12}>
             <Divider sx={{ my: 2 }} />
-            <Typography variant="subtitle1" sx={{ mb: 2 }}>Venue Information</Typography>
+            <Typography variant="subtitle1" sx={{ mb: 2 }}>
+              Venue Information
+            </Typography>
           </Grid>
 
           <Grid item xs={12}>
@@ -637,15 +684,21 @@ const AddEventForm = ({ eventTypes, cities: propCities, states }) => {
               fullWidth
               options={filteredCities}
               getOptionLabel={(option) => option.name}
-              value={filteredCities.find(city => city.name === formData.venue.city) || null}
+              value={
+                filteredCities.find(
+                  (city) => city.name === formData.venue.city
+                ) || null
+              }
               onChange={(event, newValue) => {
-                setFormData(prev => ({
+                setFormData((prev) => ({
                   ...prev,
                   venue: {
                     ...prev.venue,
                     city: newValue ? newValue.name : "",
-                    postalCode: newValue ? newValue.zipcode : prev.venue.postalCode
-                  }
+                    postalCode: newValue
+                      ? newValue.zipcode
+                      : prev.venue.postalCode,
+                  },
                 }));
               }}
               disabled={!formData.venue.state}
@@ -677,7 +730,9 @@ const AddEventForm = ({ eventTypes, cities: propCities, states }) => {
                   </Box>
                 </li>
               )}
-              isOptionEqualToValue={(option, value) => option.name === value.name}
+              isOptionEqualToValue={(option, value) =>
+                option.name === value.name
+              }
               noOptionsText="No cities found"
               loadingText="Loading cities..."
             />
@@ -703,7 +758,9 @@ const AddEventForm = ({ eventTypes, cities: propCities, states }) => {
           {/* External URLs */}
           <Grid item xs={12}>
             <Divider sx={{ my: 2 }} />
-            <Typography variant="subtitle1" sx={{ mb: 2 }}>External URLs</Typography>
+            <Typography variant="subtitle1" sx={{ mb: 2 }}>
+              External URLs
+            </Typography>
           </Grid>
 
           <Grid item xs={12} sm={6}>
@@ -800,27 +857,27 @@ const AddEventForm = ({ eventTypes, cities: propCities, states }) => {
           </Grid>
 
           <Grid item xs={12}>
-            <Box sx={{ display: 'flex', gap: 2, justifyContent: 'flex-end' }}>
+            <Box sx={{ display: "flex", gap: 2, justifyContent: "flex-end" }}>
               <Button
                 variant="outlined"
-                onClick={() => navigate('/dashboard/event-management')}
+                onClick={() => navigate("/dashboard/event-management")}
               >
                 Cancel
               </Button>
-            <Button
-              type="submit"
-              variant="contained"
+              <Button
+                type="submit"
+                variant="contained"
                 disabled={submitting}
                 startIcon={submitting ? <CircularProgress size={20} /> : null}
-            >
-                {submitting ? 'Creating...' : 'Create Event'}
-            </Button>
+              >
+                {submitting ? "Creating..." : "Create Event"}
+              </Button>
             </Box>
           </Grid>
         </Grid>
       </form>
     </Box>
-  )
-}
+  );
+};
 
-export default AddEventForm
+export default AddEventForm;

@@ -238,12 +238,12 @@ const ProfileView = ({ userData, updateUserState }) => {
     backgroundColor: "#78B27B",
     color: "white",
     fontWeight: 700,
-    fontSize: "20px",
+    fontSize: "12px",
     lineHeight: "25px",
     fontFamily: "Quicksand",
     textTransform: "none",
     borderRadius: "10px",
-    width: "200px",
+    width: "130px",
     height: "37px",
     alignItems: "center",
   };
@@ -272,7 +272,7 @@ const ProfileView = ({ userData, updateUserState }) => {
       sx={{
         color: "#5A4283",
         fontWeight: 600,
-        fontSize: { xs: "16px", md: "24px" },
+        fontSize: { md: "18px" },
         lineHeight: "100%",
         fontFamily: "Quicksand",
         paddingLeft: {lg : 5},
@@ -428,7 +428,7 @@ const ProfileView = ({ userData, updateUserState }) => {
       <Box component="form" sx={{ width: "100%", maxWidth: "100%" , px: {lg : 6},py: 2}}>
         <Typography
           sx={{
-            fontSize: { xs: "16px", md: "24px" },
+            fontSize: {  md: "18px" },
             color: "#5A4283",
             fontWeight: 600,
             lineHeight: "100%",
@@ -464,7 +464,7 @@ const ProfileView = ({ userData, updateUserState }) => {
             <TextField
               variant="outlined"
               fullWidth
-              size="large"
+              size="small"
               name="firstName"
               value={userDetails.firstName}
               onChange={handleChange}
@@ -495,7 +495,7 @@ const ProfileView = ({ userData, updateUserState }) => {
             <TextField
               variant="outlined"
               fullWidth
-              size="large"
+              size="small"
               name="lastName"
               value={userDetails.lastName}
               onChange={handleChange}
@@ -536,7 +536,7 @@ const ProfileView = ({ userData, updateUserState }) => {
             <TextField
               variant="outlined"
               fullWidth
-              size="large"
+              size="small"
               name="phoneNumber"
               onChange={handleChange}
               value={userDetails?.phoneNumber}
@@ -570,7 +570,7 @@ const ProfileView = ({ userData, updateUserState }) => {
               value={userDetails?.email}
               // onChange={handleChange}
               disabled={true}
-              size="large"
+              size="small"
               type="email"
               name="email"
               placeholder="jondoe@gmail.com"
@@ -607,7 +607,7 @@ const ProfileView = ({ userData, updateUserState }) => {
           <TextField
             variant="outlined"
             fullWidth
-            size="large"
+            size="small"
             name="streetAddress"
             value={userDetails?.streetAddress}
             onChange={handleChange}
@@ -640,7 +640,7 @@ const ProfileView = ({ userData, updateUserState }) => {
             <TextField
               variant="outlined"
               fullWidth
-              size="large"
+              size="small"
               onChange={handleChange}
               value={userDetails?.city}
               disabled={!isEditing}
@@ -671,7 +671,7 @@ const ProfileView = ({ userData, updateUserState }) => {
             <TextField
               variant="outlined"
               fullWidth
-              size="large"
+              size="small"
               value={userDetails?.state}
               onChange={handleChange}
               disabled={!isEditing}
@@ -705,7 +705,7 @@ const ProfileView = ({ userData, updateUserState }) => {
             <TextField
               variant="outlined"
               fullWidth
-              size="large"
+              size="small"
               select
               value={userDetails?.country}
               color="#11111166"
@@ -735,7 +735,7 @@ const ProfileView = ({ userData, updateUserState }) => {
             <TextField
               variant="outlined"
               fullWidth
-              size="large"
+              size="small"
               value={userDetails?.postalCode}
               onChange={handleChange}
               disabled={!isEditing}

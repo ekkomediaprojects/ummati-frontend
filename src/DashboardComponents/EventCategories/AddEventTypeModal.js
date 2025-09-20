@@ -3,11 +3,7 @@ import { Dialog, Transition } from "@headlessui/react";
 import axios from "axios";
 import { FormEvent, Fragment, SetStateAction, useRef, useState } from "react";
 
-const AddEventTypeModal = ({
-  isOpen,
-  setIsOpen,
-  refreshEventTypeList,
-}) => {
+const AddEventTypeModal = ({ isOpen, setIsOpen, refreshEventTypeList }) => {
   const cancelButtonRef = useRef(null);
   const [catname, setCatname] = useState("");
 
@@ -81,25 +77,43 @@ const AddEventTypeModal = ({
               <Dialog.Panel className="relative transform overflow-hidden rounded-2xl bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
                 <div className="bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
                   <div className="flex flex-col w-full pt-4">
-                    <div>Add Event Category</div>
+                    <div className="text-lg font-semibold">
+                      Add Event Category
+                    </div>
                     <hr className="mt-1" />
-                    <form action="" onSubmit={handleSubmit} className="mt-2">
-                      <label htmlFor="fname">Category Name</label>
-                      <input
-                        type="text"
-                        name="cname"
-                        id="cname"
-                        required
-                        value={catname}
-                        onChange={(e) => setCatname(e.currentTarget.value)}
-                      />
-                      {error != "" && (
-                        <div className="text-red-600">{error}</div>
-                      )}
-                      <div className="w-full">
+
+                    <form
+                      action=""
+                      onSubmit={handleSubmit}
+                      className="mt-2 space-y-3"
+                    >
+                      <div className="flex flex-col">
+                        <label
+                          htmlFor="cname"
+                          className="mb-1 text-sm font-medium text-gray-700"
+                        >
+                          Category Name
+                        </label>
+                        <input
+                          type="text"
+                          name="cname"
+                          id="cname"
+                          required
+                          value={catname}
+                          onChange={(e) => setCatname(e.currentTarget.value)}
+                          className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                        />
+                        {error && (
+                          <div className="mt-1 text-sm text-red-600">
+                            {error}
+                          </div>
+                        )}
+                      </div>
+
+                      <div className="w-full flex justify-end">
                         <Button
                           type="submit"
-                          className="ml-auto mt-1 rounded-full"
+                          className="rounded-full px-4 py-2 bg-indigo-600 text-white hover:bg-indigo-700 transition"
                         >
                           Add
                         </Button>
