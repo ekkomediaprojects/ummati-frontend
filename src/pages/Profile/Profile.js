@@ -195,14 +195,6 @@ const Profile = () => {
               </Box>
             )}
 
-            {/* Divider */}
-            <Box sx={{ border: "1px solid #FFFFFF3D", my: 2 }} />
-
-            {/* QR Code */}
-            <Box>
-              <QRCodeGenerator />
-            </Box>
-
             {/* Member ID */}
             <Box>
               <Typography
@@ -216,6 +208,13 @@ const Profile = () => {
               >
                 Member ID: {userData?.membershipTier || "N/A"}
               </Typography>
+            </Box>
+            {/* Divider */}
+            <Box sx={{ border: "1px solid #FFFFFF3D", my: 2 }} />
+
+            {/* QR Code */}
+            <Box>
+              <QRCodeGenerator />
             </Box>
           </Box>
 

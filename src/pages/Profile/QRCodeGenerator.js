@@ -104,7 +104,6 @@ const QRCodeGenerator = ({ size = 200 }) => {
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
-              mb: 0.5,
             }}
           >
             {qrData?.qrCodeImage ? (
@@ -120,7 +119,7 @@ const QRCodeGenerator = ({ size = 200 }) => {
           <Typography variant="caption" color="text.secondary">
             Expires in: {formatTime(timeLeft)}
           </Typography>
-          <Box sx={{ display: "flex", gap: 1, mt: 0.5 }}>
+          <Box sx={{ display: "flex", gap: 1 }}>
             <Button
               size="small"
               variant="text"

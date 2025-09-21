@@ -20,7 +20,7 @@ const ProfileView = ({ userData, updateUserState }) => {
   const [errors, setErrors] = useState({});
   const [isEditing, setIsEditing] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [uploading, setUploading] = useState(false);
+  const [uploading, setUploading] = useState(false); // uploading state
 
   const token = localStorage.getItem("userToken");
 
@@ -68,11 +68,11 @@ const ProfileView = ({ userData, updateUserState }) => {
     const file = e.target.files?.[0];
     if (!file) return;
 
+    setUploading(true); // start circle
     const formData = new FormData();
     formData.append("image", file);
 
     try {
-      setUploading(true);
       const uploadUrl = `${process.env.REACT_APP_API_URL}auth/upload-image`;
       const uploadRes = await RequestHandler(
         uploadUrl,
@@ -112,7 +112,7 @@ const ProfileView = ({ userData, updateUserState }) => {
       toast.error("Image upload failed");
       console.error(error);
     } finally {
-      setUploading(false);
+      setUploading(false); // stop circle
     }
   };
 
@@ -218,36 +218,41 @@ const ProfileView = ({ userData, updateUserState }) => {
       {/* Profile Picture */}
       <Box display="flex" flexDirection="column" alignItems="center" mb={4}>
         <Box sx={{ position: "relative", display: "inline-block" }}>
-          <Avatar
-            src={`${profilePicture}?t=${Date.now()}`}
-            sx={{
-              width: 150,
-              height: 150,
-              border: "3px solid #C4BAA2",
-              cursor: isEditing ? "pointer" : "default",
-              "&:hover": isEditing ? { opacity: 0.8 } : {},
-            }}
-          />
+          <label htmlFor="upload-photo">
+            <Avatar
+              src={`${profilePicture}?t=${Date.now()}`}
+              sx={{
+                width: 150,
+                height: 150,
+                border: "3px solid #C4BAA2",
+                cursor: isEditing ? "pointer" : "default",
+                "&:hover": isEditing ? { opacity: 0.8 } : {},
+              }}
+            />
+            {isEditing && (
+              <input
+                type="file"
+                id="upload-photo"
+                accept="image/*"
+                hidden
+                onChange={handleFileChange}
+              />
+            )}
+          </label>
+
+          {/* Uploading Circle */}
           {uploading && (
             <CircularProgress
               size={160}
-              thickness={3}
               sx={{
-                color: "#78B27B",
+                color: "#5A4283",
                 position: "absolute",
                 top: "50%",
                 left: "50%",
-                transform: "translate(-50%, -50%)",
+                marginTop: "-80px",
+                marginLeft: "-80px",
+                zIndex: 1,
               }}
-            />
-          )}
-          {isEditing && (
-            <input
-              type="file"
-              id="upload-photo"
-              accept="image/*"
-              hidden
-              onChange={handleFileChange}
             />
           )}
         </Box>
