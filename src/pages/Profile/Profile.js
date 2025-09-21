@@ -37,7 +37,6 @@ const Profile = () => {
       let token = localStorage.getItem("userToken");
       if (token) {
         const url = `${process.env.REACT_APP_API_URL}auth/profile`;
-        // const url = `http://localhost:5002/auth/profile`;
         try {
           const res = await RequestHandler(
             url,
@@ -47,7 +46,6 @@ const Profile = () => {
           );
           if (res?.success) {
             if (res?.data?.user) {
-              console.log("res?.data?.user", res?.data?.user);
               setUserData(res?.data?.user);
               return;
             }
@@ -59,43 +57,36 @@ const Profile = () => {
         }
       }
     };
-
     fetchUserInfo();
   }, []);
   const updateUserState = (updated) => {
     setUserData(updated);
   };
-  let infoStyle = {
-    fontFamily: "Poppins",
-    fontWeight: 500,
-    fontSize: { xs: "16px", xl: "20px" },
-    lineHeight: { xs: "24px", xl: "30px" },
-    textAlign: { xs: "center", md: "left" },
-    color: "#FFFFFF99",
-  };
 
-  // Common button style
-  const buttonsNav = {
-    marginRight: "10px",
-    padding: { xs: "4px", md: "12px" },
-    borderRadius: "70px",
-    fontSize: { xs: "12px", md: "16px" },
-    width: { xm: "150px", md: "170px" },
+  // Shared button styles
+  const baseButtonStyle = {
     fontFamily: "Poppins",
     lineHeight: "20px",
     fontWeight: 500,
     textTransform: "none",
     cursor: "pointer",
+    fontSize: { xs: "12px", sm: "13px", md: "14px" },
+    padding: {
+      xs: "8px 12px", // bigger touch area on mobile
+      sm: "6px 12px",
+      md: "6px 14px",
+    },
+    width: { xs: "100%", sm: "auto" }, // full width on phones
+    borderRadius: "30px",
   };
+
   const selectedButtonStyle = {
-    ...buttonsNav,
     backgroundColor: "#D9F4DA",
     color: "#4D744F",
     border: "1px solid #4D744F",
   };
 
   const unselectedButtonStyle = {
-    ...buttonsNav,
     backgroundColor: "#F7F5EF",
     color: "#C4BAA2",
     border: "1px solid #C4BAA2",
@@ -133,6 +124,7 @@ const Profile = () => {
             gap: "20px",
           }}
         >
+          {/* Sidebar */}
           <Box
             sx={{
               width: { xs: "100%", md: "28%" },
@@ -222,15 +214,16 @@ const Profile = () => {
                   color: "#FFFFFF99",
                 }}
               >
-                Member ID: {userData?.memberId || "N/A"}
+                Member ID: {userData?.membershipTier || "N/A"}
               </Typography>
             </Box>
           </Box>
 
+          {/* Right Section */}
           <Box
             sx={{
               width: { xs: "100%", md: "72%" },
-              height: { xs: "auto", md: "820px" },
+              height: { xs: "auto", md: "720px" },
               marginBottom: { xs: "16px", md: "0" },
               borderRadius: "12px",
               padding: "16px",
@@ -240,91 +233,46 @@ const Profile = () => {
               zIndex: 1,
             }}
           >
+            {/* Navigation Buttons */}
             <Box
               sx={{
                 display: "flex",
-                flexDirection: "row",
-                gap: "16px",
+                flexDirection: { xs: "column", sm: "row" }, // stack on mobile, row on bigger
+                gap: "8px",
                 alignItems: "center",
+                justifyContent: { xs: "center", md: "flex-start" },
+                width: "100%",
               }}
             >
-              <div>
+              {[
+                { label: "Profile", value: "profile" },
+                { label: "Subscription", value: "subscription" },
+                { label: "Payment History", value: "paymenthistory" },
+                { label: "Settings", value: "settings" },
+              ].map((btn) => (
                 <Button
+                  key={btn.value}
                   variant="outlined"
                   sx={{
-                    fontSize: { sm: "8px", md: "12px" },
-                    padding: {
-                      xs: "1px 1px",
-                      sm: "6px 12px",
-                    },
-                    ...(selectedButton === "profile"
+                    ...baseButtonStyle,
+                    ...(selectedButton === btn.value
                       ? selectedButtonStyle
                       : unselectedButtonStyle),
                   }}
-                  onClick={() => handleButtonClick("profile")}
+                  onClick={() => handleButtonClick(btn.value)}
                 >
-                  Profile
+                  {btn.label}
                 </Button>
-                <Button
-                  variant="outlined"
-                  sx={{
-                    fontSize: { sm: "8px", md: "12px" },
-                    padding: {
-                      xs: "1px 1px",
-                      sm: "6px 12px",
-                    },
-                    ...(selectedButton === "subscription"
-                      ? selectedButtonStyle
-                      : unselectedButtonStyle),
-                  }}
-                  onClick={() => handleButtonClick("subscription")}
-                >
-                  Subscription
-                </Button>
-                <Button
-                  variant="outlined"
-                  sx={{
-                    fontSize: { sm: "8px", md: "12px" },
-                    padding: {
-                      xs: "4px 8px", // Smaller padding for mobile
-                      sm: "6px 12px",
-                    },
-                    ...(selectedButton === "paymenthistory"
-                      ? selectedButtonStyle
-                      : unselectedButtonStyle),
-                  }}
-                  onClick={() => handleButtonClick("paymenthistory")}
-                >
-                  Payment History
-                </Button>
-                <Button
-                  variant="outlined"
-                  sx={{
-                    fontSize: { sm: "8px", md: "12px" },
-                    padding: {
-                      xs: "4px 8px", // Smaller padding for mobile
-                      sm: "6px 12px",
-                      md: "10px 20px",
-                    },
-                    ...(selectedButton === "settings"
-                      ? selectedButtonStyle
-                      : unselectedButtonStyle),
-                  }}
-                  onClick={() => handleButtonClick("settings")}
-                >
-                  Settings
-                </Button>
-              </div>
+              ))}
             </Box>
 
-            {/* Second Box */}
+            {/* Content Section */}
             <Box
               sx={{
                 display: "flex",
-                height: { xs: "auto", md: "1400px" },
+                height: { xs: "auto", md: "1200px" },
                 flexDirection: "column",
                 alignItems: "center",
-                padding: "16px",
                 backgroundColor: "white",
                 borderRadius: "8px",
               }}
@@ -345,18 +293,20 @@ const Profile = () => {
           <Toaster position="bottom-right" reverseOrder={true} />
         </Box>
       </Box>
+
+      {/* Spacer to prevent footer overlap */}
       <Box
         sx={{
-          padding: "20px",
+          padding: "2px",
           height: {
             xs:
-              selectedButton === "profile" || selectedButton === "subscription"
-                ? "2300px"
+              selectedButton === "subscription"
+                ? "2000px"
                 : selectedButton === "settings"
-                ? "1250px"
-                : "1450px",
+                ? "1050px"
+                : "1500px",
             md: "1400px",
-            lg: "900px",
+            lg: "700px",
           },
         }}
       ></Box>

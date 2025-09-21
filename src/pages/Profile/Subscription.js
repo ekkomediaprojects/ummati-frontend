@@ -204,9 +204,9 @@ const Subscription = () => {
             {/* Free Membership Box */}
             <Box
               sx={{
-                width: { xs: "100%", sm: "355px", md: "360px" },
+                width: { xs: "100%", sm: "355px" },
                 backgroundColor: "white",
-                height: { xs: "auto", sm: "426px" },
+                height: { xs: "auto", sm: "350px" },
                 p: 2,
                 borderRadius: "8px",
                 border: "2px solid #78B27B",
@@ -221,7 +221,7 @@ const Subscription = () => {
                 sx={{
                   textAlign: "left",
                   color: "#040416",
-                  fontSize: { xs: "36px", sm: "48px" },
+                  fontSize: { xs: "36px" },
                   fontFamily: "Quicksand",
                   fontWeight: "700",
                 }}
@@ -232,7 +232,7 @@ const Subscription = () => {
                 style={{
                   paddingLeft: "24px",
                   color: "#686868",
-                  fontSize: { xs: "16px", sm: "18px" },
+                  fontSize: "16px" ,
                   listStyleType: "disc",
                   fontWeight: "400",
                   fontFamily: "Poppins",
@@ -254,17 +254,14 @@ const Subscription = () => {
                 sx={{
                   backgroundColor:
                     membership === memEndFlag  ? "#D9F4DA" : "#78B27B",
-                  width: { xs: "100%", sm: "312px" },
+                  width: { xs: "100%", sm: "300px" },
                   height: "51px",
                   borderRadius: "8px",
-                  padding: { xs: 0, sm: "12px" },
-                  gap: { xs: 0, sm: "10px" },
-                  marginTop: { xs: 0, lg: "10px" },
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
                   textTransform: "none",
-                  alignSelf: { xs: "center", sm: "flex-start" },
+                  alignSelf: "center"
                 }}
                 onClick={() => {
                   if (membership && !memEndFlag && memTier.length > 0) {
@@ -294,9 +291,9 @@ const Subscription = () => {
             {/* Premium Membership Box */}
             <Box
               sx={{
-                width: { xs: "100%", sm: "355px", md: "360px" },
+                width: { xs: "100%", sm: "355px"},
                 backgroundColor: "white",
-                height: { xs: "auto", sm: "597px" },
+                height: { xs: "auto", sm: "480px" },
                 p: 2,
                 borderRadius: "8px",
                 border: "2px solid #78B27B",
@@ -310,7 +307,7 @@ const Subscription = () => {
                 sx={{
                   textAlign: "left",
                   color: "#040416",
-                  fontSize: { xs: "36px", sm: "48px" },
+                  fontSize: "36px",
                   fontFamily: "Quicksand",
                   fontWeight: "700",
                 }}

@@ -79,7 +79,7 @@ const PaymentHistory = () => {
         margin: "0 auto",
         display: "flex",
         flexDirection: "column",
-        height: { xm: "auto", md: "800px" },
+        height: { xm: "auto", md: "700px" },
         width: "100%",
         border: "0.89px solid #EBEBEE",
       }}

@@ -1,13 +1,5 @@
 import React from "react";
-import {
-  Box,
-  TextField,
-  Button,
-  MenuItem,
-  Typography,
-  IconButton,
-} from "@mui/material";
-import { PhotoCamera } from "@mui/icons-material";
+import { Box, TextField, Button, Typography } from "@mui/material";
 
 const Settings = () => {
   return (
@@ -20,54 +12,52 @@ const Settings = () => {
         flexDirection: "column",
         justifyContent: "flex-start",
         alignItems: "flex-start",
-        padding: { md: "30px" },
+        padding: { xs: "30px" },
       }}
     >
+      {/* Title */}
       <Box
         sx={{
           width: "100%",
-          bgcolor: "white",
           display: "flex",
           flexDirection: "row",
           justifyContent: "space-between",
           alignItems: "center",
+          mb: 2,
         }}
       >
         <Typography
           sx={{
             color: "#5A4283",
             fontWeight: 600,
-            fontSize: { xs: "16px", md: "24px" },
-            lineHeight: "30px",
+            fontSize: { xs: "14px", md: "20px" },
+            lineHeight: "24px",
+            fontFamily: "Poppins",
           }}
         >
           Change Password
         </Typography>
       </Box>
-      <Box
-        component="form"
-        sx={{
-          width: "100%",
-          maxWidth: "100%",
-        }}
-      >
+
+      {/* Form */}
+      <Box component="form" sx={{ width: "100%", maxWidth: "100%" }}>
+        {/* Current Password */}
         <Box
           sx={{
             display: "flex",
             flexDirection: "column",
-            width: { xm: "100px", md: "50%" },
+            width: { xs: "100%", md: "50%" },
             mt: 2,
           }}
         >
           <Typography
-            variant="subtitle2"
             sx={{
               color: "#646464",
-              mb: 1,
+              mb: 0.5,
               fontFamily: "Poppins",
               fontWeight: 600,
-              fontSize: { xs: "12px", md: "18px" },
-              lineHeight: "27px",
+              fontSize: { xs: "11px", md: "14px" },
+              lineHeight: "20px",
             }}
           >
             Current Password
@@ -75,11 +65,32 @@ const Settings = () => {
           <TextField
             variant="outlined"
             fullWidth
-            size="large"
+            size="small"
             placeholder="Current Password"
+            InputProps={{
+              style: {
+                fontFamily: "Poppins",
+                fontSize: "14px",
+              },
+            }}
+            sx={{
+              "& .MuiOutlinedInput-root": {
+                borderRadius: "10px",
+                "& fieldset": {
+                  borderColor: "#C4BAA2", // same border as profile
+                },
+                "&:hover fieldset": {
+                  borderColor: "#5A4283", // hover like profile
+                },
+                "&.Mui-focused fieldset": {
+                  borderColor: "#5A4283", // focus color
+                },
+              },
+            }}
           />
         </Box>
 
+        {/* New + Confirm Password */}
         <Box
           sx={{
             display: "flex",
@@ -89,17 +100,16 @@ const Settings = () => {
             flexDirection: { xs: "column", md: "row" },
           }}
         >
+          {/* New Password */}
           <Box sx={{ display: "flex", flexDirection: "column", width: "100%" }}>
             <Typography
-              variant="subtitle2"
               sx={{
                 color: "#646464",
-                mb: 1,
+                mb: 0.5,
                 fontFamily: "Poppins",
                 fontWeight: 600,
-                fontSize: { xs: "12px", md: "18px" },
-                lineHeight: "27px",
-                placeholder: "New Password",
+                fontSize: { xs: "11px", md: "14px" },
+                lineHeight: "20px",
               }}
             >
               New Password
@@ -107,21 +117,41 @@ const Settings = () => {
             <TextField
               variant="outlined"
               fullWidth
-              size="large"
+              size="small"
               placeholder="New Password"
+              InputProps={{
+                style: {
+                  fontFamily: "Poppins",
+                  fontSize: "14px",
+                },
+              }}
+              sx={{
+                "& .MuiOutlinedInput-root": {
+                  borderRadius: "10px",
+                  "& fieldset": {
+                    borderColor: "#C4BAA2",
+                  },
+                  "&:hover fieldset": {
+                    borderColor: "#5A4283",
+                  },
+                  "&.Mui-focused fieldset": {
+                    borderColor: "#5A4283",
+                  },
+                },
+              }}
             />
           </Box>
+
+          {/* Confirm Password */}
           <Box sx={{ display: "flex", flexDirection: "column", width: "100%" }}>
             <Typography
-              variant="subtitle2"
               sx={{
                 color: "#646464",
-                mb: 1,
+                mb: 0.5,
                 fontFamily: "Poppins",
                 fontWeight: 600,
-                fontSize: { xs: "12px", md: "18px" },
-                lineHeight: "27px",
-                placeholder: "Confirm New Password",
+                fontSize: { xs: "11px", md: "14px" },
+                lineHeight: "20px",
               }}
             >
               Confirm New Password
@@ -129,25 +159,50 @@ const Settings = () => {
             <TextField
               variant="outlined"
               fullWidth
-              size="large"
-              placeholder="Your State"
+              size="small"
+              placeholder="Confirm New Password"
+              InputProps={{
+                style: {
+                  fontFamily: "Poppins",
+                  fontSize: "14px",
+                },
+              }}
+              sx={{
+                "& .MuiOutlinedInput-root": {
+                  borderRadius: "10px",
+                  "& fieldset": {
+                    borderColor: "#C4BAA2",
+                  },
+                  "&:hover fieldset": {
+                    borderColor: "#5A4283",
+                  },
+                  "&.Mui-focused fieldset": {
+                    borderColor: "#5A4283",
+                  },
+                },
+              }}
             />
           </Box>
         </Box>
+
+        {/* Save Button */}
         <Button
           sx={{
-            marginTop: "20px",
+            marginTop: "15px",
             backgroundColor: "#78B27B",
             color: "white",
             fontWeight: 700,
-            fontSize: { xs: "14px", md: "16px", lg: "20px" },
-            lineHeight: { xs: "14px", md: "16px", lg: "20px" },
+            fontSize: { xs: "12px", md: "14px", lg: "16px" },
+            lineHeight: "18px",
             fontFamily: "Quicksand",
             textTransform: "none",
-            borderRadius: "10px",
-            width: { xs: "150px", md: "150px", lg: "200px" },
-            height: { xs: "30px", md: "35px", lg: "37px" },
+            borderRadius: "8px",
+            width: { xs: "120px", md: "140px", lg: "160px" },
+            height: { xs: "28px", md: "32px", lg: "36px" },
             alignItems: "center",
+            "&:hover": {
+              backgroundColor: "#6fa873",
+            },
           }}
         >
           Save Changes
