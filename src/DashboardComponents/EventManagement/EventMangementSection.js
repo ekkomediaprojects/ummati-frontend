@@ -1,9 +1,9 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import { Box, Button, Pagination, TextField } from "@mui/material";
-import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker"
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider"
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs"
+import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { useNavigate } from "react-router-dom";
 import RequestHandler from "../../utils/RequestHandler";
 import toast from "react-hot-toast";
@@ -11,7 +11,19 @@ import EventList from "./EventList";
 import dayjs from "dayjs";
 import { State, City } from "country-state-city";
 import Autocomplete from "@mui/material/Autocomplete";
-import { CalendarMonth, Title, Link as LinkIcon, LocationOn, Description, Image as ImageIcon, Home, Map, Public, Code, Close } from "@mui/icons-material"
+import {
+  CalendarMonth,
+  Title,
+  Link as LinkIcon,
+  LocationOn,
+  Description,
+  Image as ImageIcon,
+  Home,
+  Map,
+  Public,
+  Code,
+  Close,
+} from "@mui/icons-material";
 
 const EventMangementSection = () => {
   const [events, setEvents] = useState([]);
@@ -195,12 +207,7 @@ const EventMangementSection = () => {
             slotProps={{ textField: { size: "small" } }}
             sx={{ width: { xs: "100%", sm: 200 } }}
             renderInput={(params) => (
-              <TextField
-                {...params}
-                fullWidth
-                required
-               
-              />
+              <TextField {...params} fullWidth required />
             )}
           />
         </LocalizationProvider>
@@ -213,29 +220,38 @@ const EventMangementSection = () => {
             slotProps={{ textField: { size: "small" } }}
             sx={{ width: { xs: "100%", sm: 200 } }}
             renderInput={(params) => (
-              <TextField
-                {...params}
-                fullWidth
-                required
-              />
+              <TextField {...params} fullWidth required />
             )}
           />
         </LocalizationProvider>
         {/* Apply & Reset only for Date */}
-        <Button
-          variant="contained"
-          onClick={applyDateFilters}
-          sx={{ width: { xs: "100%", sm: "auto" } }}
-        >
-          Apply Date
-        </Button>
-        <Button
-          variant="outlined"
-          onClick={resetFilters}
-          sx={{ width: { xs: "100%", sm: "auto" } }}
-        >
-          Reset
-        </Button>
+        <Box display="flex" gap={2}>
+          <Button
+            variant="contained"
+            disabled={!from || !to} // ✅ Correct disabled logic
+            onClick={applyDateFilters}
+            sx={{
+              minWidth: 120,
+              borderRadius: "30px",
+              textTransform: "none",
+              fontWeight: 500,
+            }}
+          >
+            Apply Date
+          </Button>
+          <Button
+            variant="outlined"
+            onClick={resetFilters}
+            sx={{
+              minWidth: 120,
+              borderRadius: "30px",
+              textTransform: "none",
+              fontWeight: 500,
+            }}
+          >
+            Reset
+          </Button>
+        </Box>
       </div>
 
       {/* Header */}
