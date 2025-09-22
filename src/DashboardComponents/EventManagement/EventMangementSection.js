@@ -31,8 +31,8 @@ const EventMangementSection = () => {
     to: "",
   });
 
-  const [from, setFrom] = useState(null);
-  const [to, setTo] = useState(null);
+  const [from, setFrom] = useState();
+  const [to, setTo] = useState();
 
   const navigate = useNavigate();
 
@@ -106,8 +106,8 @@ const EventMangementSection = () => {
   const applyDateFilters = () => {
     const newFilters = {
       ...filters,
-      from: from ? dayjs() : "",
-      to: to ? dayjs() : "",
+      from: from ? dayjs(from) : "",
+      to: to ? dayjs(to) : "",
     };
     setFilters(newFilters);
     setCurrentPage(1);
