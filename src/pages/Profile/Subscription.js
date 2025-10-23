@@ -312,7 +312,7 @@ const Subscription = () => {
                   fontWeight: "700",
                 }}
               >
-                <span>$20</span>
+                <span>$25</span>
                 <span
                   style={{
                     color: "#040416",

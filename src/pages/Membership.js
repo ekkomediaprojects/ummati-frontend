@@ -150,7 +150,7 @@ const Membership = () => {
                 fontWeight: "bold",
               }}
             >
-              <span>$20</span>
+              <span>$25</span>
               <span
                 style={{
                   fontSize: "1rem",
