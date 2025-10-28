@@ -198,15 +198,24 @@ const Profile = () => {
             {/* Member ID */}
             <Box>
               <Typography
-                variant="body2"
                 sx={{
                   fontWeight: 500,
-                  fontSize: "14px",
+                  fontSize: "12px",
                   textAlign: "center",
                   color: "#FFFFFF99",
                 }}
               >
-                Member ID: {userData?.membershipTier || "N/A"}
+                Tier ID: {userData?.membershipTier || "N/A"}
+              </Typography>
+              <Typography
+                sx={{
+                  fontWeight: 500,
+                  fontSize: "12px",
+                  textAlign: "center",
+                  color: "#FFFFFF99",
+                }}
+              >
+                Member ID: {userData?.memberId || "N/A"}
               </Typography>
             </Box>
             {/* Divider */}
