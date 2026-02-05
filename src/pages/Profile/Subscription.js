@@ -329,6 +329,9 @@ const Subscription = () => {
                   color: "#686868",
                   fontSize: "16px",
                   fontFamily: "Poppins",
+                  listStyleType: "disc",
+                  fontWeight: "400",
+                  flexGrow: 1,
                 }}
               >
               <li style={{ marginBottom: "1rem" }}>Enjoy unlimited access to all Ummati events with no additional event fees.</li>
