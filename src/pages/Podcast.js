@@ -203,7 +203,6 @@ const Podcast = () => {
                   fontWeight: "400",
                   letterSpacing: "0px",
                   fontSize: { xs: "0.9rem", sm: "1.2rem", md: "22px" },
-                  fontWeight: 400,
                   textAlign: "left",
                 }}
               >
@@ -309,7 +308,12 @@ const Podcast = () => {
 
                    }}
                 >
-                  {episode.title}
+                Episode {episodes.length - index}:{" "}
+                {episode.title
+                  .replace(/interlaced\s*(ep|episode)\s*\d+\s*:\s*/gi, "")
+                  .replace(/\b(ep|episode)\s*\d+\s*:\s*/gi, "")
+                  .trim()}
+
                 </Typography>
                 <Typography
                   variant="body2"
@@ -344,11 +348,12 @@ const Podcast = () => {
             variant="h2"
             sx={{
               fontSize: { xs: "18px", md: "28px" },
-              fontWeight: "700",
+              fontWeight: "500",
               mb: 2,
+              fontFamily: "Poppins",
             }}
           >
-            Listen from the best podcast platform
+            Listen from your preferred podcast platform
           </Typography>
           <Box sx={{ display: "flex", justifyContent: "center", gap: 3 }}>
             <IconButton

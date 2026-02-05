@@ -200,17 +200,14 @@ const About = () => {
                   fontWeight="400"
                   sx={{ lineHeight: 1.6 }}
                 >
-                  Ummati Community was founded by Sara Ahmad and Rabia Fatima.
-                  They both have entrepreneurial background and are well
-                  connected in the Dallas Muslim community. They both
-                  encountered a lack of community for Muslim women between the
-                  ages of 25 - 45. Ummati Community is a place of acceptance,
-                  and we hope to remain a pillar of support for women looking to
-                  build meaningful friendships, be social, or just have a good
-                  time. We value our sense of community and hope to grow
-                  stronger with each other. We strongly believe in inclusivity
-                  and being open and accepting to all. We are one people, one
-                  nation.
+                  Ummati Community was founded by Sara Ahmad and
+                  Rabia Fatima, both of whom bring strong entrepreneurial backgrounds and deep
+                  connections within the Dallas Muslim community. Through their experiences, they
+                  identified a lack of dedicated spaces for Muslim women ages 15+ to connect and build
+                  community. Ummati was created as a welcoming, inclusive space where women can
+                  form meaningful friendships, stay socially engaged, and simply enjoy being together.
+                  Rooted in acceptance and unity, we strive to be a pillar of support and believe that by
+                  growing together, we grow stronger - one community, one people.
                 </Typography>
               )}
             </Box>

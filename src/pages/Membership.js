@@ -117,11 +117,10 @@ const Membership = () => {
               }}
             >
               <li style={{ marginBottom: "1rem" }}>
-                You pay for the events you want to attend.
+                Pay only for the events you want to attend.
               </li>
               <li style={{ marginBottom: "1rem" }}>
-                The ticket price includes all supplies and planning for each
-                event.
+                Your ticket covers all materials, planning, and event details.
               </li>
             </ul>
           </Box>
@@ -168,14 +167,13 @@ const Membership = () => {
                 listStyleType: "disc",
               }}
             >
-              <li style={{ marginBottom: "1rem" }}>You have access to all the events with no event fees.</li>
-              <li style={{ marginBottom: "1rem" }}>
-                Get exclusive discounts on your favorite restaurants, brands,
-                cafes, and more!
-              </li>
-              <li  style={{ marginBottom: "1rem" }}>You have early access to events.</li>
-              <li  style={{ marginBottom: "1rem" }}>You have early access to the travel groups.</li>
-              <li  style={{ marginBottom: "1rem" }}>You will have access to member only events.</li>
+
+
+              <li style={{ marginBottom: "1rem" }}>Enjoy unlimited access to all Ummati events with no additional event fees.</li>
+              <li style={{ marginBottom: "1rem" }}>Get early access to event registration before the public.</li>
+              <li  style={{ marginBottom: "1rem" }}>Receive exclusive discounts at select restaurants, cafés, brands, and more.</li>
+              <li  style={{ marginBottom: "1rem" }}>Be the first to join our travel groups and experiences.</li>
+              <li  style={{ marginBottom: "1rem" }}>Attend members-only events designed exclusively for our community.</li>
             </ul>
             <Button
               variant="contained"

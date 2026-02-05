@@ -4,7 +4,13 @@ import Footer from "../components/Footer";
 import bannerImage from "../assets/images/purpleBanner.png";
 // import { Collapse, Typography, Box } from "@mui/material";
 // import { KeyboardArrowDown, KeyboardArrowUp } from "@mui/icons-material";
-import { Box, Typography, Accordion, AccordionSummary, AccordionDetails } from "@mui/material";
+import {
+  Box,
+  Typography,
+  Accordion,
+  AccordionSummary,
+  AccordionDetails,
+} from "@mui/material";
 import { ArrowDropDownCircleOutlined } from "@mui/icons-material";
 const FAQ = () => {
   const [openIndex, setOpenIndex] = useState(0);
@@ -27,7 +33,7 @@ const FAQ = () => {
     {
       question: "Is there an age range?",
       answer:
-        "Our minimum age requirement is 18 years. Mothers can bring their children to events as long as they take responsibility for supervising them.",
+        "Our minimum age requirement is 15 years. Mothers can bring their children to events as long as they take responsibility for supervising them.",
     },
     {
       question: "What city is Ummati Community based in?",
@@ -41,8 +47,42 @@ const FAQ = () => {
     },
     {
       question: "How do I contact the event planners?",
-      answer:
-        "If you have any questions about events please message us through our Contact Us page on our website or you can DM us directly on our Instagram. ",
+      answer: (
+        <>
+          If you have any questions about events please message us through our Contact Us page on our website or you can DM us directly on our Instagram.
+           {" "}(<a
+            href="https://www.instagram.com/uc.dallas"
+            target="_blank"
+            rel="noreferrer"
+          >
+            uc.dallas
+          </a>{" "}
+          |{" "}
+          <a
+            href="https://www.instagram.com/uc.fortworth"
+            target="_blank"
+            rel="noreferrer"
+          >
+            uc.fortworth
+          </a>{" "}
+          |{" "}
+          <a
+            href="https://www.instagram.com/uc.houston"
+            target="_blank"
+            rel="noreferrer"
+          >
+            uc.houston
+          </a>{" "}
+          |{" "}
+          <a
+            href="https://www.instagram.com/uc.littlerock"
+            target="_blank"
+            rel="noreferrer"
+          >
+            uc.littlerock
+          </a>)
+        </>
+      ),
     },
     {
       question: "How can I share event ideas?",
@@ -57,43 +97,41 @@ const FAQ = () => {
     {
       question: "What is the refund policy?",
       answer:
-        "We are able to refund tickets to events a week before the event. Refunds that are requested during the week of the events are nonrefundable.",
+        "No, all tickets are non-refundable. Please make sure your schedule and plans are confirmed before purchasing, as we cannot offer refunds under any circumstances.",
     },
   ];
 
   return (
     <section className="w-full h-full relative bg-[#F7F5EF]">
-      
-
       {/* Banner Section */}
       <Box
-      sx={{
-        width: "100%",
-        height:"219px",
-        backgroundImage: `url(${bannerImage})`,
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        position: "relative",
-      }}
-    >
-      <Typography
-        variant="h1"
         sx={{
-          color: "#3D3D3C",
-          fontFamily: "Caprasimo",
-          fontSize: { xs: "32px", md: "40px" },
-          position: "absolute",
-          bottom: "10%",
-          fontWeight: 400,
-          textAlign: "center",
+          width: "100%",
+          height: "219px",
+          backgroundImage: `url(${bannerImage})`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          position: "relative",
         }}
       >
-        FAQs
-      </Typography>
-    </Box>
+        <Typography
+          variant="h1"
+          sx={{
+            color: "#3D3D3C",
+            fontFamily: "Caprasimo",
+            fontSize: { xs: "32px", md: "40px" },
+            position: "absolute",
+            bottom: "10%",
+            fontWeight: 400,
+            textAlign: "center",
+          }}
+        >
+          FAQs
+        </Typography>
+      </Box>
 
       {/* FAQ Content */}
       <Box sx={{ px: { xs: "20px", sm: "40px", md: "160px" }, py: "60px" }}>
@@ -112,7 +150,11 @@ const FAQ = () => {
             }}
           >
             <AccordionSummary
-              expandIcon={<ArrowDropDownCircleOutlined sx={{ color: "#78B27B" , fontSize : "30px"}} />}
+              expandIcon={
+                <ArrowDropDownCircleOutlined
+                  sx={{ color: "#78B27B", fontSize: "30px" }}
+                />
+              }
               sx={{
                 fontSize: { xs: "16px", sm: "18px", md: "30px" },
                 fontWeight: "bold",
@@ -135,8 +177,6 @@ const FAQ = () => {
           </Accordion>
         ))}
       </Box>
-
-      
     </section>
   );
 };

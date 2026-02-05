@@ -4,17 +4,17 @@ import Header from "../../components/Header";
 import Footer from "../../components/Footer";
 import banner from "../../assets/images/chapters/Fort Worth/banner.png";
 import teamPhotoPlaceholder from "../../assets/images/chapters/teamPhotoPlaceholder.png";
-import instagramIcon from "../../assets/images/chapters/instagramIcon.svg";
-import whatsAppIcon from "../../assets/images/chapters/whatsAppIcon.svg";
-import linkTreeIcon from "../../assets/images/chapters/LinktreeIcon.svg";
-import youTubeIcon from "../../assets/images/chapters/youTubeIcon.svg";
+import instagramIcon from "../../assets/icons/instagram.svg";
+import spotifyIcon from "../../assets/images/podcasts/spotifyIcon.svg";
+import applePodcastIcon from "../../assets/images/podcasts/applePodcastIcon.svg";
+import youtubeIcon from "../../assets/images/podcasts/YouTube Icon.svg";
 import "../../assets/fonts/Quicksand-Regular.ttf";
 import "../../assets/fonts/Poppins-Regular.ttf";
+import Signup from "../SignUp";
+import { Grid, Slide, Fade } from "@mui/material";
 
 const FortWorth = () => (
   <div>
-    
-
     {/* Banner Section */}
     <Box
       sx={{
@@ -74,7 +74,7 @@ const FortWorth = () => (
     </Box>
 
     {/* Meet The Team Section */}
-    <Box
+    {/* <Box
       sx={{
         width: "100%",
         backgroundColor: "white",
@@ -156,10 +156,82 @@ const FortWorth = () => (
           </Grid2>
         ))}
       </Grid2>
-    </Box>
+    </Box> */}
 
-    {/* Social Media Section */}
     <Box
+      sx={{
+        width: "100%",
+        backgroundColor: "#F7F5EF",
+        py: { xs: 0, md: 0 },
+      }}
+    >
+      <Grid container minHeight="500px">
+        {/* LEFT SIDE (Purple + Animation) */}
+        <Grid
+          item
+          xs={12}
+          md={6}
+          sx={{
+            backgroundColor: "#5A4283",
+            display: "flex",
+            alignItems: "center",
+            px: { xs: 3, md: 8 },
+            py: { xs: 6, md: 0 },
+          }}
+        >
+          <Slide direction="right" in timeout={800}>
+            <Box>
+              <Fade in timeout={1200}>
+                <Box>
+                  <Typography
+                    sx={{
+                      fontFamily: "Quicksand",
+                      fontWeight: 700,
+                      fontSize: { xs: "24px", md: "36px" },
+                      color: "#fff",
+                      mb: 2,
+                    }}
+                  >
+                    Sign up to be a volunteer
+                  </Typography>
+
+                  <Typography
+                    sx={{
+                      fontFamily: "Poppins",
+                      fontSize: { xs: "14px", md: "16px" },
+                      color: "#fff",
+                      maxWidth: "420px",
+                    }}
+                  >
+                    Connect with inspiring women, attend meaningful events, and
+                    be part of a supportive network that grows together. Your
+                    journey starts here.
+                  </Typography>
+                </Box>
+              </Fade>
+            </Box>
+          </Slide>
+        </Grid>
+
+        {/* RIGHT SIDE (Signup untouched) */}
+        <Grid
+          item
+          xs={12}
+          md={6}
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            py: { xs: 6, md: 0 },
+            px: { xs: 2, md: 6 },
+          }}
+        >
+          <Signup />
+        </Grid>
+      </Grid>
+    </Box>
+    {/* Social Media Section */}
+    {/* <Box
       sx={{
         width: "100%",
         backgroundColor: "#5A4283",
@@ -197,18 +269,18 @@ const FortWorth = () => (
             text: "Instagram",
           },
           {
-            href: "https://chat.whatsapp.com/LuEiqO6zYi1AW2veBmquec",
-            icon: whatsAppIcon,
-            text: "WhatsApp",
+            href: "https://podcasts.apple.com/us/podcast/interlaced/id1790729541",
+            icon: applePodcastIcon,
+            text: "Apple Podcast",
           },
           {
-            href: "https://linktr.ee/uc.fortworth",
-            icon: linkTreeIcon,
-            text: "LinkTree",
+            href: "https://open.spotify.com/show/2vds2W0alT5qeT8WR6lfRa",
+            icon: spotifyIcon,
+            text: "Spotify",
           },
           {
             href: "https://www.youtube.com/channel/UCy4Btf7DoWFOlk1vSDzTAvQ",
-            icon: youTubeIcon,
+            icon: youtubeIcon,
             text: "YouTube",
           },
         ].map((link, index) => (
@@ -246,9 +318,7 @@ const FortWorth = () => (
           </a>
         ))}
       </Box>
-    </Box>
-
-    
+    </Box> */}
   </div>
 );
 

@@ -237,7 +237,7 @@ const HomePage = () => {
                 color: "black",
               }}
             >
-              These events are for anyone 18+ years old. Everyone is welcome!
+              These events are for anyone 15+ years old. Everyone is welcome!
             </Typography>
           </Box>
 
@@ -346,12 +346,12 @@ const HomePage = () => {
               marginX: "auto",
             }}
           >
-            There are many ways to get involved and be a part of our growing
-            network of inspiring women. You can join our team, help us open a
-            new chapter in your city, attend one of our events, sponsor an
-            event, or collaborate with us. As we expand, we are always eager to
-            connect with like-minded individuals and organizations. Together, we
-            can create meaningful change and foster a supportive community.
+          There are many ways to get involved and
+          become part of our growing network of inspiring women. Whether you’re interested in
+          joining our team, helping launch a chapter in your city, attending or sponsoring an event,
+          or collaborating with us, we welcome opportunities to connect. As we continue to
+          expand, we’re excited to partner with like-minded individuals and organizations to create
+          meaningful impact and cultivate a supportive, thriving community.
           </Typography>
 
           <Box
@@ -373,7 +373,7 @@ const HomePage = () => {
               }}
               onClick={() => handleNavigate("/membership")}
             >
-              Chapters
+              Memberships
             </Button>
           </Box>
         </Box>

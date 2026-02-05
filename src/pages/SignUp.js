@@ -281,7 +281,7 @@ const SignUp = () => {
               padding: "10px",
             }}
           >
-            Sign up with Google
+            Google
           </Button>
 
           {/* OR Divider */}

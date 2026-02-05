@@ -4,6 +4,11 @@ import logo from "../assets/icons/logo.png";
 import { Button, Box, Typography, CircularProgress } from "@mui/material";
 import RequestHandler from "../utils/RequestHandler";
 import toast from 'react-hot-toast';
+import spotifyIcon from "../assets/icons/Spotify.svg";
+import applePodcastIcon from "../assets/icons/Apple Podcasts.svg";
+import youtubeIcon from "../assets/icons/YouTube.svg";
+
+import IconButton from "@mui/material/IconButton";
 const Footer = () => {
   const location = useLocation();
   const [email, setEmail] = useState("");
@@ -83,12 +88,64 @@ const Footer = () => {
               marginBottom: "1rem", 
               textAlign: 'left',
             }}>
-            Ummati Community is a community to empower women to be themselves,
-            support one another, make friends, and have fun. We are a place of
-            acceptance, inclusivity, and growth.
+            Ummati Community exists to empower women to show up as
+            their authentic selves while fostering connection, support, and meaningful friendships.
+            Rooted in acceptance, inclusivity, and growth, we create spaces where women can
+            thrive, uplift one another, and enjoy genuine community.
           </Typography>
         </Box>
 
+      <Box className="flex flex-col sm:items-center md:items-start text-center md:text-left max-w-xs mx-auto space-y-4">
+            <Typography
+            fontWeight="700"
+            color="#5A4283"
+            fontFamily="Quicksand"
+            className="font-700 text-lg mb-2"
+          >
+            Our Social Media
+          </Typography>
+            <Box sx={{ display: "flex", justifyContent: "center", }}>
+            <IconButton
+              component="a"
+              href="https://open.spotify.com/show/2vds2W0alT5qeT8WR6lfRa"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <Box
+                component="img"
+                src={spotifyIcon}
+                alt="Spotify"
+                sx={{ width: "24px", height: "24px" }}
+              />
+            </IconButton>
+            <IconButton
+              component="a"
+              href="https://podcasts.apple.com/us/podcast/interlaced/id1790729541"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <Box
+                component="img"
+                src={applePodcastIcon}
+                alt="Apple Podcast"
+                sx={{ width: "24px", height: "24px" }}
+              />
+            </IconButton>
+            <IconButton
+              component="a"
+              href="https://www.youtube.com/@ummaticommunity"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <Box
+                component="img"
+                src={youtubeIcon}
+                alt="YouTube"
+                sx={{ width: "24px", height: "24px" }}
+              />
+            </IconButton>
+          </Box>
+        </Box>
         {/* Stay Updated Section */}
         <Box className="flex flex-col sm:items-center md:items-start text-center md:text-left max-w-xs mx-auto space-y-4">
           <Typography

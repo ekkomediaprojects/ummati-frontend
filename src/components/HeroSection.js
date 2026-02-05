@@ -27,7 +27,7 @@ const HeroSection = () => {
   return (
     <StyledHero>
       {/* Header */}
-      <Box textAlign="center">
+      {/* <Box textAlign="center">
         <Typography
           sx={{
             fontFamily: "Cooper Black",
@@ -41,7 +41,7 @@ const HeroSection = () => {
         >
           Welcome to Ummati Community
         </Typography>
-      </Box>
+      </Box> */}
       {/* Content Section (Left Image, Text, and Right Image) */}
       <Box
         display="flex"
@@ -92,7 +92,7 @@ const HeroSection = () => {
               marginBottom: { sm: "20px", lg: "60px" },
             }}
           >
-            We Are One People, One Nation.
+            A social club for women.
           </Typography>
           <Typography
             sx={{
@@ -104,8 +104,11 @@ const HeroSection = () => {
               mt: { lg: 2 },
             }}
           >
-          We are a community where you can meet like-minded women and enjoy the company of so many others just like you! We're bringing together all who love attending a variety of social events and creating a community of friendship and sisterhood.
-          </Typography>
+          We are a community where like-minded
+          women come together to connect, socialize, and enjoy meaningful experiences. Through
+          a variety of curated events, we foster genuine friendships and a strong sense of
+          sisterhood among women who value connection and community.
+</Typography>
 
           <Button
             variant="contained"

@@ -313,8 +313,8 @@ const Profile = () => {
                 : selectedButton === "settings"
                 ? "1050px"
                 : "1500px",
-            md: "1400px",
-            lg: "700px",
+            md: "1500px",
+            lg: "800px",
           },
         }}
       ></Box>
