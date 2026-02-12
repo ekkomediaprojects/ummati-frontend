@@ -31,34 +31,80 @@ const EventsParent = () => {
   const [selectedCities, setSelectedCities] = useState([]);
   const isMobile = useMediaQuery("(max-width:600px)");
 
-  // Extract unique states and cities from events
-  const getUniqueLocations = (events) => {
-    const states = new Set();
-    const cities = new Map(); // Map of state -> Set of cities
+  // // Extract unique states and cities from events
+  // const getUniqueLocations = (events) => {
+  //   const states = new Set();
+  //   const cities = new Map(); // Map of state -> Set of cities
 
-    events.forEach(event => {
-      if (event.venue?.state) {
-        states.add(event.venue.state);
+  //   events.forEach(event => {
+  //     if (event.venue?.state) {
+  //       states.add(event.venue.state);
         
-        if (event.venue.city) {
-          if (!cities.has(event.venue.state)) {
-            cities.set(event.venue.state, new Set());
-          }
-          cities.get(event.venue.state).add(event.venue.city);
-        }
-      }
-    });
+  //       if (event.venue.city) {
+  //         if (!cities.has(event.venue.state)) {
+  //           cities.set(event.venue.state, new Set());
+  //         }
+  //         cities.get(event.venue.state).add(event.venue.city);
+  //       }
+  //     }
+  //   });
 
-    return {
-      states: Array.from(states),
-      cities: Object.fromEntries(
-        Array.from(cities.entries()).map(([state, citySet]) => [
-          state,
-          Array.from(citySet)
-        ])
-      )
-    };
+
+  //   return {
+  //     states: Array.from(states),
+  //     cities: Object.fromEntries(
+  //       Array.from(cities.entries()).map(([state, citySet]) => [
+  //         state,
+  //         Array.from(citySet)
+  //       ])
+  //     )
+  //   };
+  // };
+
+  const getUniqueLocations = (events) => {
+  const states = new Set();
+  const cities = new Map(); // state -> Set of cities
+
+  events.forEach(event => {
+    const state = event.venue?.state;
+    const city = event.venue?.city;
+    if (!state || !city) return;
+
+    states.add(state);
+
+    if (!cities.has(state)) {
+      cities.set(state, new Set());
+    }
+
+    // For TX, only include these 4 cities
+    if (state === "TX") {
+      const allowedTXCities = new Set(["Dallas", "Fort Worth", "Houston", "Little Rock"]);
+      if (allowedTXCities.has(city)) {
+        cities.get(state).add(city);
+      }
+    } else {
+      cities.get(state).add(city);
+    }
+  });
+
+  return {
+    states: Array.from(states),
+    cities: Object.fromEntries(
+      Array.from(cities.entries()).map(([state, citySet]) => [state, Array.from(citySet)])
+    )
   };
+};
+
+
+//   const getUniqueLocations = () => {
+//   return {
+//     states: ["TX"],
+//     cities: {
+//       TX: ["Dallas", "Fort Worth", "Houston", "Little Rock"]
+//     }
+//   };
+// };
+
 
   useEffect(() => {
     const fetchEvents = async () => {
@@ -90,7 +136,11 @@ const EventsParent = () => {
         : [...prev, state];
       
       // Filter cities based on selected states
+      console.log("Selected States:", newStates);
+      console.log("All Events:", allEvents);
+      
       const availableCities = getUniqueLocations(allEvents).cities;
+      setShowCities(availableCities)
       const newCities = selectedCities.filter(city => 
         newStates.some(state => availableCities[state]?.includes(city))
       );

@@ -8,7 +8,7 @@ import CloseIcon from '@mui/icons-material/Close';
 const localizer = momentLocalizer(moment);
 
 const MyCalendar = ({ events }) => {
-  const [view, setView] = useState("week");
+  const [view, setView] = useState("month");
   const [selectedEvent, setSelectedEvent] = useState(null);
 
   // Validate and format events
